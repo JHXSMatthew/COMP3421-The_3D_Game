@@ -124,7 +124,7 @@ public class Game extends JFrame implements GLEventListener{
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
         Entity entity = new Entity(texturedModel, ArrayUtils.toArray(-1,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
-        models.add(texturedModel);
+        models.add(entity);
     }
 
 	@Override
