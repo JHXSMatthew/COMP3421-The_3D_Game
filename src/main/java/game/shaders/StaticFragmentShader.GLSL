@@ -1,7 +1,5 @@
 #version 130 core
 
-
-in vec3 color;
 in vec2 pass_textureCoords;
 
 out vec4 RGB_Color;

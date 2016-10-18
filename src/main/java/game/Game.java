@@ -7,6 +7,7 @@ import java.util.List;
 
 import ass2.spec.LevelIO;
 import ass2.spec.Terrain;
+import game.entities.Entity;
 import game.models.RawModel;
 import game.models.Renderable;
 import game.models.TexturedModel;
@@ -19,6 +20,7 @@ import javax.swing.JFrame;
 import com.jogamp.opengl.util.FPSAnimator;
 import game.shaders.StaticShader;
 import game.textures.ModelTexture;
+import game.utils.ArrayUtils;
 
 
 /**
@@ -82,7 +84,7 @@ public class Game extends JFrame implements GLEventListener{
 
         for(Renderable model : models){
             shader.start(gl);
-            render.render(gl,model);
+            render.render(gl,model,shader);
             shader.stop(gl);
         }
 
@@ -121,6 +123,7 @@ public class Game extends JFrame implements GLEventListener{
         RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
+        Entity entity = new Entity(texturedModel, ArrayUtils.toArray(-1,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
         models.add(texturedModel);
     }
 

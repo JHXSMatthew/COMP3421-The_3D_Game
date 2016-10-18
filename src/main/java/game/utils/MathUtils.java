@@ -1,5 +1,8 @@
 package game.utils;
 
+import com.jogamp.opengl.math.Matrix4;
+import com.jogamp.opengl.math.Quaternion;
+
 /**
  * Created by Matthew on 23/09/2016.
  *
@@ -63,6 +66,27 @@ public class MathUtils {
             e.printStackTrace();
         }
         return size;
+    }
+
+    public static Matrix4 createTransforMatrix(float[] translation, float[] rotate, float[] scale){
+        Matrix4 matrix4 = new Matrix4();
+        matrix4.loadIdentity();
+        matrix4.translate(translation[0],translation[1],translation[2]);
+        matrix4.rotate((float)Math.toRadians(rotate[0]),1,0,0);
+        matrix4.rotate((float)Math.toRadians(rotate[1]),0,1,0);
+        matrix4.rotate((float)Math.toRadians(rotate[2]),0,0,1);
+        matrix4.scale(scale[0],scale[1],scale[2]);
+
+        return matrix4;
+
+    }
+
+    public static float[] add(float[]in, float[] in2){
+        float[] f = new float[3];
+        for(int i = 0 ; i < 3 ; i ++){
+            f[i] = in[i] + in2[i];
+        }
+        return f;
     }
 
 }

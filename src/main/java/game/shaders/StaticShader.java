@@ -1,6 +1,7 @@
 package game.shaders;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.math.Matrix4;
 
 /**
  * Created by Matthew on 18/10/2016.
@@ -9,6 +10,9 @@ public class StaticShader extends BasicShader  {
 
     private static final String VERTEX = "src/main/java/game/shaders/StaticVertexShader.GLSL";
     private static final String FRAGMENT = "src/main/java/game/shaders/StaticFragmentShader.GLSL";
+
+
+    private int location_tMatrix;
 
     /**
      * wrapper of OpenGL shader program
@@ -24,5 +28,15 @@ public class StaticShader extends BasicShader  {
     protected void bindAttributes(GL2 gl) {
         super.bindAttribute(gl,"position",0);
         super.bindAttribute(gl,"textureCoords",1);
+    }
+
+    @Override
+    protected void getAllUniformLocations(GL2 gl) {
+        location_tMatrix = super.getUniformLocation(gl,"tMatrix");
+    }
+
+
+    public void loadTransformationMatrix(GL2 gl,Matrix4 matrix4){
+        super.loadMatrix(gl,location_tMatrix,matrix4);
     }
 }

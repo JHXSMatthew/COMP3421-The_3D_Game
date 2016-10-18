@@ -1,10 +1,13 @@
 package game.shaders;
 
+import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.math.Matrix4;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 
 /**
  * Created by matthew on 16/10/16.
@@ -14,7 +17,11 @@ public abstract class BasicShader {
 
     private int programID;
     private int vertexShaderID;
-    private int fragmentShaerID;
+    private int fragmentShaderID;
+
+    private  static FloatBuffer matrixBuffer = Buffers.newDirectFloatBuffer(16);
+
+
 
     /**
      *  wrapper of OpenGL shader program
@@ -23,13 +30,15 @@ public abstract class BasicShader {
      */
     public BasicShader(GL2 gl, String vertexShader, String fragmentShader){
         vertexShaderID = loadShader(gl,vertexShader,GL2.GL_VERTEX_SHADER);
-        fragmentShaerID = loadShader(gl,fragmentShader,GL2.GL_FRAGMENT_SHADER);
+        fragmentShaderID = loadShader(gl,fragmentShader,GL2.GL_FRAGMENT_SHADER);
         programID = gl.glCreateProgram();
         gl.glAttachShader(programID,vertexShaderID);
-        gl.glAttachShader(programID,fragmentShaerID);
+        gl.glAttachShader(programID, fragmentShaderID);
         gl.glLinkProgram(programID);
         bindAttributes(gl);
         gl.glValidateProgram(programID);
+        getAllUniformLocations(gl);
+
     }
 
     public void start(GL2 gl){
@@ -43,9 +52,9 @@ public abstract class BasicShader {
     public void dispose(GL2 gl){
         stop(gl);
         gl.glDetachShader(programID,vertexShaderID);
-        gl.glDetachShader(programID,fragmentShaerID);
+        gl.glDetachShader(programID, fragmentShaderID);
         gl.glDeleteShader(vertexShaderID);
-        gl.glDeleteShader(fragmentShaerID);
+        gl.glDeleteShader(fragmentShaderID);
         gl.glDeleteProgram(programID);
     }
 
@@ -54,7 +63,31 @@ public abstract class BasicShader {
         gl2.glBindAttribLocation(programID,attribute,var);
     }
 
+    protected void loadFloat(GL2 gl,int location , float value){
+        gl.glUniform1f(location,value);
+    }
+
+    protected void loadVector(GL2 gl,int location , float[] value){
+        gl.glUniform3f(location,value[0],value[1],value[2]);
+    }
+
+    protected void loadBoolean(GL2 gl, int location,boolean b){
+        gl.glUniform1f(location,b ?1 : 0);
+    }
+
+    protected void loadMatrix(GL2 gl, int location , Matrix4 value){
+        matrixBuffer.put(value.getMatrix());
+        matrixBuffer.flip();
+        gl.glUniformMatrix4fv(location,1,false,matrixBuffer);
+    }
+
     protected abstract void bindAttributes(GL2 gl);
+
+    protected abstract void getAllUniformLocations(GL2 gl);
+
+    protected int getUniformLocation(GL2 gl, String uniformName){
+        return gl.glGetUniformLocation(programID,uniformName);
+    }
 
     public static int loadShader(GL2 gl, String file, int type)  {
         StringBuilder source = new StringBuilder();

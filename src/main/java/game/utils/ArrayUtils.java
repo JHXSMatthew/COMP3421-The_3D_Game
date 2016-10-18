@@ -14,4 +14,10 @@ public class ArrayUtils {
         }
         return array;
     }
+
+    public static float[] toArray(float...f){
+        return f;
+    }
+
+
 }
