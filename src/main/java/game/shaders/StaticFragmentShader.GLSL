@@ -7,5 +7,5 @@ out vec4 RGB_Color;
 uniform sampler2D textureSampler;
 
 void main(void){
-    RGB_Color = texture(textureSampler,pass_textureCoords);
+    RGB_Color = pass_textureCoords;//texture(textureSampler,pass_textureCoords);
 }

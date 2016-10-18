@@ -5,7 +5,7 @@ import game.textures.ModelTexture;
 /**
  * Created by Matthew on 18/10/2016.
  */
-public class TexturedModel implements Renderable {
+public class TexturedModel implements IRenderable {
 
     private RawModel model;
     private ModelTexture texture;

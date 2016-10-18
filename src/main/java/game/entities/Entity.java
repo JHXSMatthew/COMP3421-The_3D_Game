@@ -1,17 +1,16 @@
 package game.entities;
 
 import game.models.RawModel;
-import game.models.Renderable;
+import game.models.IRenderable;
 import game.models.TexturedModel;
 import game.utils.ArrayUtils;
 import game.utils.MathUtils;
 
-import java.util.Arrays;
 
 /**
  * Created by Matthew on 18/10/2016.
  */
-public class Entity implements Renderable{
+public class Entity implements IRenderable {
 
     private TexturedModel model;
     private float[] position;
@@ -24,6 +23,13 @@ public class Entity implements Renderable{
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
+    }
+
+    public Entity(TexturedModel model){
+        this.model = model;
+        this.position = ArrayUtils.toArray(0,0,0);
+        this.rotation = ArrayUtils.toArray(0,0,0);
+        this.scale =  ArrayUtils.toArray(1,1,1);
     }
 
     public void move(float[] move){

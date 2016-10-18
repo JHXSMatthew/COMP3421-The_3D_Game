@@ -1,4 +1,4 @@
-package ass2.spec;
+package game.utils;
 
 import java.awt.Dimension;
 import java.io.File;
@@ -8,16 +8,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
+import game.models.RoadModel;
+import game.models.TreeModel;
+import game.DataBase;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 /**
- * COMMENT: Comment LevelIO 
+ * COMMENT: Comment IOUtils
  *
  * @author malcolmr
  */
-public class LevelIO {
+public class IOUtils {
 
     /**
      * Load a terrain object from a JSON file
@@ -26,7 +29,7 @@ public class LevelIO {
      * @return
      * @throws FileNotFoundException 
      */
-    public static Terrain load(File mapFile) throws FileNotFoundException {
+    public static DataBase load(File mapFile) throws FileNotFoundException {
 
         Reader in = new FileReader(mapFile);
         JSONTokener jtk = new JSONTokener(in);
@@ -34,7 +37,7 @@ public class LevelIO {
 
         int width = jsonTerrain.getInt("width");
         int depth = jsonTerrain.getInt("depth");
-        Terrain terrain = new Terrain(width, depth);
+        DataBase terrain = new DataBase(width, depth);
 
         JSONArray jsonSun = jsonTerrain.getJSONArray("sunlight");
         float dx = (float)jsonSun.getDouble(0);
@@ -80,12 +83,12 @@ public class LevelIO {
     }
 
     /**
-     * Write Terrain to a JSON file
+     * Write DataBase to a JSON file
      * 
      * @param file
      * @throws IOException 
      */
-    public static void save(Terrain terrain, File file) throws IOException {
+    public static void save(DataBase terrain, File file) throws IOException {
         JSONObject json = new JSONObject();
                 
         Dimension size = terrain.size();
@@ -108,7 +111,7 @@ public class LevelIO {
         json.put("altitude", altitude);
         
         JSONArray trees = new JSONArray();
-        for (Tree t : terrain.trees()) {
+        for (TreeModel t : terrain.trees()) {
             JSONObject j = new JSONObject();
             double[] position = t.getPosition();
             j.put("x", position[0]);
@@ -118,7 +121,7 @@ public class LevelIO {
         json.put("trees", trees);
 
         JSONArray roads = new JSONArray();
-        for (Road r : terrain.roads()) {
+        for (RoadModel r : terrain.roads()) {
             JSONObject j = new JSONObject();
             j.put("width", r.width());
             
@@ -148,8 +151,8 @@ public class LevelIO {
      * @throws IOException 
      */
     public static void main(String[] args) throws IOException {
-        Terrain terrain = LevelIO.load(new File(args[0]));
-        LevelIO.save(terrain, new File(args[1]));
+        DataBase terrain = IOUtils.load(new File(args[0]));
+        IOUtils.save(terrain, new File(args[1]));
     }
 
 }

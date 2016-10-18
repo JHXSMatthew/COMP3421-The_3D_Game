@@ -5,12 +5,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ass2.spec.LevelIO;
-import ass2.spec.Terrain;
+import game.entities.CameraFreeMove;
+import game.models.TerrainModel;
+import game.utils.IOUtils;
 import game.entities.Camera;
 import game.entities.Entity;
 import game.models.RawModel;
-import game.models.Renderable;
+import game.models.IRenderable;
 import game.models.TexturedModel;
 import game.render.Loader;
 import game.render.Render;
@@ -31,16 +32,16 @@ import game.utils.ArrayUtils;
  */
 public class Game extends JFrame implements GLEventListener{
 
-    private Terrain myTerrain;
+    private DataBase data;
     private Render render;
     private Loader loader;
     private StaticShader shader;
-    private List<Renderable> models = new ArrayList<Renderable>();
-    private Camera camera;
+    private List<IRenderable> models = new ArrayList<IRenderable>();
+    private CameraFreeMove camera;
 
-    public Game(Terrain terrain) {
+    public Game(DataBase terrain) {
     	super("Assignment 2");
-        myTerrain = terrain;
+        data = terrain;
    
     }
     
@@ -52,7 +53,7 @@ public class Game extends JFrame implements GLEventListener{
     	  GLProfile glp = GLProfile.getDefault();
           GLCapabilities caps = new GLCapabilities(glp);
           GLJPanel panel = new GLJPanel();
-          camera = new Camera();
+          camera = new CameraFreeMove();
           panel.addKeyListener(camera);
           panel.addGLEventListener(this);
  
@@ -74,7 +75,7 @@ public class Game extends JFrame implements GLEventListener{
      * @throws FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
-        Terrain terrain = LevelIO.load(new File(args[0]));
+        DataBase terrain = IOUtils.load(new File(args[0]));
         Game game = new Game(terrain);
         game.run();
     }
@@ -85,15 +86,11 @@ public class Game extends JFrame implements GLEventListener{
         GL2 gl = drawable.getGL().getGL2();
 
         render.prepare(gl);
-        for(Renderable model : models){
+        for(IRenderable model : models){
             shader.start(gl);
             camera.move();
             shader.loadViewMatrix(gl,camera);
             render.render(gl,model,shader);
-            if(model instanceof Entity){
-                ((Entity) model).move(ArrayUtils.toArray(0,0,-0.01f));
-
-            }
             shader.stop(gl);
         }
 
@@ -132,13 +129,15 @@ public class Game extends JFrame implements GLEventListener{
         loader = new Loader();
         render = new Render();
         shader = new StaticShader(gl);
-
-        loadModels();
-        RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
+        loadModels(gl);
+  /*      RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
         Entity entity = new Entity(texturedModel, ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
-        models.add(entity);
+        */
+        camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
+        Entity terrain  = new Entity(TerrainModel.getModel().getTextureModel());
+        models.add(TerrainModel.getModel().getRawModel());
 
     }
 
@@ -151,7 +150,8 @@ public class Game extends JFrame implements GLEventListener{
         render.updatePerspectiveCamera(width, height,shader,gl);
     }
 
-    private void loadModels(){
+    private void loadModels(GL2 gl){
+        TerrainModel terrianModel = new TerrainModel(gl,data.getAttribute(),loader);
 
     }
 

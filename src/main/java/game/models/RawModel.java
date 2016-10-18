@@ -3,7 +3,7 @@ package game.models;
 /**
  * Created by Matthew on 30/09/2016.
  */
-public class RawModel implements Renderable {
+public class RawModel implements IRenderable {
 
     private int vaoID ;
     private int vertexCount = 0;

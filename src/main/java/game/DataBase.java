@@ -1,5 +1,7 @@
-package ass2.spec;
+package game;
 
+import game.models.RoadModel;
+import game.models.TreeModel;
 import game.utils.MathUtils;
 import com.jogamp.opengl.GL2;
 
@@ -15,12 +17,12 @@ import java.util.List;
  *
  * @author malcolmr
  */
-public class Terrain implements Drawable {
+public class DataBase {
 
     private Dimension mySize;
     private double[][] myAltitude;
-    private List<Tree> myTrees;
-    private List<Road> myRoads;
+    private List<TreeModel> myTrees;
+    private List<RoadModel> myRoads;
     private float[] mySunlight;
 
     /**
@@ -29,15 +31,15 @@ public class Terrain implements Drawable {
      * @param width The number of vertices in the x-direction
      * @param depth The number of vertices in the z-direction
      */
-    public Terrain(int width, int depth) {
+    public DataBase(int width, int depth) {
         mySize = new Dimension(width, depth);
         myAltitude = new double[width][depth];
-        myTrees = new ArrayList<Tree>();
-        myRoads = new ArrayList<Road>();
+        myTrees = new ArrayList<TreeModel>();
+        myRoads = new ArrayList<RoadModel>();
         mySunlight = new float[3];
     }
     
-    public Terrain(Dimension size) {
+    public DataBase(Dimension size) {
         this(size.width, size.height);
     }
 
@@ -45,11 +47,11 @@ public class Terrain implements Drawable {
         return mySize;
     }
 
-    public List<Tree> trees() {
+    public List<TreeModel> trees() {
         return myTrees;
     }
 
-    public List<Road> roads() {
+    public List<RoadModel> roads() {
         return myRoads;
     }
 
@@ -139,7 +141,7 @@ public class Terrain implements Drawable {
      */
     public void addTree(double x, double z) {
         double y = altitude(x, z);
-        Tree tree = new Tree(x, y, z);
+        TreeModel tree = new TreeModel(x, y, z);
         myTrees.add(tree);
     }
 
@@ -151,11 +153,21 @@ public class Terrain implements Drawable {
      * @param spine
      */
     public void addRoad(double width, double[] spine) {
-        Road road = new Road(width, spine);
+        RoadModel road = new RoadModel(width, spine);
         myRoads.add(road);        
     }
 
+    public float[][] getAttribute(){
+        float[][] r = new float[myAltitude.length][myAltitude.length];
+        for(int i = 0 ; i < myAltitude.length ; i ++){
+            for(int j = 0 ; j < myAltitude.length ; j++){
+                r[i][j] = (float)myAltitude[i][j];
+            }
+        }
+        return r;
+    }
 
+/*
     @Override
     public void draw(GL2 gl) {
         for(int i = 0 ; i < size().getWidth() ; i ++){
@@ -189,7 +201,7 @@ public class Terrain implements Drawable {
             drawable.draw(gl);
         }
     }
-
+*/
 
 
     public void drawTangleMesh(GL2 gl,double[] p1, double[]p2, double[] p3, double[] normal){

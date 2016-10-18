@@ -1,17 +1,17 @@
-package ass2.spec;
+package game.models;
 
 import com.jogamp.opengl.GL2;
 
 /**
- * COMMENT: Comment Tree 
+ * COMMENT: Comment TreeModel
  *
  * @author malcolmr
  */
-public class Tree  implements Drawable {
+public class TreeModel {
 
     private double[] myPos;
     
-    public Tree(double x, double y, double z) {
+    public TreeModel(double x, double y, double z) {
         myPos = new double[3];
         myPos[0] = x;
         myPos[1] = y;
@@ -23,8 +23,4 @@ public class Tree  implements Drawable {
     }
 
 
-    @Override
-    public void draw(GL2 gl2) {
-
-    }
 }

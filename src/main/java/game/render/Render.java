@@ -4,7 +4,7 @@ import com.jogamp.opengl.math.Matrix4;
 import game.entities.Entity;
 import game.models.RawModel;
 import com.jogamp.opengl.GL2;
-import game.models.Renderable;
+import game.models.IRenderable;
 import game.models.TexturedModel;
 import game.shaders.StaticShader;
 import game.utils.MathUtils;
@@ -25,12 +25,12 @@ public class Render {
 
 
     public void prepare(GL2 gl2){
-        gl2.glEnable(GL2.GL_DEPTH_TEST);
+        //gl2.glEnable(GL2.GL_DEPTH_TEST);
         gl2.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-        gl2.glClearColor(1,0,0,0);
+        gl2.glClearColor(0,0,0,0);
     }
 
-    public void render(GL2 gl, Renderable m, StaticShader shader){
+    public void render(GL2 gl, IRenderable m, StaticShader shader){
         RawModel model = m.getRawModel();
 
         gl.glBindVertexArray(model.getVaoID());
@@ -43,12 +43,13 @@ public class Render {
                     ((Entity) m).getRotation(),
                     ((Entity) m).getScale());
             shader.loadTransformationMatrix(gl,tMatrix);
-            loadTexture(gl,((Entity) m).getModel());
+            //loadTexture(gl,((Entity) m).getModel());
         }
 
         if(m instanceof TexturedModel) {
             loadTexture(gl,(TexturedModel) m);
         }
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK,GL2.GL_LINE);
         gl.glDrawElements(GL2.GL_TRIANGLES , model.getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
         gl.glDisableVertexAttribArray(Loader.MODEL_ATTRIBUTE_POSITION);
         gl.glDisableVertexAttribArray(Loader.TEXTURE_ATTRIBUTE_POSITION);

@@ -1,4 +1,4 @@
-package ass2.spec;
+package game.models;
 
 import com.jogamp.opengl.GL2;
 
@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * COMMENT: Comment Road 
+ * COMMENT: Comment RoadModel
  *
  * @author malcolmr
  */
-public class Road  implements Drawable{
+public class RoadModel {
 
     private List<Double> myPoints;
     private double myWidth;
@@ -18,7 +18,7 @@ public class Road  implements Drawable{
     /** 
      * Create a new road starting at the specified point
      */
-    public Road(double width, double x0, double y0) {
+    public RoadModel(double width, double x0, double y0) {
         myWidth = width;
         myPoints = new ArrayList<Double>();
         myPoints.add(x0);
@@ -31,7 +31,7 @@ public class Road  implements Drawable{
      * @param width
      * @param spine
      */
-    public Road(double width, double[] spine) {
+    public RoadModel(double width, double[] spine) {
         myWidth = width;
         myPoints = new ArrayList<Double>();
         for (int i = 0; i < spine.length; i++) {
@@ -149,8 +149,4 @@ public class Road  implements Drawable{
     }
 
 
-    @Override
-    public void draw(GL2 gl2) {
-
-    }
 }
