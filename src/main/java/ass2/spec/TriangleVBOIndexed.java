@@ -7,7 +7,7 @@ import java.nio.ShortBuffer;
 
 import javax.swing.JFrame;
 
-import ass2.spec.game.utils.MathUtils;
+import game.utils.MathUtils;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;

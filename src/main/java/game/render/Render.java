@@ -1,7 +1,9 @@
-package ass2.spec.game.render;
+package game.render;
 
-import ass2.spec.game.models.RawModel;
+import game.models.RawModel;
 import com.jogamp.opengl.GL2;
+import game.models.Renderable;
+import game.models.TexturedModel;
 
 /**
  * Created by Matthew on 30/09/2016.
@@ -18,14 +20,23 @@ public class Render {
         gl2.glClearColor(1,0,0,0);
     }
 
-    public void render(GL2 gl,RawModel model){
+    public void render(GL2 gl,Renderable m){
+        RawModel model = null;
+        if(m instanceof RawModel){
+            model = (RawModel)m;
+        }else if(m instanceof TexturedModel){
+            model = ((TexturedModel)m).getModel();
+        }
+
+
         gl.glBindVertexArray(model.getVaoID());
         gl.glEnableVertexAttribArray(Loader.ATTRIBUTE_POSITION);
         //gl.glDrawArrays(GL2.GL_TRIANGLES, 0 , model.getVertexCount());
         gl.glDrawElements(GL2.GL_TRIANGLES , model.getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
-        System.out.println("drawing Model " + model.getVaoID() + " " + model.getVertexCount());
         gl.glDisableVertexAttribArray(Loader.ATTRIBUTE_POSITION);
         gl.glBindVertexArray(0);
+
+
     }
 
 

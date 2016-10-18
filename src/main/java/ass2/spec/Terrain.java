@@ -1,6 +1,6 @@
 package ass2.spec;
 
-import ass2.spec.game.utils.MathUtils;
+import game.utils.MathUtils;
 import com.jogamp.opengl.GL2;
 
 import java.awt.Dimension;

@@ -1,4 +1,4 @@
-package ass2.spec.game.utils;
+package game.utils;
 
 /**
  * Created by Matthew on 23/09/2016.

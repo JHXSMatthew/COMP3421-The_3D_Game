@@ -1,4 +1,4 @@
-package ass2.spec.game;
+package game;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,15 +7,18 @@ import java.util.List;
 
 import ass2.spec.LevelIO;
 import ass2.spec.Terrain;
-import ass2.spec.game.models.RawModel;
-import ass2.spec.game.render.Loader;
-import ass2.spec.game.render.Render;
+import game.models.RawModel;
+import game.models.Renderable;
+import game.models.TexturedModel;
+import game.render.Loader;
+import game.render.Render;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
 import javax.swing.JFrame;
 
 import com.jogamp.opengl.util.FPSAnimator;
-
+import game.shaders.StaticShader;
+import game.textures.ModelTexture;
 
 
 /**
@@ -28,7 +31,8 @@ public class Game extends JFrame implements GLEventListener{
     private Terrain myTerrain;
     private Render render;
     private Loader loader;
-    private List<RawModel> models = new ArrayList<RawModel>();
+    private StaticShader shader;
+    private List<Renderable> models = new ArrayList<Renderable>();
 
     public Game(Terrain terrain) {
     	super("Assignment 2");
@@ -76,8 +80,10 @@ public class Game extends JFrame implements GLEventListener{
 
         render.prepare(gl);
 
-        for(RawModel model : models){
+        for(Renderable model : models){
+            shader.start(gl);
             render.render(gl,model);
+            shader.stop(gl);
         }
 
     }
@@ -105,13 +111,17 @@ public class Game extends JFrame implements GLEventListener{
         GL2 gl = drawable.getGL().getGL2();
         loader = new Loader();
         render = new Render();
+        shader = new StaticShader(gl);
         RawModel model = loader.loadModel(gl,vertices,indices,null);
-        models.add(model);
+        ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
+        TexturedModel texturedModel = new TexturedModel(model,texture);
+        models.add(texturedModel);
     }
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
+
 
     }
 

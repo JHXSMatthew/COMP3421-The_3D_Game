@@ -1,9 +1,9 @@
-package ass2.spec.game.models;
+package game.models;
 
 /**
  * Created by Matthew on 30/09/2016.
  */
-public class RawModel {
+public class RawModel implements Renderable {
 
     private int vaoID ;
     private int vertexCount = 0;

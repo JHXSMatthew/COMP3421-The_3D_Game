@@ -1,13 +1,22 @@
-package ass2.spec.game.render;
+package game.render;
 
-import ass2.spec.game.models.RawModel;
-import ass2.spec.game.utils.ArrayUtils;
-import ass2.spec.game.utils.BufferUtils;
-import ass2.spec.game.utils.MathUtils;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.util.awt.ImageUtil;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureData;
+import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
+import game.models.RawModel;
+import game.utils.ArrayUtils;
+import game.utils.BufferUtils;
+import game.utils.MathUtils;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +28,12 @@ import java.util.List;
 public class Loader {
 
     public final static int ATTRIBUTE_POSITION = 0;
+    private final static boolean MIPMAP = true;
 
 
     private List<Integer> vaos = new ArrayList<Integer>();
     private List<Integer> vbos = new ArrayList<Integer>();
+    private List<Integer> textures = new ArrayList<>();
 
 
     /**
@@ -41,6 +52,64 @@ public class Loader {
         return new RawModel(vaoID,indices.length);
     }
 
+    public int loadTexture(GL2 gl,String fileName){
+        TextureData data = null;
+
+        try {
+            File file = new File(fileName);
+            BufferedImage img = ImageIO.read(file); // read file into BufferedImage
+            ImageUtil.flipImageVertically(img);
+
+            //This library call flips all images the same way
+            data = AWTTextureIO.newTextureData(GLProfile.getDefault(), img, false);
+
+        } catch (IOException exc) {
+            System.err.println(fileName);
+            exc.printStackTrace();
+            System.exit(1);
+        }
+        int[] textureID = new int[1];
+        gl.glGenTextures(1, textureID, 0);
+        //The first time bind is called with the given id,
+        //an openGL texture object is created and bound to the id
+        //It also makes it the current texture.
+        gl.glBindTexture(GL.GL_TEXTURE_2D, textureID[0]);
+
+        // Build texture initialised with image data.
+        gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,
+                data.getInternalFormat(),
+                data.getWidth(),
+                data.getHeight(),
+                0,
+                data.getPixelFormat(),
+                data.getPixelType(),
+                data.getBuffer());
+
+        setFilters(gl);
+        textures.add(textureID[0]);
+        return textureID[0];
+    }
+
+    private void setFilters(GL2 gl){
+        // Build the texture from data.
+        if (MIPMAP) {
+            // Set texture parameters to enable automatic mipmap generation and bilinear/trilinear filtering
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
+
+            float fLargest[] = new float[1];
+            gl.glGetFloatv(GL.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, fLargest,0);
+            System.out.println(fLargest[0]);
+            gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_ANISOTROPY_EXT, fLargest[0]);
+            gl.glGenerateMipmap(GL2.GL_TEXTURE_2D);
+        } else {
+            // Set texture parameters to enable bilinear filtering.
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);
+        }
+
+    }
+
     /**
      *  clean up memory
      * @param gl the gl
@@ -55,6 +124,13 @@ public class Loader {
         gl.glDeleteBuffers(vbos.size(),buffer);
         buffer.clear();
         vbos.clear();;
+
+        buffer = Buffers.newDirectIntBuffer(ArrayUtils.getIntArrayFromList(textures));
+        gl.glDeleteBuffers(textures.size(),buffer);
+        buffer.clear();
+        textures.clear();
+
+
     }
 
     /**

@@ -1,4 +1,4 @@
-package ass2.spec.game.utils;
+package game.utils;
 
 import com.jogamp.common.nio.Buffers;
 

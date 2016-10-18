@@ -83,8 +83,8 @@ C  [nvoglv64.DLL+0xd5be61]
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  jogamp.opengl.gl4.GL4bcImpl.dispatch_glDrawElements1(IIIJJ)V+0
 j  jogamp.opengl.gl4.GL4bcImpl.glDrawElements(IIIJ)V+53
-j  ass2.spec.game.render.Render.render(Lcom/jogamp/opengl/GL2;Lass2/spec/game/models/RawModel;)V+27
-j  ass2.spec.game.Game.display(Lcom/jogamp/opengl/GLAutoDrawable;)V+57
+j  game.render.Render.render(Lcom/jogamp/opengl/GL2;Lass2/spec/game/models/RawModel;)V+27
+j  game.Game.display(Lcom/jogamp/opengl/GLAutoDrawable;)V+57
 j  jogamp.opengl.GLDrawableHelper.displayImpl(Lcom/jogamp/opengl/GLAutoDrawable;)V+62
 j  jogamp.opengl.GLDrawableHelper.display(Lcom/jogamp/opengl/GLAutoDrawable;)V+2
 j  com.jogamp.opengl.awt.GLJPanel$Updater.display(Lcom/jogamp/opengl/GLAutoDrawable;)V+200
@@ -292,7 +292,7 @@ Dynamic libraries:
 
 VM Arguments:
 jvm_args: -Didea.launcher.port=7532 -Didea.launcher.bin.path=C:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 2016.1.1\bin -Dfile.encoding=UTF-8 
-java_command: com.intellij.rt.execution.application.AppMain ass2.spec.game.Game test1.txt
+java_command: com.intellij.rt.execution.application.AppMain game.Game test1.txt
 Launcher Type: SUN_STANDARD
 
 Environment Variables:
