@@ -6,6 +6,8 @@ import game.models.TexturedModel;
 import game.utils.ArrayUtils;
 import game.utils.MathUtils;
 
+import java.util.Arrays;
+
 /**
  * Created by Matthew on 18/10/2016.
  */
@@ -25,7 +27,9 @@ public class Entity implements Renderable{
     }
 
     public void move(float[] move){
+
         position = MathUtils.add(move,position);
+        System.out.println(Arrays.toString(position));
     }
 
     public void rotate(float[] move){

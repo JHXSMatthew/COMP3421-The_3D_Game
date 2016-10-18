@@ -13,6 +13,8 @@ public class StaticShader extends BasicShader  {
 
 
     private int location_tMatrix;
+    //camera
+    private int location_pMatrix;
 
     /**
      * wrapper of OpenGL shader program
@@ -33,10 +35,15 @@ public class StaticShader extends BasicShader  {
     @Override
     protected void getAllUniformLocations(GL2 gl) {
         location_tMatrix = super.getUniformLocation(gl,"tMatrix");
+        location_pMatrix = super.getUniformLocation(gl,"pMatrix");
     }
 
 
     public void loadTransformationMatrix(GL2 gl,Matrix4 matrix4){
         super.loadMatrix(gl,location_tMatrix,matrix4);
+    }
+
+    public void loadProjectionMatrix(GL2 gl,Matrix4 matrix4){
+        super.loadMatrix(gl,location_pMatrix,matrix4);
     }
 }

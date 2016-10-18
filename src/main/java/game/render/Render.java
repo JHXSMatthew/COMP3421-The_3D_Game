@@ -7,7 +7,6 @@ import com.jogamp.opengl.GL2;
 import game.models.Renderable;
 import game.models.TexturedModel;
 import game.shaders.StaticShader;
-import game.utils.ArrayUtils;
 import game.utils.MathUtils;
 
 /**
@@ -16,9 +15,14 @@ import game.utils.MathUtils;
  */
 public class Render {
 
+
+    private Matrix4 pMatrix;
+
     public Render(){
 
     }
+
+
 
     public void prepare(GL2 gl2){
         gl2.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
@@ -57,5 +61,22 @@ public class Render {
         gl.glBindTexture(GL2.GL_TEXTURE_2D,model.getTexture().getID() );
     }
 
+    //camera constants
+    private static final float FOV = 70;
+    private static final float NEAR_PLANE = 0.1f;
+    private static final float FAR_PLANE = 1000;
 
+    public void updatePerspectiveCamera(int width, int height,StaticShader shader,GL2 gl) {
+        float aspectRation = (float) width / (float) height;
+        float y_scale = (float)(1f/Math.tan(Math.toRadians(FOV/2f))) * aspectRation;
+        float x_scale = y_scale/aspectRation;
+        float frustum_legth  = FAR_PLANE - NEAR_PLANE;
+
+        pMatrix = new Matrix4();
+        pMatrix.makePerspective(FOV,aspectRation,NEAR_PLANE,FAR_PLANE);
+
+        shader.start(gl);
+        shader.loadProjectionMatrix(gl,pMatrix);
+        shader.stop(gl);
+    }
 }

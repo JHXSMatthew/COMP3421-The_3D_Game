@@ -7,6 +7,7 @@ import java.util.List;
 
 import ass2.spec.LevelIO;
 import ass2.spec.Terrain;
+import com.jogamp.opengl.glu.GLU;
 import game.entities.Entity;
 import game.models.RawModel;
 import game.models.Renderable;
@@ -85,6 +86,10 @@ public class Game extends JFrame implements GLEventListener{
         for(Renderable model : models){
             shader.start(gl);
             render.render(gl,model,shader);
+            if(model instanceof Entity){
+                ((Entity) model).move(ArrayUtils.toArray(0,0,-0.01f));
+
+            }
             shader.stop(gl);
         }
 
@@ -92,6 +97,9 @@ public class Game extends JFrame implements GLEventListener{
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
+        GL2 gl = drawable.getGL().getGL2();
+        shader.dispose(gl);
+        loader.dispose(gl);
 		// TODO Auto-generated method stub
 		
 	}
@@ -120,17 +128,26 @@ public class Game extends JFrame implements GLEventListener{
         loader = new Loader();
         render = new Render();
         shader = new StaticShader(gl);
+        loadModels();
         RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
-        Entity entity = new Entity(texturedModel, ArrayUtils.toArray(-1,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
+        Entity entity = new Entity(texturedModel, ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
+
         models.add(entity);
+
     }
 
-	@Override
+
+
+    @Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
+        GL2 gl = drawable.getGL().getGL2();
+        render.updatePerspectiveCamera(width, height,shader,gl);
+    }
 
+    private void loadModels(){
 
     }
 
