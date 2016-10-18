@@ -22,4 +22,9 @@ public class TexturedModel implements Renderable {
     public ModelTexture getTexture(){
         return texture;
     }
+
+    @Override
+    public RawModel getRawModel() {
+        return model;
+    }
 }

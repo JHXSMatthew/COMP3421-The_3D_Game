@@ -21,14 +21,7 @@ public class Render {
     }
 
     public void render(GL2 gl,Renderable m){
-        RawModel model = null;
-        if(m instanceof RawModel){
-            model = (RawModel)m;
-        }else if(m instanceof TexturedModel){
-            model = ((TexturedModel)m).getModel();
-        }
-
-
+        RawModel model = m.getRawModel();
         gl.glBindVertexArray(model.getVaoID());
         gl.glEnableVertexAttribArray(Loader.ATTRIBUTE_POSITION);
         //gl.glDrawArrays(GL2.GL_TRIANGLES, 0 , model.getVertexCount());

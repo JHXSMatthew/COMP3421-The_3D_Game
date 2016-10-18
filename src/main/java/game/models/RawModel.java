@@ -21,4 +21,8 @@ public class RawModel implements Renderable {
         return vertexCount;
     }
 
+    @Override
+    public RawModel getRawModel() {
+        return this;
+    }
 }
