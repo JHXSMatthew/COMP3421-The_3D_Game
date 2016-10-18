@@ -2,6 +2,8 @@ package game.shaders;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.math.Matrix4;
+import game.entities.Camera;
+import game.utils.MathUtils;
 
 /**
  * Created by Matthew on 18/10/2016.
@@ -15,6 +17,7 @@ public class StaticShader extends BasicShader  {
     private int location_tMatrix;
     //camera
     private int location_pMatrix;
+    private int location_vMatrix;
 
     /**
      * wrapper of OpenGL shader program
@@ -36,6 +39,7 @@ public class StaticShader extends BasicShader  {
     protected void getAllUniformLocations(GL2 gl) {
         location_tMatrix = super.getUniformLocation(gl,"tMatrix");
         location_pMatrix = super.getUniformLocation(gl,"pMatrix");
+        location_vMatrix = super.getUniformLocation(gl,"vMatrix");
     }
 
 
@@ -46,4 +50,9 @@ public class StaticShader extends BasicShader  {
     public void loadProjectionMatrix(GL2 gl,Matrix4 matrix4){
         super.loadMatrix(gl,location_pMatrix,matrix4);
     }
+
+    public void loadViewMatrix(GL2 gl, Camera c){
+        super.loadMatrix(gl,location_vMatrix, MathUtils.createViewMatrix(c));
+    }
+
 }

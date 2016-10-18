@@ -25,6 +25,7 @@ public class Render {
 
 
     public void prepare(GL2 gl2){
+        gl2.glEnable(GL2.GL_DEPTH_TEST);
         gl2.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl2.glClearColor(1,0,0,0);
     }

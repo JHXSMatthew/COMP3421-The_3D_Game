@@ -7,7 +7,7 @@ import java.util.List;
 
 import ass2.spec.LevelIO;
 import ass2.spec.Terrain;
-import com.jogamp.opengl.glu.GLU;
+import game.entities.Camera;
 import game.entities.Entity;
 import game.models.RawModel;
 import game.models.Renderable;
@@ -36,6 +36,7 @@ public class Game extends JFrame implements GLEventListener{
     private Loader loader;
     private StaticShader shader;
     private List<Renderable> models = new ArrayList<Renderable>();
+    private Camera camera;
 
     public Game(Terrain terrain) {
     	super("Assignment 2");
@@ -51,6 +52,8 @@ public class Game extends JFrame implements GLEventListener{
     	  GLProfile glp = GLProfile.getDefault();
           GLCapabilities caps = new GLCapabilities(glp);
           GLJPanel panel = new GLJPanel();
+          camera = new Camera();
+          panel.addKeyListener(camera);
           panel.addGLEventListener(this);
  
           // Add an animator to call 'display' at 60fps        
@@ -82,9 +85,10 @@ public class Game extends JFrame implements GLEventListener{
         GL2 gl = drawable.getGL().getGL2();
 
         render.prepare(gl);
-
         for(Renderable model : models){
             shader.start(gl);
+            camera.move();
+            shader.loadViewMatrix(gl,camera);
             render.render(gl,model,shader);
             if(model instanceof Entity){
                 ((Entity) model).move(ArrayUtils.toArray(0,0,-0.01f));
@@ -128,12 +132,12 @@ public class Game extends JFrame implements GLEventListener{
         loader = new Loader();
         render = new Render();
         shader = new StaticShader(gl);
+
         loadModels();
         RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
         Entity entity = new Entity(texturedModel, ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
-
         models.add(entity);
 
     }

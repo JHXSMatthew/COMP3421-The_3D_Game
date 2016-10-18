@@ -2,6 +2,7 @@ package game.utils;
 
 import com.jogamp.opengl.math.Matrix4;
 import com.jogamp.opengl.math.Quaternion;
+import game.entities.Camera;
 
 /**
  * Created by Matthew on 23/09/2016.
@@ -80,6 +81,18 @@ public class MathUtils {
         return matrix4;
 
     }
+
+    public static Matrix4 createViewMatrix(Camera camera){
+        Matrix4 matrix4 = new Matrix4();
+        matrix4.loadIdentity();
+        matrix4.rotate((float)Math.toRadians(camera.getYaw()),0,1,0);
+        matrix4.translate(-camera.getPosition()[0],-camera.getPosition()[1],-camera.getPosition()[2]);
+
+        return matrix4;
+
+    }
+
+
 
     public static float[] add(float[]in, float[] in2){
         float[] f = new float[3];

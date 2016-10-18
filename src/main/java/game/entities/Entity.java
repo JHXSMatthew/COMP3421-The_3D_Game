@@ -27,9 +27,7 @@ public class Entity implements Renderable{
     }
 
     public void move(float[] move){
-
         position = MathUtils.add(move,position);
-        System.out.println(Arrays.toString(position));
     }
 
     public void rotate(float[] move){
