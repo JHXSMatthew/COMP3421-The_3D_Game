@@ -105,6 +105,12 @@ public class Game extends JFrame implements GLEventListener{
             0,1,3,
             3,1,2
     };
+    float[] textureCoords = {
+            0,0,
+            0,1,
+            1,1,
+            1,0
+    };
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
@@ -112,7 +118,7 @@ public class Game extends JFrame implements GLEventListener{
         loader = new Loader();
         render = new Render();
         shader = new StaticShader(gl);
-        RawModel model = loader.loadModel(gl,vertices,indices,null);
+        RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
         models.add(texturedModel);

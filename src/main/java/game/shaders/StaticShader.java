@@ -23,5 +23,6 @@ public class StaticShader extends BasicShader  {
     @Override
     protected void bindAttributes(GL2 gl) {
         super.bindAttribute(gl,"position",0);
+        super.bindAttribute(gl,"textureCoords",1);
     }
 }

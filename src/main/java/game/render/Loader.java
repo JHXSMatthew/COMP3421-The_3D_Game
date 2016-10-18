@@ -2,7 +2,6 @@ package game.render;
 
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.awt.ImageUtil;
-import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureData;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import game.models.RawModel;
@@ -27,7 +26,9 @@ import java.util.List;
  */
 public class Loader {
 
-    public final static int ATTRIBUTE_POSITION = 0;
+    public final static int MODEL_ATTRIBUTE_POSITION = 0;
+    public final static int TEXTURE_ATTRIBUTE_POSITION = 1;
+
     private final static boolean MIPMAP = true;
 
 
@@ -44,9 +45,10 @@ public class Loader {
      * @param texture texture "location" array
      * @return the model
      */
-    public RawModel loadModel(GL2 gl,float[] positions,int[] indices,double[] texture){
+    public RawModel loadToVAO(GL2 gl, float[] positions, int[] indices, float[] texture){
         int vaoID = createVAO(gl);
-        storeVBOArrayBuffer(gl,ATTRIBUTE_POSITION,positions,3);
+        storeVBOArrayBuffer(gl, MODEL_ATTRIBUTE_POSITION,positions,3);
+        storeVBOArrayBuffer(gl,TEXTURE_ATTRIBUTE_POSITION,texture,2);
         bindIndicesBuffer(gl,indices);
         unbindVAO(gl);
         return new RawModel(vaoID,indices.length);
