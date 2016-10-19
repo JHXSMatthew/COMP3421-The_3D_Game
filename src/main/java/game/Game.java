@@ -5,16 +5,16 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.entities.CameraFreeMove;
-import game.entities.Light;
+import game.entities.*;
+import game.models.ITexturable;
+import game.models.TexturedModel;
 import game.models.presetModels.PresetModelType;
 import game.models.presetModels.TerrainModel;
 import game.models.presetModels.TreeLeavesModel;
 import game.models.presetModels.TreeTrunkModel;
 import game.render.RenderManager;
+import game.textures.ModelTexture;
 import game.utils.IOUtils;
-import game.entities.Camera;
-import game.entities.Entity;
 import game.render.Loader;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
@@ -39,9 +39,12 @@ public class Game extends JFrame implements GLEventListener{
     private Camera camera;
     private Light light;
 
+    private static Game instance;
+
     public Game(DataBase terrain) {
     	super("Assignment 2");
         data = terrain;
+        instance = this;
    
     }
     
@@ -104,20 +107,24 @@ public class Game extends JFrame implements GLEventListener{
         render = new RenderManager(gl);
         loadModels(gl);
         light = new Light(data.getSunlight(),ArrayUtils.toArray(1,1,1));
+        for(TreePrototype prototype : data.trees()){
+            prototype.register();
+        }
         camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
-        Entity terrain  = new Entity(PresetModelType.Terrain.getModel());
-        Entity sphere = new Entity(PresetModelType.TreeLeaves.getModel());
-        Entity cy = new Entity(PresetModelType.TreeTrunk.getModel());
-        sphere.move(ArrayUtils.toArray(0,3,0));
-        cy.move(ArrayUtils.toArray(0,3f,0));
-        cy.rotate(ArrayUtils.toArray(-90,0,0));
-        cy.setScale(ArrayUtils.toArray(0.15f,0.15f,0.5f));
-        entities.add(terrain);
-        entities.add(sphere);
-        entities.add(cy);
-
+        addNewEntity(PresetModelType.Terrain.getModel());
     }
 
+
+    public Entity addNewEntity(ITexturable model){
+        Entity e = new Entity(model);
+        entities.add(e);
+        return e;
+    }
+
+    public Entity addNewEntity(Entity entity){
+        entities.add(entity);
+        return entity;
+    }
 
 
 
@@ -133,6 +140,10 @@ public class Game extends JFrame implements GLEventListener{
         new TreeLeavesModel().setUp(gl,loader);
         new TreeTrunkModel().setUp(gl,loader);
 
+    }
+
+    public static Game getGame(){
+        return instance;
     }
 
 }

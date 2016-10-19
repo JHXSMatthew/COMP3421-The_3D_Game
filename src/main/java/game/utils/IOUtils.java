@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 import game.models.RoadModel;
-import game.entities.Tree;
+import game.entities.TreePrototype;
 import game.DataBase;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -111,7 +111,7 @@ public class IOUtils {
         json.put("altitude", altitude);
         
         JSONArray trees = new JSONArray();
-        for (Tree t : terrain.trees()) {
+        for (TreePrototype t : terrain.trees()) {
             JSONObject j = new JSONObject();
             float[] position = t.getPosition();
             j.put("x", position[0]);
