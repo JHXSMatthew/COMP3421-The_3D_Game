@@ -1,13 +1,10 @@
 package game;
 
+import game.entities.Tree;
 import game.models.RoadModel;
-import game.models.TreeModel;
-import game.utils.MathUtils;
-import com.jogamp.opengl.GL2;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -21,7 +18,7 @@ public class DataBase {
 
     private Dimension mySize;
     private double[][] myAltitude;
-    private List<TreeModel> myTrees;
+    private List<Tree> myTrees;
     private List<RoadModel> myRoads;
     private float[] mySunlight;
 
@@ -34,7 +31,7 @@ public class DataBase {
     public DataBase(int width, int depth) {
         mySize = new Dimension(width, depth);
         myAltitude = new double[width][depth];
-        myTrees = new ArrayList<TreeModel>();
+        myTrees = new ArrayList<Tree>();
         myRoads = new ArrayList<RoadModel>();
         mySunlight = new float[3];
     }
@@ -47,7 +44,7 @@ public class DataBase {
         return mySize;
     }
 
-    public List<TreeModel> trees() {
+    public List<Tree> trees() {
         return myTrees;
     }
 
@@ -141,7 +138,7 @@ public class DataBase {
      */
     public void addTree(double x, double z) {
         double y = altitude(x, z);
-        TreeModel tree = new TreeModel(x, y, z);
+        Tree tree = new Tree((float)x, (float)y, (float)z);
         myTrees.add(tree);
     }
 

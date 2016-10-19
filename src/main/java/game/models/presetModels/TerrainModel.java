@@ -1,35 +1,37 @@
-package game.models;
+package game.models.presetModels;
 
 import com.jogamp.opengl.GL2;
-import game.render.Loader;
-import game.textures.ModelTexture;
 import game.utils.MathUtils;
-
-import java.util.Arrays;
 
 /**
  * Created by Matthew on 19/10/2016.
  */
-public class TerrainModel implements IRenderable,ITexturable {
+public class TerrainModel extends PresetModel  {
 
-    private TexturedModel model;
-    private static TerrainModel terrain;
+    private static TerrainModel instance;
 
-    public TerrainModel(GL2 gl, float[][] attributes, Loader loader) {
-        //fixed texture stuff
+    private float[][] attributes= null;
 
+    //buffers
+    private float[] vertices;
+    private float[] textureCoords;
+    private float[] normals;
+    private int[] indices;
 
+    public TerrainModel(float[][] attributes) {
+        super("grass.jpg");
+        this.attributes = attributes;
 
         int length = attributes.length;
         int count = attributes.length * attributes.length;
-        float[] vertices = new float[3 * count];
-        float[] normals = new float[3*count];
-        float[] textureCoords = new float[2*count];
+        vertices = new float[3 * count];
+        normals = new float[3*count];
+        textureCoords = new float[2*count];
 
         // logic
         // 3 points per triangle, two triangle per vertex, but 1 triangle for top , bottom, left ,right bounds
         // so (hight - 1 ) * (width -1) *2 * 3 indeices needed.
-        int[] indices = new int[6*(attributes.length - 1) *(attributes.length -1)];
+        indices = new int[6*(attributes.length - 1) *(attributes.length -1)];
 
         int curr = 0;
         int offSet = 0;
@@ -81,30 +83,43 @@ public class TerrainModel implements IRenderable,ITexturable {
                 textureCoords[offSet++] = z;
             }
         }
-
-        System.out.println("vertex " + Arrays.toString(vertices));
-
-        System.out.println("indicies " + Arrays.toString(indices));
-
-        System.out.println("normals " + Arrays.toString(normals));
-
-        ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
-        RawModel rawModel = loader.loadToVAO(gl,vertices,indices,textureCoords,normals);
-        this.model = new TexturedModel(rawModel,texture);
-        terrain = this;
     }
 
-    public static TerrainModel getModel(){
-        return terrain;
+
+
+
+
+
+    @Override
+    protected float[] getVertex(GL2 gl) {
+        float[] returnValue = vertices;
+        this.vertices = null;
+        return returnValue;
     }
 
     @Override
-    public RawModel getRawModel() {
-        return model.getRawModel();
+    protected float[] getNormals(GL2 gl) {
+        float[] returnValue = normals;
+        this.normals = null;
+        return returnValue;
     }
 
     @Override
-    public TexturedModel getTextureModel() {
-        return model;
+    protected float[] getTexturedCords(GL2 gl) {
+        float[] returnValue = textureCoords;
+        this.textureCoords = null;
+        return returnValue;
+    }
+
+    @Override
+    protected int[] getIndices(GL2 gl) {
+        int[] returnValue = indices;
+        this.indices = null;
+        return returnValue;
+    }
+
+    @Override
+    protected void setInstance() {
+        instance = this;
     }
 }

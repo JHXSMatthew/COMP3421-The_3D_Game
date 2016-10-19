@@ -1,11 +1,9 @@
 package game.render;
 
-import com.jogamp.opengl.GL;
 import com.jogamp.opengl.math.Matrix4;
 import game.entities.Entity;
 import game.models.RawModel;
 import com.jogamp.opengl.GL2;
-import game.models.IRenderable;
 import game.models.TexturedModel;
 import game.shaders.StaticShader;
 import game.utils.MathUtils;
@@ -49,13 +47,12 @@ public class Render {
                 //render
                 gl.glDrawElements(GL2.GL_TRIANGLES , entity.getRawModel().getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
             }
-            unloadModel(gl,model.getRawModel());
+            unloadModel(gl);
         }
 
     }
 
-    private void unloadModel(GL2 gl, RawModel  model){
-        gl.glDrawElements(GL2.GL_TRIANGLES , model.getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
+    private void unloadModel(GL2 gl){
         gl.glDisableVertexAttribArray(Loader.MODEL_ATTRIBUTE_POSITION);
         gl.glDisableVertexAttribArray(Loader.MODEL_ATTRIBUTE_TEXTURE);
         gl.glDisableVertexAttribArray(Loader.MODEL_ATTRIBUTE_NORMAL);

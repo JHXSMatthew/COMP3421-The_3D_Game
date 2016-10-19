@@ -7,23 +7,18 @@ import java.util.List;
 
 import game.entities.CameraFreeMove;
 import game.entities.Light;
-import game.models.RawModel;
-import game.models.TerrainModel;
-import game.models.TexturedModel;
+import game.models.presetModels.PresetModelType;
+import game.models.presetModels.TerrainModel;
 import game.render.RenderManager;
-import game.textures.ModelTexture;
 import game.utils.IOUtils;
 import game.entities.Camera;
 import game.entities.Entity;
-import game.models.IRenderable;
 import game.render.Loader;
-import game.render.Render;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
 import javax.swing.JFrame;
 
 import com.jogamp.opengl.util.FPSAnimator;
-import game.shaders.StaticShader;
 import game.utils.ArrayUtils;
 
 
@@ -108,7 +103,7 @@ public class Game extends JFrame implements GLEventListener{
         loadModels(gl);
         light = new Light(data.getSunlight(),ArrayUtils.toArray(1,1,1));
         camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
-        Entity terrain  = new Entity(TerrainModel.getModel().getTextureModel());
+        Entity terrain  = new Entity(PresetModelType.Terrain.getModel().getTextureModel());
         entities.add(terrain);
 
     }
@@ -123,7 +118,8 @@ public class Game extends JFrame implements GLEventListener{
     }
 
     private void loadModels(GL2 gl){
-        TerrainModel terrianModel = new TerrainModel(gl,data.getAttribute(),loader);
+        new TerrainModel(data.getAttribute()).setUp(gl,loader);
+
 
     }
 
