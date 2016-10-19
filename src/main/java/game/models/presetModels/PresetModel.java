@@ -26,12 +26,21 @@ public abstract class PresetModel implements IRenderable,ITexturable {
         RawModel rawModel = loader.loadToVAO(gl,getVertex(gl),getIndices(gl), getTexturedCords(gl),getNormals(gl));
         this.model = new TexturedModel(rawModel,texture);
         setInstance();
+        onSetup(gl);
+
+    }
+
+    public void setSpecularLight(float reflectivity,int dampper){
+        model.getTexture().setReflectivity(reflectivity);
+        model.getTexture().setShineDamper(dampper);
+
     }
 
     protected abstract float[] getVertex(GL2 gl);
     protected abstract float[] getNormals(GL2 gl);
     protected abstract float[] getTexturedCords(GL2 gl);
     protected abstract int[] getIndices(GL2 gl);
+    protected abstract void onSetup(GL2 gl);
 
     protected abstract void setInstance();
 

@@ -9,6 +9,7 @@ import game.entities.CameraFreeMove;
 import game.entities.Light;
 import game.models.presetModels.PresetModelType;
 import game.models.presetModels.TerrainModel;
+import game.models.presetModels.TreeLeavesModel;
 import game.render.RenderManager;
 import game.utils.IOUtils;
 import game.entities.Camera;
@@ -103,8 +104,11 @@ public class Game extends JFrame implements GLEventListener{
         loadModels(gl);
         light = new Light(data.getSunlight(),ArrayUtils.toArray(1,1,1));
         camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
-        Entity terrain  = new Entity(PresetModelType.Terrain.getModel().getTextureModel());
+        Entity terrain  = new Entity(PresetModelType.Terrain.getModel());
+        Entity sphere = new Entity(PresetModelType.TreeLeaves.getModel());
+        sphere.move(ArrayUtils.toArray(0,3,0));
         entities.add(terrain);
+        entities.add(sphere);
 
     }
 
@@ -119,6 +123,7 @@ public class Game extends JFrame implements GLEventListener{
 
     private void loadModels(GL2 gl){
         new TerrainModel(data.getAttribute()).setUp(gl,loader);
+        new TreeLeavesModel().setUp(gl,loader);
 
 
     }

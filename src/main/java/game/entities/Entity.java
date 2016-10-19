@@ -1,5 +1,6 @@
 package game.entities;
 
+import game.models.ITexturable;
 import game.models.RawModel;
 import game.models.IRenderable;
 import game.models.TexturedModel;
@@ -17,19 +18,20 @@ public class Entity implements IRenderable {
     private float[] rotation;
     private float[] scale;
 
-    public Entity(TexturedModel model, float[] position , float[] rotation, float[] scale){
-        this.model = model;
+
+    public Entity(ITexturable model){
+        this.model = model.getTextureModel();
+        this.position = ArrayUtils.toArray(0,0,0);
+        this.rotation = ArrayUtils.toArray(0,0,0);
+        this.scale =  ArrayUtils.toArray(1,1,1);
+    }
+
+    public Entity(ITexturable model, float[] position , float[] rotation, float[] scale){
+        this.model = model.getTextureModel();
 
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
-    }
-
-    public Entity(TexturedModel model){
-        this.model = model;
-        this.position = ArrayUtils.toArray(0,0,0);
-        this.rotation = ArrayUtils.toArray(0,0,0);
-        this.scale =  ArrayUtils.toArray(1,1,1);
     }
 
     public void move(float[] move){

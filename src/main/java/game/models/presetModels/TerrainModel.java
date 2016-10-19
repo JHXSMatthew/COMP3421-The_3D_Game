@@ -119,6 +119,11 @@ public class TerrainModel extends PresetModel  {
     }
 
     @Override
+    protected void onSetup(GL2 gl) {
+
+    }
+
+    @Override
     protected void setInstance() {
         instance = this;
     }

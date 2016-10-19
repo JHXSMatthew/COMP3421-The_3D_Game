@@ -45,7 +45,7 @@ public class Render {
             for(Entity entity : list){
                 loadEntity(gl,entity);
                 //render
-                gl.glDrawElements(GL2.GL_TRIANGLES , entity.getRawModel().getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
+                gl.glDrawElements(GL2.GL_TRIANGLE_STRIP , entity.getRawModel().getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
             }
             unloadModel(gl);
         }
