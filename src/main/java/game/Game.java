@@ -10,6 +10,7 @@ import game.entities.Light;
 import game.models.RawModel;
 import game.models.TerrainModel;
 import game.models.TexturedModel;
+import game.render.RenderManager;
 import game.textures.ModelTexture;
 import game.utils.IOUtils;
 import game.entities.Camera;
@@ -34,11 +35,10 @@ import game.utils.ArrayUtils;
 public class Game extends JFrame implements GLEventListener{
 
     private DataBase data;
-    private Render render;
+    private RenderManager render;
     private Loader loader;
-    private StaticShader shader;
 
-    private List<IRenderable> models = new ArrayList<IRenderable>();
+    private List<Entity> entities = new ArrayList<Entity>();
     private Camera camera;
     private Light light;
 
@@ -87,23 +87,14 @@ public class Game extends JFrame implements GLEventListener{
 	@Override
 	public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
-
-        render.prepare(gl);
-        for(IRenderable model : models){
-            shader.start(gl);
-            camera.move();
-            shader.loadViewMatrix(gl,camera);
-            shader.loadLight(gl,light);
-            render.render(gl,model,shader);
-            shader.stop(gl);
-        }
-
+        render.addEntity(entities);
+        render.render(gl,light,camera);
     }
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
-        shader.dispose(gl);
+        render.dispose(gl);
         loader.dispose(gl);
 		// TODO Auto-generated method stub
 		
@@ -131,8 +122,7 @@ public class Game extends JFrame implements GLEventListener{
 	public void init(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
         loader = new Loader();
-        render = new Render();
-        shader = new StaticShader(gl);
+        render = new RenderManager(gl);
         loadModels(gl);
         light = new Light(data.getSunlight(),ArrayUtils.toArray(1,1,1));
         /*
@@ -143,7 +133,7 @@ public class Game extends JFrame implements GLEventListener{
 */
         camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
         Entity terrain  = new Entity(TerrainModel.getModel().getTextureModel());
-        models.add(terrain);
+        entities.add(terrain);
        // models.add(entity);
 
     }
@@ -154,7 +144,7 @@ public class Game extends JFrame implements GLEventListener{
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
         GL2 gl = drawable.getGL().getGL2();
-        render.updatePerspectiveCamera(width, height,shader,gl);
+        render.updatePerspectiveCamera(gl,width, height);
     }
 
     private void loadModels(GL2 gl){
