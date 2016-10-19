@@ -45,11 +45,11 @@ public class Render {
                     ((Entity) m).getRotation(),
                     ((Entity) m).getScale());
             shader.loadTransformationMatrix(gl,tMatrix);
-            loadTexture(gl,((Entity) m).getModel());
+            loadTexture(gl,((Entity) m).getModel(),shader);
         }
 
         if(m instanceof TexturedModel) {
-            loadTexture(gl,(TexturedModel) m);
+            loadTexture(gl,(TexturedModel) m,shader);
         }
         gl.glDrawElements(GL2.GL_TRIANGLES , model.getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
         gl.glDisableVertexAttribArray(Loader.MODEL_ATTRIBUTE_POSITION);
@@ -60,10 +60,12 @@ public class Render {
 
     }
 
-    private void loadTexture(GL2 gl,TexturedModel model){
+    private void loadTexture(GL2 gl,TexturedModel model,StaticShader shader){
         gl.glActiveTexture(GL2.GL_TEXTURE0);
         gl.glBindTexture(GL2.GL_TEXTURE_2D,model.getTexture().getID() );
+        shader.loadSpecularLightVars(gl,model.getTexture().getShineDamper(),model.getTexture().getReflectivity());
     }
+
 
     //camera constants
     private static final float FOV = 70;

@@ -8,6 +8,8 @@ out vec4 RGB_Color;
 
 uniform sampler2D textureSampler;
 uniform vec3 cLight;
+uniform float reflectivity;
+uniform float shineDamper;
 
 void main(void){
     vec3 unitNormal = normalize(outNormal);
