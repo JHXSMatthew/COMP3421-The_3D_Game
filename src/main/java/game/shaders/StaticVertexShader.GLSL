@@ -7,6 +7,7 @@ in vec3 normal;
 out vec2 pass_textureCoords;
 out vec3 outNormal;
 out vec3 direction;
+out vec3 cameraVector;
 
 //position/p_camera/view
 uniform mat4 tMatrix;
@@ -23,5 +24,6 @@ void main(void){
     //light
     outNormal = (globalPosition * vec4(normal,0.0)).xyz;
     direction = dLight;
+    cameraVector = (inverse(vMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
 
 }
