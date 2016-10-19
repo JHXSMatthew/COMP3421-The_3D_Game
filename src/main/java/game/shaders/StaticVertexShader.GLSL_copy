@@ -21,7 +21,6 @@ void main(void){
     pass_textureCoords = textureCoords;
 
     //light
-    outNormal = (globalPosition * vec4(normal,0.0)).xyz;
     direction = dLight;
 
 }
