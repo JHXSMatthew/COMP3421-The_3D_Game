@@ -4,6 +4,8 @@ import com.jogamp.opengl.GL2;
 import game.render.Loader;
 import game.textures.ModelTexture;
 
+import java.util.Arrays;
+
 /**
  * Created by Matthew on 19/10/2016.
  */
@@ -22,7 +24,7 @@ public class TerrainModel implements IRenderable,ITexturable {
         };
 
 
-
+        int length = attributes.length;
         int count = attributes.length * attributes.length;
         float[] vertices = new float[3 * count];
         // logic
@@ -31,13 +33,13 @@ public class TerrainModel implements IRenderable,ITexturable {
         int[] indices = new int[6*(attributes.length - 1) *(attributes.length -1)];
 
         int curr = 0;
-        for(int z = 0 ; z < attributes.length ; z ++){
-            for(int x = 0 ; x < attributes.length ; x ++){
-                int offSet = x*z;
-                vertices[offSet] = x;
-                vertices[offSet + 1] = z;
-                vertices[offSet + 2] = attributes[x][z];
+        int offSet = 0;
 
+        for(int z = 0 ; z < length ; z ++){
+            for(int x = 0 ; x < length ; x ++){
+                vertices[offSet++] = x;
+                vertices[offSet++] = attributes[x][z];
+                vertices[offSet++] = z;
                 /**
                  *  logic here
                  *  every terrian can be divided as 2*2 from any point of this array (x,x+1,z,z+1)
@@ -45,7 +47,7 @@ public class TerrainModel implements IRenderable,ITexturable {
                  *  basically loop through all possible 2*2 squares and calculate trangle indicies
                  *  the trangle coordinates can be known by calculating the squares position.
                  *  skip bounds, if the point is on the bound, -1 trangle, so basically -2 with two bounds
-                 * a:(z*attributes.length)     b:(z*attributes.length) +1
+                 * a:(z*attributes.length)  + x    b:(z*attributes.length) +1
                              *    -----
                              *   |    |
                              *   |____|
@@ -58,17 +60,19 @@ public class TerrainModel implements IRenderable,ITexturable {
                     int c = d+1;
                     //adb
                     indices[curr++] = a;
-                    indices[curr++] = d;
-                    indices[curr++] = b;
-                    //bdc
                     indices[curr++] = b;
                     indices[curr++] = d;
+                    //bcd
+                    indices[curr++] = b;
                     indices[curr++] = c;
+                    indices[curr++] = d;
                 }
             }
         }
 
+        System.out.println("vertex " + Arrays.toString(vertices));
 
+        System.out.println("indicies " + Arrays.toString(indices));
 
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         RawModel rawModel = loader.loadToVAO(gl,vertices,indices,textureCoords);

@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.entities.CameraFreeMove;
+import game.models.RawModel;
 import game.models.TerrainModel;
+import game.models.TexturedModel;
+import game.textures.ModelTexture;
 import game.utils.IOUtils;
 import game.entities.Camera;
 import game.entities.Entity;
-import game.models.RawModel;
 import game.models.IRenderable;
-import game.models.TexturedModel;
 import game.render.Loader;
 import game.render.Render;
 import com.jogamp.opengl.*;
@@ -21,7 +22,6 @@ import javax.swing.JFrame;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import game.shaders.StaticShader;
-import game.textures.ModelTexture;
 import game.utils.ArrayUtils;
 
 
@@ -37,7 +37,7 @@ public class Game extends JFrame implements GLEventListener{
     private Loader loader;
     private StaticShader shader;
     private List<IRenderable> models = new ArrayList<IRenderable>();
-    private CameraFreeMove camera;
+    private Camera camera;
 
     public Game(DataBase terrain) {
     	super("Assignment 2");
@@ -53,7 +53,7 @@ public class Game extends JFrame implements GLEventListener{
     	  GLProfile glp = GLProfile.getDefault();
           GLCapabilities caps = new GLCapabilities(glp);
           GLJPanel panel = new GLJPanel();
-          camera = new CameraFreeMove();
+          camera = new Camera();
           panel.addKeyListener(camera);
           panel.addGLEventListener(this);
  
@@ -130,14 +130,15 @@ public class Game extends JFrame implements GLEventListener{
         render = new Render();
         shader = new StaticShader(gl);
         loadModels(gl);
-  /*      RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
+        RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
         Entity entity = new Entity(texturedModel, ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
-        */
+
         camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
         Entity terrain  = new Entity(TerrainModel.getModel().getTextureModel());
-        models.add(TerrainModel.getModel().getRawModel());
+        models.add(terrain);
+        models.add(entity);
 
     }
 

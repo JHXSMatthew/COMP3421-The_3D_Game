@@ -11,6 +11,6 @@ uniform mat4 vMatrix;
 
 void main(void){
     gl_Position = pMatrix * vMatrix * tMatrix * vec4(position,1.0);
-    pass_textureCoords = vec3(1,0,0);
-    //textureCoords;
+    pass_textureCoords = textureCoords;
+
 }
