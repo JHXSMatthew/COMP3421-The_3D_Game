@@ -1,12 +1,11 @@
 package game;
 
 import game.entities.TreePrototype;
-import game.models.RoadModel;
+import game.entities.RoadPrototype;
 import game.utils.ArrayUtils;
 import game.utils.MathUtils;
 
 import java.awt.Dimension;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class DataBase {
     private Dimension mySize;
     private double[][] myAltitude;
     private List<TreePrototype> myTrees;
-    private List<RoadModel> myRoads;
+    private List<RoadPrototype> myRoads;
     private float[] mySunlight;
 
     /**
@@ -35,7 +34,7 @@ public class DataBase {
         mySize = new Dimension(width, depth);
         myAltitude = new double[width][depth];
         myTrees = new ArrayList<TreePrototype>();
-        myRoads = new ArrayList<RoadModel>();
+        myRoads = new ArrayList<RoadPrototype>();
         mySunlight = new float[3];
     }
     
@@ -51,7 +50,7 @@ public class DataBase {
         return myTrees;
     }
 
-    public List<RoadModel> roads() {
+    public List<RoadPrototype> roads() {
         return myRoads;
     }
 
@@ -175,7 +174,7 @@ public class DataBase {
      * @param spine
      */
     public void addRoad(double width, double[] spine) {
-        RoadModel road = new RoadModel(width, spine);
+        RoadPrototype road = new RoadPrototype(width, spine);
         myRoads.add(road);        
     }
 

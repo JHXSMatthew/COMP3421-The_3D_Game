@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
-import game.models.RoadModel;
+import game.entities.RoadPrototype;
 import game.entities.TreePrototype;
 import game.DataBase;
 import org.json.JSONArray;
@@ -121,7 +121,7 @@ public class IOUtils {
         json.put("trees", trees);
 
         JSONArray roads = new JSONArray();
-        for (RoadModel r : terrain.roads()) {
+        for (RoadPrototype r : terrain.roads()) {
             JSONObject j = new JSONObject();
             j.put("width", r.width());
             
