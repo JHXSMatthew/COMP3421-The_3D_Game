@@ -56,7 +56,7 @@ public class Game extends JFrame implements GLEventListener{
     	  GLProfile glp = GLProfile.getDefault();
           GLCapabilities caps = new GLCapabilities(glp);
           GLJPanel panel = new GLJPanel();
-          camera = new Camera();
+          camera = new CameraFreeMove();
           panel.addKeyListener(camera);
           panel.addGLEventListener(this);
  
@@ -100,24 +100,6 @@ public class Game extends JFrame implements GLEventListener{
 		
 	}
 
-    float[] vertices = {
-            -0.5f, 0.5f, 0,
-            -0.5f, -0.5f, 0,
-            0.5f, -0.5f, 0,
-            0.5f, 0.5f, 0f
-    };
-
-    int[] indices = {
-            0,1,3,
-            3,1,2
-    };
-    float[] textureCoords = {
-            0,0,
-            0,1,
-            1,1,
-            1,0
-    };
-
 	@Override
 	public void init(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
@@ -125,16 +107,9 @@ public class Game extends JFrame implements GLEventListener{
         render = new RenderManager(gl);
         loadModels(gl);
         light = new Light(data.getSunlight(),ArrayUtils.toArray(1,1,1));
-        /*
-        RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords,null);
-        ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
-        TexturedModel texturedModel = new TexturedModel(model,texture);
-        Entity entity = new Entity(texturedModel, ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
-*/
         camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
         Entity terrain  = new Entity(TerrainModel.getModel().getTextureModel());
         entities.add(terrain);
-       // models.add(entity);
 
     }
 

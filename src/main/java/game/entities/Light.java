@@ -7,6 +7,8 @@ public class Light {
 
     private float[] color;
     private float[] direction;
+    //extra ambient
+    private float ambient = 0;
 
     public float[] getColor() {
         return color;

@@ -58,7 +58,7 @@ public class RenderManager {
         render.updatePerspectiveCamera(gl,width,height);
     }
 
-        public StaticShader getShader(){
+    public StaticShader getShader(){
         return shader;
     }
 

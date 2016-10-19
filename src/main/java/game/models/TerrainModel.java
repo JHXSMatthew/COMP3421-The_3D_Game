@@ -17,18 +17,14 @@ public class TerrainModel implements IRenderable,ITexturable {
 
     public TerrainModel(GL2 gl, float[][] attributes, Loader loader) {
         //fixed texture stuff
-        float[] textureCoords = {
-                0,0,
-                0,attributes.length-1,
-                attributes.length-1,attributes.length-1,
-                attributes.length-1,0
-        };
+
 
 
         int length = attributes.length;
         int count = attributes.length * attributes.length;
         float[] vertices = new float[3 * count];
         float[] normals = new float[3*count];
+        float[] textureCoords = new float[2*count];
 
         // logic
         // 3 points per triangle, two triangle per vertex, but 1 triangle for top , bottom, left ,right bounds
@@ -41,10 +37,8 @@ public class TerrainModel implements IRenderable,ITexturable {
         for(int z = 0 ; z < length ; z ++){
             for(int x = 0 ; x < length ; x ++){
                 System.arraycopy(MathUtils.finiteDifference(attributes,x,z),0,normals,offSet,3);
-
                 vertices[offSet++] = x;
                 vertices[offSet++] = attributes[x][z];
-
                 vertices[offSet++] = z;
 
                 /**
@@ -73,7 +67,18 @@ public class TerrainModel implements IRenderable,ITexturable {
                     indices[curr++] = b;
                     indices[curr++] = c;
                     indices[curr++] = d;
+
+
                 }
+
+            }
+        }
+
+        offSet = 0;
+        for(int z = 0 ; z < length ; z ++){
+            for(int x = 0 ; x < length ; x ++){
+                textureCoords[offSet++] = x;
+                textureCoords[offSet++] = z;
             }
         }
 
