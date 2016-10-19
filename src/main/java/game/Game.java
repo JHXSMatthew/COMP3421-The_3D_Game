@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.entities.CameraFreeMove;
+import game.entities.Light;
 import game.models.RawModel;
 import game.models.TerrainModel;
 import game.models.TexturedModel;
@@ -36,8 +37,10 @@ public class Game extends JFrame implements GLEventListener{
     private Render render;
     private Loader loader;
     private StaticShader shader;
+
     private List<IRenderable> models = new ArrayList<IRenderable>();
     private Camera camera;
+    private Light light;
 
     public Game(DataBase terrain) {
     	super("Assignment 2");
@@ -88,6 +91,7 @@ public class Game extends JFrame implements GLEventListener{
         render.prepare(gl);
         for(IRenderable model : models){
             shader.start(gl);
+            shader.loadLight(gl,light);
             camera.move();
             shader.loadViewMatrix(gl,camera);
             render.render(gl,model,shader);
@@ -130,15 +134,17 @@ public class Game extends JFrame implements GLEventListener{
         render = new Render();
         shader = new StaticShader(gl);
         loadModels(gl);
-        RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords);
+        light = new Light(data.getSunlight(),ArrayUtils.toArray(1,1,1));
+        /*
+        RawModel model = loader.loadToVAO(gl,vertices,indices,textureCoords,null);
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
         Entity entity = new Entity(texturedModel, ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
-
+*/
         camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
         Entity terrain  = new Entity(TerrainModel.getModel().getTextureModel());
         models.add(terrain);
-        models.add(entity);
+       // models.add(entity);
 
     }
 

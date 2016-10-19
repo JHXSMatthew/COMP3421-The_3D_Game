@@ -2,6 +2,7 @@ package game.utils;
 
 import com.jogamp.opengl.math.Matrix4;
 import com.jogamp.opengl.math.Quaternion;
+import game.DataBase;
 import game.entities.Camera;
 
 /**
@@ -10,39 +11,70 @@ import game.entities.Camera;
  */
 public class MathUtils {
     /*
-     * Some maths utility functions
+     * Some maths utilities functions
      * copy from lecture code,
      * ------------------------------------------------copy start --------------------------------------------
      */
 
-    public static double  getMagnitude(double [] n){
-        double mag = n[0]*n[0] + n[1]*n[1] + n[2]*n[2];
-        mag = Math.sqrt(mag);
+    public static float  getMagnitude(float [] n){
+        float mag = n[0]*n[0] + n[1]*n[1] + n[2]*n[2];
+        mag = (float)Math.sqrt(mag);
         return mag;
     }
 
-    public static double [] normalise(double [] n){
-        double  mag = getMagnitude(n);
-        double norm[] = {n[0]/mag,n[1]/mag,n[2]/mag};
+    public static float [] normalise(float [] n){
+        float  mag = getMagnitude(n);
+        float norm[] = {n[0]/mag,n[1]/mag,n[2]/mag};
         return norm;
     }
 
-    public static double [] cross(double u [], double v[]){
-        double crossProduct[] = new double[3];
+    public static float [] cross(float u [], float v[]){
+        float crossProduct[] = new float[3];
         crossProduct[0] = u[1]*v[2] - u[2]*v[1];
         crossProduct[1] = u[2]*v[0] - u[0]*v[2];
         crossProduct[2] = u[0]*v[1] - u[1]*v[0];
         return crossProduct;
     }
 
-    public static double [] getNormal(double[] p0, double[] p1, double[] p2){
-        double u[] = {p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]};
-        double v[] = {p2[0] - p0[0], p2[1] - p0[1], p2[2] - p0[2]};
+    public static float [] getNormal(float[] p0, float[] p1, float[] p2){
+        float u[] = {p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]};
+        float v[] = {p2[0] - p0[0], p2[1] - p0[1], p2[2] - p0[2]};
 
         return cross(u,v);
     }
    // ------------------------------------------------copy end --------------------------------------------
 
+
+    /**
+     * the method to calculate normal of terrain
+     * calculate light from four points near the current point
+     * @return a normal for terrain
+     */
+    public static float[] finiteDifference(float[][] altitudes, int x , int z){
+        float a = 0,b = 0,c = 0,d = 0;
+        if(x != 0){
+            a = altitudes[x-1][z];
+        }
+        if(x +1 < altitudes.length) {
+            b = altitudes[x + 1][z];
+        }
+        if(z != 0){
+            c = altitudes[x][z-1];
+        }
+        if(z + 1 < altitudes.length) {
+            d = altitudes[x][z + 1];
+        }
+
+        float[] normal = {
+                a-b,
+                2f,
+                c-d,
+        };
+
+        normal = normalise(normal);
+        return normal;
+
+    }
 
     public static double[] createDouble(double x , double y , double z , boolean point){
         double last = 0;
@@ -101,5 +133,7 @@ public class MathUtils {
         }
         return f;
     }
+
+
 
 }

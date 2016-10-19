@@ -36,6 +36,8 @@ public class Render {
         gl.glBindVertexArray(model.getVaoID());
         gl.glEnableVertexAttribArray(Loader.MODEL_ATTRIBUTE_POSITION);
         gl.glEnableVertexAttribArray(Loader.TEXTURE_ATTRIBUTE_POSITION);
+        gl.glEnableVertexAttribArray(Loader.NORMAL_ATTRIBUTE_POSITION);
+
         //gl.glDrawArrays(GL2.GL_TRIANGLES, 0 , model.getVertexCount());
 
         if(m instanceof Entity){
@@ -52,6 +54,7 @@ public class Render {
         gl.glDrawElements(GL2.GL_TRIANGLES , model.getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
         gl.glDisableVertexAttribArray(Loader.MODEL_ATTRIBUTE_POSITION);
         gl.glDisableVertexAttribArray(Loader.TEXTURE_ATTRIBUTE_POSITION);
+        gl.glDisableVertexAttribArray(Loader.NORMAL_ATTRIBUTE_POSITION);
         gl.glBindVertexArray(0);
 
 

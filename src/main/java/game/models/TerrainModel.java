@@ -3,6 +3,7 @@ package game.models;
 import com.jogamp.opengl.GL2;
 import game.render.Loader;
 import game.textures.ModelTexture;
+import game.utils.MathUtils;
 
 import java.util.Arrays;
 
@@ -27,6 +28,8 @@ public class TerrainModel implements IRenderable,ITexturable {
         int length = attributes.length;
         int count = attributes.length * attributes.length;
         float[] vertices = new float[3 * count];
+        float[] normals = new float[3*count];
+
         // logic
         // 3 points per triangle, two triangle per vertex, but 1 triangle for top , bottom, left ,right bounds
         // so (hight - 1 ) * (width -1) *2 * 3 indeices needed.
@@ -37,9 +40,12 @@ public class TerrainModel implements IRenderable,ITexturable {
 
         for(int z = 0 ; z < length ; z ++){
             for(int x = 0 ; x < length ; x ++){
+                System.arraycopy(MathUtils.finiteDifference(attributes,x,z),0,normals,offSet,3);
                 vertices[offSet++] = x;
                 vertices[offSet++] = attributes[x][z];
+
                 vertices[offSet++] = z;
+
                 /**
                  *  logic here
                  *  every terrian can be divided as 2*2 from any point of this array (x,x+1,z,z+1)
@@ -74,8 +80,10 @@ public class TerrainModel implements IRenderable,ITexturable {
 
         System.out.println("indicies " + Arrays.toString(indices));
 
+        System.out.println("normals " + Arrays.toString(normals));
+
         ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,"grass.jpg"));
-        RawModel rawModel = loader.loadToVAO(gl,vertices,indices,textureCoords);
+        RawModel rawModel = loader.loadToVAO(gl,vertices,indices,textureCoords,normals);
         this.model = new TexturedModel(rawModel,texture);
         terrain = this;
     }

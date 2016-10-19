@@ -204,23 +204,4 @@ public class DataBase {
 */
 
 
-    public void drawTangleMesh(GL2 gl,double[] p1, double[]p2, double[] p3, double[] normal){
-        gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-        gl.glColor3f(1,0,0);
-        gl.glBegin(GL2.GL_TRIANGLE_STRIP);{
-            normal = MathUtils.normalise(normal);
-            //gl.glNormal3dv(MathUtils.normalise(p1),0);
-            gl.glVertex3d(p1[0],p1[1],p1[2]);
-            //gl.glNormal3dv(MathUtils.normalise(p2),0);
-            gl.glVertex3d(p2[0],p2[1],p2[2]);
-           // gl.glNormal3dv(MathUtils.normalise(p3),0);
-            gl.glVertex3d(p3[0],p3[1],p3[2]);
-            System.out.println("triangle");
-            System.out.println(Arrays.toString(p1));
-            System.out.println(Arrays.toString(p2));
-            System.out.println(Arrays.toString(p3));
-        }gl.glEnd();
-
-
-    }
 }
