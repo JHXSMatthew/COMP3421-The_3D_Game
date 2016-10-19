@@ -10,7 +10,8 @@ public enum PresetModelType {
 
 
     Terrain(TerrainModel.class),
-    TreeLeaves(TreeLeavesModel.class);
+    TreeLeaves(TreeLeavesModel.class),
+    TreeTrunk(TreeTrunkModel.class);
 
     private Class<? extends PresetModel> clazz;
 
