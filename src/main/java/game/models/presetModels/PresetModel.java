@@ -30,9 +30,9 @@ public abstract class PresetModel implements IRenderable,ITexturable {
 
     }
 
-    public void setSpecularLight(float reflectivity,int dampper){
+    public void setSpecularLight(float reflectivity,int damper){
         model.getTexture().setReflectivity(reflectivity);
-        model.getTexture().setShineDamper(dampper);
+        model.getTexture().setShineDamper(damper);
 
     }
 

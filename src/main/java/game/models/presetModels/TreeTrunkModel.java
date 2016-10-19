@@ -26,7 +26,7 @@ public class TreeTrunkModel extends PresetModel{
 
     private static TreeTrunkModel instance;
 
-    public TreeTrunkModel(String textureFileName) {
+    public TreeTrunkModel() {
         super("trunk.jpg");
         List<Float> vertices = new ArrayList<Float>();
         List<Integer> indicies = new ArrayList<Integer>();
@@ -35,15 +35,15 @@ public class TreeTrunkModel extends PresetModel{
         List<Float> normals = new ArrayList<Float>();
 
 
-        double angleIncrement = (Math.PI * 2.0) / slices;
+        double angleIncrement = (Math.PI * 2.2) / slices;
         double zFront = -1;
         double zBack = -3;
 
 
         for(int i=0; i<= slices; i++){
             double angle0 = i*angleIncrement;
-            double xPos0 = Math.cos(angle0);
-            double yPos0 = Math.sin(angle0);
+            double xPos0 = Math.sin(angle0);
+            double yPos0 = Math.cos(angle0);
             double sCoord = 2.0/slices * i; //Or * 2 to repeat label
 
 
@@ -72,8 +72,6 @@ public class TreeTrunkModel extends PresetModel{
         this.normals = ArrayUtils.getIntArrayFromListFloat(normals);
         this.textureCoords = ArrayUtils.getIntArrayFromListFloat(textureCoords);
         this.indices = ArrayUtils.getIntArrayFromList(indicies);
-
-
     }
 
 
