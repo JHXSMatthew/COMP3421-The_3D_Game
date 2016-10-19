@@ -2,7 +2,6 @@ package game.entities;
 
 
 import game.Game;
-import game.models.presetModels.PresetModel;
 import game.models.presetModels.PresetModelType;
 import game.utils.ArrayUtils;
 
@@ -30,8 +29,8 @@ public class TreePrototype {
         if(stupidTree){
             treeTrunk = new Entity(PresetModelType.TreeTrunk.getModel());
             treeLeaves = new Entity(PresetModelType.TreeLeaves.getModel());
-            treeLeaves.move(ArrayUtils.toArray(0,2,0));
-            treeTrunk.move(ArrayUtils.toArray(0,2f,0));
+            treeLeaves.move(ArrayUtils.toArray(0,1.5f,0));
+            treeTrunk.move(ArrayUtils.toArray(0,1.5f,0));
             treeTrunk.rotate(ArrayUtils.toArray(-90,0,0));
             treeTrunk.setScale(ArrayUtils.toArray(0.15f,0.15f,0.5f));
 

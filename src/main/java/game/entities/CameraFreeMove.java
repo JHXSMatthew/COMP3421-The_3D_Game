@@ -1,5 +1,7 @@
 package game.entities;
 
+import game.Game;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -26,6 +28,8 @@ public class CameraFreeMove extends Camera implements KeyListener {
     private static boolean[] CONTROL = new boolean[6];
 
     public void move(){
+        //System.out.println(Game.getGame().getAltitude(position[0],position[2]));
+        //position[1] = Game.getGame().getAltitude(position[0],position[2]);
         if(CONTROL[0]){
             position[2] -= 0.1f;
             CONTROL[0] = false;
@@ -35,10 +39,12 @@ public class CameraFreeMove extends Camera implements KeyListener {
         }
 
         if(CONTROL[2]){
-            yaw -= 1;
+            position[0] -= 0.1f;
+
             CONTROL[2] = false;
         }else if(CONTROL[3]){
-            yaw += 1;
+            position[0] += 0.1f;
+
             CONTROL[3] = false;
         }
 

@@ -2,8 +2,11 @@ package game;
 
 import game.entities.TreePrototype;
 import game.models.RoadModel;
+import game.utils.ArrayUtils;
+import game.utils.MathUtils;
 
 import java.awt.Dimension;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,9 +126,31 @@ public class DataBase {
      */
     public double altitude(double x, double z) {
         double altitude = 0;
+        int gridX = (int)Math.floor(x);
+        int gridZ = (int)Math.floor(z);
 
-        
-        
+        if(gridX >= size().width -1 || gridZ >= size().height -1 || gridX < 0 || gridZ < 0 ){
+            return altitude;
+        }
+        double offSetX = x %1;
+        double offSetZ = z %1;
+
+        if(offSetX <= (1-offSetZ)){
+            //lower triangle
+            altitude = MathUtils
+                    .barryCentric(ArrayUtils.toArray(0f,(float)getGridAltitude(gridX,gridZ) ,0f),
+                            ArrayUtils.toArray(1f,(float)getGridAltitude(gridX + 1,gridZ),0),
+                            ArrayUtils.toArray(0,(float)getGridAltitude(gridX,gridZ+1),1f),
+                            ArrayUtils.toArray((float)offSetX,(float)offSetZ));
+        }else{
+            //upper triangle
+            altitude = MathUtils
+                    .barryCentric(ArrayUtils.toArray(1f,(float)getGridAltitude(gridX + 1,gridZ) ,0f),
+                            ArrayUtils.toArray(1f,(float)getGridAltitude(gridX + 1,gridZ + 1),1f),
+                            ArrayUtils.toArray(0,(float)getGridAltitude(gridX,gridZ+1),1f),
+                            ArrayUtils.toArray((float)offSetX,(float)offSetZ));
+        }
+        System.out.println(altitude);
         return altitude;
     }
 

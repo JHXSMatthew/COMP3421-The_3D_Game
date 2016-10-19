@@ -142,6 +142,10 @@ public class Game extends JFrame implements GLEventListener{
 
     }
 
+    public float getAltitude(float x , float z){
+        return (float)data.altitude(x,z);
+    }
+
     public static Game getGame(){
         return instance;
     }
