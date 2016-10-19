@@ -2,7 +2,7 @@
 
 in vec2 pass_textureCoords;
 in vec3 outNormal;
-in vec3 toLight;
+in vec3 direction;
 
 
 out vec4 RGB_Color;
@@ -12,7 +12,7 @@ uniform vec3 cLight
 
 void main(void){
     vec unitNormal = normalize(outNormal);
-    vec unitLightVector = normalize(toLight);
+    vec unitLightVector = normalize(direction);
 
     float nDot = dot(unitLightVector,unitNormal);
     float brightness = max(nDot,0.0);

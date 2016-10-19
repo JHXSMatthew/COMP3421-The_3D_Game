@@ -27,8 +27,8 @@ import java.util.List;
 public class Loader {
 
     public final static int MODEL_ATTRIBUTE_POSITION = 0;
-    public final static int TEXTURE_ATTRIBUTE_POSITION = 1;
-    public final static int NORMAL_ATTRIBUTE_POSITION = 2;
+    public final static int MODEL_ATTRIBUTE_TEXTURE = 1;
+    public final static int MODEL_ATTRIBUTE_NORMAL = 2;
 
 
     private final static boolean MIPMAP = true;
@@ -50,8 +50,8 @@ public class Loader {
     public RawModel loadToVAO(GL2 gl, float[] positions, int[] indices, float[] texture,float[] normals){
         int vaoID = createVAO(gl);
         storeVBOArrayBuffer(gl, MODEL_ATTRIBUTE_POSITION,positions,3);
-        storeVBOArrayBuffer(gl,TEXTURE_ATTRIBUTE_POSITION,texture,2);
-        storeVBOArrayBuffer(gl,NORMAL_ATTRIBUTE_POSITION,normals,3);
+        storeVBOArrayBuffer(gl, MODEL_ATTRIBUTE_TEXTURE,texture,2);
+        storeVBOArrayBuffer(gl, MODEL_ATTRIBUTE_NORMAL,normals,3);
         bindIndicesBuffer(gl,indices);
         unbindVAO(gl);
         return new RawModel(vaoID,indices.length);

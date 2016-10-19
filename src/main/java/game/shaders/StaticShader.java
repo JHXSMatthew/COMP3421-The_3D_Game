@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.math.Matrix4;
 import game.entities.Camera;
 import game.entities.Light;
+import game.render.Loader;
 import game.utils.MathUtils;
 
 /**
@@ -20,7 +21,7 @@ public class StaticShader extends BasicShader  {
     private int location_pMatrix;
     private int location_vMatrix;
     //light
-    private int location_pLight;
+    private int location_dLight;
     private int location_cLight;
 
     /**
@@ -35,9 +36,9 @@ public class StaticShader extends BasicShader  {
 
     @Override
     protected void bindAttributes(GL2 gl) {
-        super.bindAttribute(gl,"position",0);
-        super.bindAttribute(gl,"textureCoords",1);
-        super.bindAttribute(gl,"normal",2);
+        super.bindAttribute(gl,"position", Loader.MODEL_ATTRIBUTE_POSITION);
+        super.bindAttribute(gl,"textureCoords",Loader.MODEL_ATTRIBUTE_TEXTURE);
+        super.bindAttribute(gl,"normal",Loader.MODEL_ATTRIBUTE_NORMAL);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class StaticShader extends BasicShader  {
         location_pMatrix = super.getUniformLocation(gl,"pMatrix");
         location_vMatrix = super.getUniformLocation(gl,"vMatrix");
         location_cLight = super.getUniformLocation(gl,"cLight");
-        location_pLight = super.getUniformLocation(gl,"pLight");
+        location_dLight = super.getUniformLocation(gl,"dLight");
     }
 
 
@@ -60,7 +61,7 @@ public class StaticShader extends BasicShader  {
 
     public void loadLight(GL2 gl,Light l){
         super.loadVector(gl,location_cLight,l.getColor());
-        super.loadVector(gl,location_pLight,l.getPosition());
+        super.loadVector(gl,location_dLight,l.getDirection());
 
     }
 

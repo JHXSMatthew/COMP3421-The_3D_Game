@@ -1,13 +1,12 @@
 package game.entities;
 
-import game.models.TexturedModel;
-
 /**
  * Created by Matthew on 19/10/2016.
  */
-public class Light extends Entity{
+public class Light {
 
     private float[] color;
+    private float[] direction;
 
     public float[] getColor() {
         return color;
@@ -17,8 +16,16 @@ public class Light extends Entity{
         this.color = color;
     }
 
-    public Light(float[] position,float[] color) {
-        super(null, position, null, null);
+    public Light(float[] toVector,float[] color) {
         this.color = color;
+        this.direction = toVector;
+    }
+
+    public float[] getDirection() {
+        return direction;
+    }
+
+    public void setDirection(float[] direction) {
+        this.direction = direction;
     }
 }
