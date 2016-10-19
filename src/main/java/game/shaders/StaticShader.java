@@ -7,6 +7,8 @@ import game.entities.Light;
 import game.render.Loader;
 import game.utils.MathUtils;
 
+import java.util.Arrays;
+
 /**
  * Created by Matthew on 18/10/2016.
  */
@@ -62,7 +64,6 @@ public class StaticShader extends BasicShader  {
     public void loadLight(GL2 gl,Light l){
         super.loadVector(gl,location_cLight,l.getColor());
         super.loadVector(gl,location_dLight,l.getDirection());
-
     }
 
 
