@@ -22,11 +22,13 @@ public class StaticShader extends BasicShader  {
     //camera
     private int location_pMatrix;
     private int location_vMatrix;
+    private int location_cameraPosition; //reduce calculation
     //light
     private int location_dLight;
     private int location_cLight;
     private int location_shineDamper;
     private int location_reflectivity;
+
 
     /**
      * wrapper of OpenGL shader program
@@ -53,7 +55,8 @@ public class StaticShader extends BasicShader  {
         location_cLight = super.getUniformLocation(gl,"cLight");
         location_dLight = super.getUniformLocation(gl,"dLight");
         location_reflectivity = super.getUniformLocation(gl,"reflectivity");
-        location_reflectivity = super.getUniformLocation(gl,"shineDamper");
+        location_shineDamper = super.getUniformLocation(gl,"shineDamper");
+        location_cameraPosition = super.getUniformLocation(gl,"pCamera");
     }
 
 
@@ -70,13 +73,14 @@ public class StaticShader extends BasicShader  {
         super.loadVector(gl,location_dLight,l.getDirection());
     }
 
-    public void loadSpecularLightVars(GL2 gl,float damper , float relectivity){
+    public void loadSpecularLightVars(GL2 gl,float damper , float reflectivity){
         super.loadFloat(gl,location_shineDamper,damper);
-        super.loadFloat(gl,location_reflectivity,relectivity);
+        super.loadFloat(gl,location_reflectivity,reflectivity);
     }
 
     public void loadViewMatrix(GL2 gl, Camera c){
         super.loadMatrix(gl,location_vMatrix, MathUtils.createViewMatrix(c));
+        super.loadVector(gl,location_cameraPosition,c.getPosition());
     }
 
 }

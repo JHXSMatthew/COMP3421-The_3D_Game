@@ -109,7 +109,6 @@ public class MathUtils {
         matrix4.rotate((float)Math.toRadians(rotate[1]),0,1,0);
         matrix4.rotate((float)Math.toRadians(rotate[2]),0,0,1);
         matrix4.scale(scale[0],scale[1],scale[2]);
-
         return matrix4;
 
     }
@@ -119,9 +118,7 @@ public class MathUtils {
         matrix4.loadIdentity();
         matrix4.rotate((float)Math.toRadians(camera.getYaw()),0,1,0);
         matrix4.translate(-camera.getPosition()[0],-camera.getPosition()[1],-camera.getPosition()[2]);
-
         return matrix4;
-
     }
 
 

@@ -91,9 +91,9 @@ public class Game extends JFrame implements GLEventListener{
         render.prepare(gl);
         for(IRenderable model : models){
             shader.start(gl);
-            shader.loadLight(gl,light);
             camera.move();
             shader.loadViewMatrix(gl,camera);
+            shader.loadLight(gl,light);
             render.render(gl,model,shader);
             shader.stop(gl);
         }
