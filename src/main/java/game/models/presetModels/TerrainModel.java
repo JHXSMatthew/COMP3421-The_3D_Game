@@ -12,11 +12,6 @@ public class TerrainModel extends PresetModel  {
 
     private float[][] attributes= null;
 
-    //buffers
-    private float[] vertices;
-    private float[] textureCoords;
-    private float[] normals;
-    private int[] indices;
 
     public TerrainModel(float[][] attributes) {
         super("grass.jpg");

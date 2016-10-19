@@ -16,6 +16,11 @@ public abstract class PresetModel implements IRenderable,ITexturable {
     private TexturedModel model;
     private String textureFileName;
 
+    //buffers
+    protected float[] vertices;
+    protected float[] normals;
+    protected int[] indices;
+    protected float[] textureCoords;
 
     public PresetModel(String textureFileName){
         this.textureFileName = textureFileName;

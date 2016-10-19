@@ -1,6 +1,12 @@
 package game.entities;
 
 
+import com.jogamp.opengl.GL2;
+import game.models.presetModels.RoadModel;
+import game.render.Loader;
+import game.utils.ArrayUtils;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +19,11 @@ public class RoadPrototype {
 
     private List<Double> myPoints;
     private double myWidth;
-    
-    /** 
+    private RoadModel model;
+
+
+
+    /**
      * Create a new road starting at the specified point
      */
     public RoadPrototype(double width, double x0, double y0) {
@@ -36,6 +45,16 @@ public class RoadPrototype {
         for (int i = 0; i < spine.length; i++) {
             myPoints.add(spine[i]);
         }
+    }
+
+    public Entity getRoadEntity(GL2 gl,Loader loader){
+        if(model == null){
+            model = new RoadModel(this);
+            model.setUp(gl,loader);
+        }
+        Entity entity = new Entity(model);
+        entity.move( ArrayUtils.toArray((float)point(0)[0],0,(float)point(0)[1]));
+        return entity;
     }
 
     /**
@@ -88,7 +107,15 @@ public class RoadPrototype {
         p[1] = myPoints.get(i*2+1);
         return p;
     }
-    
+
+    public RoadModel getModel() {
+        return model;
+    }
+
+    public void setModel(RoadModel model) {
+        this.model = model;
+    }
+
     /**
      * Get a point on the spine. The parameter t may vary from 0 to size().
      * Points on the kth segment take have parameters in the range (k, k+1).

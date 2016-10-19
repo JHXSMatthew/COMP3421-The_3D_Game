@@ -1,6 +1,6 @@
 package game;
 
-import game.entities.TreePrototype;
+import game.entities.TreeWrapper;
 import game.entities.RoadPrototype;
 import game.utils.ArrayUtils;
 import game.utils.MathUtils;
@@ -20,7 +20,7 @@ public class DataBase {
 
     private Dimension mySize;
     private double[][] myAltitude;
-    private List<TreePrototype> myTrees;
+    private List<TreeWrapper> myTrees;
     private List<RoadPrototype> myRoads;
     private float[] mySunlight;
 
@@ -33,7 +33,7 @@ public class DataBase {
     public DataBase(int width, int depth) {
         mySize = new Dimension(width, depth);
         myAltitude = new double[width][depth];
-        myTrees = new ArrayList<TreePrototype>();
+        myTrees = new ArrayList<TreeWrapper>();
         myRoads = new ArrayList<RoadPrototype>();
         mySunlight = new float[3];
     }
@@ -46,7 +46,7 @@ public class DataBase {
         return mySize;
     }
 
-    public List<TreePrototype> trees() {
+    public List<TreeWrapper> trees() {
         return myTrees;
     }
 
@@ -149,7 +149,6 @@ public class DataBase {
                             ArrayUtils.toArray(0,(float)getGridAltitude(gridX,gridZ+1),1f),
                             ArrayUtils.toArray((float)offSetX,(float)offSetZ));
         }
-        System.out.println(altitude);
         return altitude;
     }
 
@@ -162,7 +161,7 @@ public class DataBase {
      */
     public void addTree(double x, double z) {
         double y = altitude(x, z);
-        TreePrototype tree = new TreePrototype((float)x, (float)y, (float)z);
+        TreeWrapper tree = new TreeWrapper((float)x, (float)y, (float)z);
         myTrees.add(tree);
     }
 
@@ -175,7 +174,7 @@ public class DataBase {
      */
     public void addRoad(double width, double[] spine) {
         RoadPrototype road = new RoadPrototype(width, spine);
-        myRoads.add(road);        
+        myRoads.add(road);
     }
 
     public float[][] getAttribute(){

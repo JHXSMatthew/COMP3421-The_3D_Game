@@ -18,12 +18,6 @@ public class TreeTrunkModel extends PresetModel{
 
     private int slices = 32;
 
-    private float[] vertices;
-    private float[] textureCoords;
-    private float[] normals;
-    private int[] indices;
-
-
     private static TreeTrunkModel instance;
 
     public TreeTrunkModel() {

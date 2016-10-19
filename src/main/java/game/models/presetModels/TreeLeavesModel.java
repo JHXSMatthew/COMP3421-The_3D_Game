@@ -20,11 +20,6 @@ public class TreeLeavesModel extends PresetModel {
     private int maxSlices = 30;
     private int maxVertices = maxStacks*(maxSlices+1)*2;
 
-    private float[] vertices;
-    private float[] normals;
-    private int[] indices;
-    private float[] textureCoords;
-
     private static TreeLeavesModel instance;
 
 

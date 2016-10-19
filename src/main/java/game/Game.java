@@ -7,13 +7,11 @@ import java.util.List;
 
 import game.entities.*;
 import game.models.ITexturable;
-import game.models.TexturedModel;
 import game.models.presetModels.PresetModelType;
 import game.models.presetModels.TerrainModel;
 import game.models.presetModels.TreeLeavesModel;
 import game.models.presetModels.TreeTrunkModel;
 import game.render.RenderManager;
-import game.textures.ModelTexture;
 import game.utils.IOUtils;
 import game.render.Loader;
 import com.jogamp.opengl.*;
@@ -107,11 +105,14 @@ public class Game extends JFrame implements GLEventListener{
         render = new RenderManager(gl);
         loadModels(gl);
         light = new Light(data.getSunlight(),ArrayUtils.toArray(1,1,1));
-        for(TreePrototype prototype : data.trees()){
+        for(TreeWrapper prototype : data.trees()){
             prototype.register();
         }
         camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
         addNewEntity(PresetModelType.Terrain.getModel());
+        for(RoadPrototype prototype : data.roads()){
+            addNewEntity(prototype.getRoadEntity(gl,loader));
+        }
     }
 
 

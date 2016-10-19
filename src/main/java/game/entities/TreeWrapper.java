@@ -6,11 +6,11 @@ import game.models.presetModels.PresetModelType;
 import game.utils.ArrayUtils;
 
 /**
- * COMMENT: Comment TreePrototype
+ * COMMENT: Comment TreeWrapper
  *
  * @author malcolmr
  */
-public class TreePrototype {
+public class TreeWrapper {
 
     private static final boolean stupidTree = true;
 
@@ -18,7 +18,7 @@ public class TreePrototype {
     Entity treeTrunk;
     Entity treeLeaves;
 
-    public TreePrototype(float x, float y, float z) {
+    public TreeWrapper(float x, float y, float z) {
         myPos = new float[3];
         myPos[0] = x;
         myPos[1] = y;

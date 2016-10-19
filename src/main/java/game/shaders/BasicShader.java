@@ -111,6 +111,18 @@ public abstract class BasicShader {
         gl.glCompileShader(shaderID);
         int[] error = new int[2];
         gl.glGetProgramiv(shaderID, GL2.GL_LINK_STATUS, error, 0);
+        int[] compiled = new int[1];
+        gl.glGetShaderiv(shaderID, GL2.GL_COMPILE_STATUS, compiled, 0);
+        if (compiled[0] == 0) {
+            int[] logLength = new int[1];
+            gl.glGetShaderiv(shaderID, GL2.GL_INFO_LOG_LENGTH, logLength, 0);
+
+            byte[] log = new byte[logLength[0]];
+            gl.glGetShaderInfoLog(shaderID, logLength[0], (int[]) null, 0, log, 0);
+
+           System.err.println("Error compiling the shader: "
+                    + new String(log));
+        }
         if(error[0] != GL2.GL_FALSE){
             int[] logLength = new int[1];
             gl.glGetProgramiv(shaderID, GL2.GL_INFO_LOG_LENGTH, logLength, 0);
