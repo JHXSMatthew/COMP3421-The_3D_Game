@@ -5,6 +5,7 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.FPSAnimator;
 import game.entities.*;
 import game.models.ITexturable;
+import game.models.OBJTypes;
 import game.models.TexturedModel;
 import game.models.presetModels.PresetModelType;
 import game.models.presetModels.TerrainModel;
@@ -125,15 +126,16 @@ public class Game extends JFrame implements GLEventListener {
         loadModels(gl);
 
         light = new Light(data.getSunlight(), ArrayUtils.toArray(1, 1, 1));
+        addNewEntity(PresetModelType.Terrain.getModel());
+
         for (TreeWrapper prototype : data.trees()) {
             prototype.register();
         }
-        addNewEntity(PresetModelType.Terrain.getModel());
         for (RoadPrototype prototype : data.roads()) {
             Entity road = addNewEntity(prototype.getRoadEntity(gl, loader));
             road.move(ArrayUtils.toArray(0f, 0.02f, 0f));
         }
-        avatar = new Avatar(new TexturedModel(OBJUtils.loadRawModel(gl, "tree.obj", loader), new ModelTexture(loader.loadTexture(gl, "tree.png"))));
+        avatar = new Avatar(OBJTypes.ObjTree);
 
         panel.addKeyListener(avatar);
         addNewEntity(avatar);
@@ -160,9 +162,13 @@ public class Game extends JFrame implements GLEventListener {
 
     private void loadModels(GL2 gl) {
         new TerrainModel(data.getAttribute()).setUp(gl, loader);
-
         new TreeLeavesModel().setUp(gl, loader);
         new TreeTrunkModel().setUp(gl, loader);
+
+        //obj models
+        for(OBJTypes types : OBJTypes.values()){
+            types.load(gl,loader);
+        }
 
     }
 

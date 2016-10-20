@@ -1,6 +1,7 @@
 package game.models.presetModels;
 
 import com.jogamp.opengl.GL2;
+import game.Config;
 import game.Game;
 import game.entities.RoadPrototype;
 
@@ -15,10 +16,12 @@ public class RoadModel extends PresetModel {
     double[] max;
     double[] min;
     private RoadPrototype prototype;
-    private int count = 500;
+    private int count = 10;
 
     public RoadModel(RoadPrototype prototype) {
         super("road.jpg");
+        this.count = Config.roadComplexity;
+
         this.prototype = prototype;
 
         vertices = new float[count * 3 * 3];
@@ -38,29 +41,24 @@ public class RoadModel extends PresetModel {
             base[1] = base[1] - min[1];
             addVertex(base, pointer, move);
 
-            /*
-            vertices[pointer] = (float)(base[0] + move);
-            vertices[pointer+1] = (float)(base[1] +move);
-            vertices[pointer+2] = Game.getGame().getAltitude(vertices[pointer],vertices[pointer + 2]);
-            indices[pointer] = pointer;
-            textureCoords[pointer] = (float)(vertices[pointer]/max[0]);
-            textureCoords[pointer] = (float)(vertices[pointer+2]/max[1]);
-            */
             pointer++;
             addVertex(base, pointer, 0);
 
-            /*
-            vertices[pointer] = (float)base[0];
-            vertices[pointer+1] = (float)base[1];
-            vertices[pointer+2] = Game.getGame().getAltitude(vertices[pointer],vertices[pointer + 2]);
-            indices[pointer] = pointer;
-            textureCoords[pointer] = (float)(vertices[pointer]/max[0]);
-            textureCoords[pointer] = (float)(vertices[pointer+2]/max[1]);
-*/
             pointer++;
             addVertex(base, pointer, -move);
+
         }
 
+        float min = 0;
+        for(int i = 0 ; i < textureCoords.length ; i ++){
+            if(textureCoords[i] < min){
+                textureCoords[i] = min;
+            }
+        }
+        min = -min;
+        for(int i = 0 ; i < textureCoords.length ; i ++){
+            textureCoords[i] += min;
+        }
         prototype.setModel(this);
 
     }

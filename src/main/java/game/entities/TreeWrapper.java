@@ -1,7 +1,9 @@
 package game.entities;
 
 
+import game.Config;
 import game.Game;
+import game.models.OBJTypes;
 import game.models.presetModels.PresetModelType;
 import game.utils.ArrayUtils;
 
@@ -12,7 +14,6 @@ import game.utils.ArrayUtils;
  */
 public class TreeWrapper {
 
-    private static final boolean stupidTree = true;
     Entity treeTrunk;
     Entity treeLeaves;
     private float[] myPos;
@@ -25,7 +26,7 @@ public class TreeWrapper {
     }
 
     public void register() {
-        if (stupidTree) {
+        if (!Config.advancedTree) {
             treeTrunk = new Entity(PresetModelType.TreeTrunk.getModel());
             treeLeaves = new Entity(PresetModelType.TreeLeaves.getModel());
             treeLeaves.move(ArrayUtils.toArray(0, 1.5f, 0));
@@ -37,6 +38,9 @@ public class TreeWrapper {
             treeLeaves.move(myPos);
             Game.getGame().addNewEntity(treeLeaves);
             Game.getGame().addNewEntity(treeTrunk);
+        }else{
+            Entity entity  = Game.getGame().addNewEntity(OBJTypes.ObjTree);
+            entity.move(myPos);
         }
 
     }
