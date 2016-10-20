@@ -7,11 +7,13 @@ import java.util.List;
 
 import game.entities.*;
 import game.models.ITexturable;
+import game.models.TexturedModel;
 import game.models.presetModels.PresetModelType;
 import game.models.presetModels.TerrainModel;
 import game.models.presetModels.TreeLeavesModel;
 import game.models.presetModels.TreeTrunkModel;
 import game.render.RenderManager;
+import game.textures.ModelTexture;
 import game.utils.IOUtils;
 import game.render.Loader;
 import com.jogamp.opengl.*;
@@ -20,6 +22,7 @@ import javax.swing.JFrame;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import game.utils.ArrayUtils;
+import game.utils.OBJUtils;
 
 
 /**
@@ -36,8 +39,14 @@ public class Game extends JFrame implements GLEventListener{
     private List<Entity> entities = new ArrayList<Entity>();
     private Camera camera;
     private Light light;
+    private Avatar avatar;
+
+    private long lastFrame;
+
+    private GLJPanel panel;
 
     private static Game instance;
+
 
     public Game(DataBase terrain) {
     	super("Assignment 2");
@@ -53,9 +62,8 @@ public class Game extends JFrame implements GLEventListener{
     public void run() {
     	  GLProfile glp = GLProfile.getDefault();
           GLCapabilities caps = new GLCapabilities(glp);
-          GLJPanel panel = new GLJPanel();
-          camera = new CameraFreeMove();
-          panel.addKeyListener(camera);
+          panel = new GLJPanel();
+          camera = new Camera();
           panel.addGLEventListener(this);
  
           // Add an animator to call 'display' at 60fps        
@@ -85,8 +93,21 @@ public class Game extends JFrame implements GLEventListener{
 	@Override
 	public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
+        updateAvatarMovement();
         render.addEntity(entities);
         render.render(gl,light,camera);
+
+    }
+
+    private void updateAvatarMovement(){
+        if(lastFrame == 0){
+            lastFrame = System.currentTimeMillis();
+        }
+        long current = System.currentTimeMillis();
+        float passed = ((float)(current - lastFrame))/1000f;
+
+        lastFrame = current;
+        avatar.updateLocation(passed);
     }
 
 	@Override
@@ -104,15 +125,21 @@ public class Game extends JFrame implements GLEventListener{
         loader = new Loader();
         render = new RenderManager(gl);
         loadModels(gl);
+
         light = new Light(data.getSunlight(),ArrayUtils.toArray(1,1,1));
         for(TreeWrapper prototype : data.trees()){
             prototype.register();
         }
-        camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
+        //camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
         addNewEntity(PresetModelType.Terrain.getModel());
         for(RoadPrototype prototype : data.roads()){
             addNewEntity(prototype.getRoadEntity(gl,loader));
         }
+        avatar = new Avatar(new TexturedModel(OBJUtils.loadRawModel(gl,"stall.obj",loader),new ModelTexture(loader.loadTexture(gl,"stallTexture.png"))));
+
+        panel.addKeyListener(avatar);
+        addNewEntity(avatar);
+
     }
 
 
@@ -150,5 +177,7 @@ public class Game extends JFrame implements GLEventListener{
     public static Game getGame(){
         return instance;
     }
+
+
 
 }

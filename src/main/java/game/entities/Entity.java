@@ -18,6 +18,8 @@ public class Entity implements IRenderable {
     private float[] rotation;
     private float[] scale;
 
+    private boolean show = true;
+
 
     public Entity(ITexturable model){
         this.model = model.getTextureModel();
@@ -76,6 +78,18 @@ public class Entity implements IRenderable {
         this.scale = scale;
     }
 
+
+    public boolean shouldShow(){
+        return show;
+    }
+
+    public void hide(){
+        show = false;
+    }
+
+    public void show(){
+        show = true;
+    }
 
 
 

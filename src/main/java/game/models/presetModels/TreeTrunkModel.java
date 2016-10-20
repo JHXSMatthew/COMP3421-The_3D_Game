@@ -62,9 +62,9 @@ public class TreeTrunkModel extends PresetModel{
 
         }
 
-        this.vertices = ArrayUtils.getIntArrayFromListFloat(vertices);
-        this.normals = ArrayUtils.getIntArrayFromListFloat(normals);
-        this.textureCoords = ArrayUtils.getIntArrayFromListFloat(textureCoords);
+        this.vertices = ArrayUtils.getFloatArrayFromList(vertices);
+        this.normals = ArrayUtils.getFloatArrayFromList(normals);
+        this.textureCoords = ArrayUtils.getFloatArrayFromList(textureCoords);
         this.indices = ArrayUtils.getIntArrayFromList(indicies);
     }
 

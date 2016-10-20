@@ -22,7 +22,7 @@ public class RoadModel extends PresetModel {
     private static RoadModel instance;
 
     public RoadModel(RoadPrototype prototype) {
-        super("road.png");
+        super("road.jpg");
         this.prototype = prototype;
 
         vertices = new float[count * 3 * 3];
@@ -71,13 +71,13 @@ public class RoadModel extends PresetModel {
     }
 
     private void addVertex(double base[],int pointer , double diff){
-        vertices[pointer] = (float)(base[0] + diff);
-        vertices[pointer+1] = Game.getGame().getAltitude((float) min[0],(float) min[1]);
-        vertices[pointer+2] = (float)(base[1] + diff);
+        vertices[3*pointer] = (float)(base[0] + diff);
+        vertices[3*pointer+1] = Game.getGame().getAltitude((float) min[0],(float) min[1]);
+        vertices[3*pointer+2] = (float)(base[1] + diff);
 
         indices[pointer] = pointer;
-        textureCoords[pointer] = (float)(vertices[pointer]/max[0]);
-        textureCoords[pointer] = (float)(vertices[pointer+2]/max[1]);
+        textureCoords[2*pointer] = (float)(vertices[pointer]/max[0]);
+        textureCoords[2*pointer+1] = (float)(vertices[pointer+2]/max[1]);
     }
 
     @Override

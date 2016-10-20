@@ -15,7 +15,7 @@ public class ArrayUtils {
         return array;
     }
 
-    public static float[] getIntArrayFromListFloat(List<Float> integerList){
+    public static float[] getFloatArrayFromList(List<Float> integerList){
         float[] array = new float[integerList.size()];
         for(int i = 0 ; i < integerList.size(); i++){
             array[i] = integerList.get(i);
