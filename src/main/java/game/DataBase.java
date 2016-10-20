@@ -149,6 +149,7 @@ public class DataBase {
                             ArrayUtils.toArray(0,(float)getGridAltitude(gridX,gridZ+1),1f),
                             ArrayUtils.toArray((float)offSetX,(float)offSetZ));
         }
+        System.out.println(altitude);
         return altitude;
     }
 

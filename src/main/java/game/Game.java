@@ -63,7 +63,8 @@ public class Game extends JFrame implements GLEventListener{
     	  GLProfile glp = GLProfile.getDefault();
           GLCapabilities caps = new GLCapabilities(glp);
           panel = new GLJPanel();
-          camera = new Camera();
+          camera = new CameraFreeMove();
+          panel.addKeyListener(camera);
           panel.addGLEventListener(this);
  
           // Add an animator to call 'display' at 60fps        
@@ -140,6 +141,7 @@ public class Game extends JFrame implements GLEventListener{
         panel.addKeyListener(avatar);
         addNewEntity(avatar);
 
+        camera.setAvatar(avatar);
     }
 
 

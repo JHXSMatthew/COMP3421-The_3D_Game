@@ -6,6 +6,7 @@ import game.utils.ArrayUtils;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
 
 /**
  * Created by Matthew on 20/10/2016.
@@ -32,7 +33,8 @@ public class Avatar extends Entity implements KeyListener{
         float distance = time * speed;
         float x = (float) (distance * Math.sin(Math.toRadians(getRotation()[1])));
         float z = (float) (distance * Math.cos(Math.toRadians(getRotation()[1])));
-        move(ArrayUtils.toArray(x, Game.getGame().getAltitude(x,z),z));
+        move(ArrayUtils.toArray(x,0,z));
+        getPosition()[1] =  Game.getGame().getAltitude(x,z);
     }
 
 

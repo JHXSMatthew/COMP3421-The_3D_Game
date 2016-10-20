@@ -4,6 +4,7 @@ import game.Game;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
 
 /**
  * Created by Matthew on 19/10/2016.
@@ -28,8 +29,9 @@ public class CameraFreeMove extends Camera implements KeyListener {
     private static boolean[] CONTROL = new boolean[6];
 
     public void move(){
-        //System.out.println(Game.getGame().getAltitude(position[0],position[2]));
-        //position[1] = Game.getGame().getAltitude(position[0],position[2]);
+        position[1] = Game.getGame().getAltitude(position[0],position[2]);
+        System.out.println(Arrays.toString(position));
+
         if(CONTROL[0]){
             position[2] -= 0.1f;
             CONTROL[0] = false;

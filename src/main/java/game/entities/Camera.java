@@ -10,9 +10,14 @@ import java.awt.event.KeyListener;
  */
 public class Camera implements KeyListener {
     private float[] position;
-    private float pitch;
+    private float pitch = -45;
     private float yaw;
 
+
+
+    private Avatar avatar;
+    private float zoom = 3;
+    private float angle = 45;
 
     public Camera(){
         position = new float[3];
@@ -24,7 +29,23 @@ public class Camera implements KeyListener {
     //3 right
     private static boolean[] CONTROL = new boolean[4];
 
+
+
+
     public void move(){
+
+
+        float horizontal = (float) (zoom * Math.cos(pitch));
+        float vertical = (float) (zoom * Math.sin(pitch));
+        position[0] = avatar.getPosition()[0] - (float)(horizontal * Math.sin((Math.toRadians(avatar.getRotation()[1] + angle))));
+        position[1] = avatar.getPosition()[1] + vertical;
+        position[2] = avatar.getPosition()[2] - (float)(horizontal * Math.cos((Math.toRadians(avatar.getRotation()[1] + angle))));
+        //yaw = 180 - (avatar.getRotation()[1] + angle);
+
+
+
+
+        /*
         position[1] = Game.getGame().getAltitude(position[0],position[2]);
 
         double distance = 0.02;
@@ -45,7 +66,17 @@ public class Camera implements KeyListener {
             yaw += 1;
             CONTROL[3] = false;
         }
+        */
 
+    }
+
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     public float[] getPosition() {
