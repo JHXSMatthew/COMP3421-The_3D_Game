@@ -21,20 +21,20 @@ public class RenderManager {
     private StaticShader shader;
     private Render render;
 
-    private Map<TexturedModel,List<Entity>> entitiesBuffer;
+    private Map<TexturedModel, List<Entity>> entitiesBuffer;
 
-    public RenderManager(GL2 gl){
+    public RenderManager(GL2 gl) {
         shader = new StaticShader(gl);
         render = new Render(shader);
         entitiesBuffer = new HashMap<>();
     }
 
-    public void render(GL2 gl, Light light, Camera camera){
+    public void render(GL2 gl, Light light, Camera camera) {
         render.prepare(gl);
         shader.start(gl);
         camera.move();
-        shader.loadViewMatrix(gl,camera);
-        shader.loadLight(gl,light);
+        shader.loadViewMatrix(gl, camera);
+        shader.loadLight(gl, light);
 
         render.render(gl, entitiesBuffer);
 
@@ -43,27 +43,27 @@ public class RenderManager {
 
     }
 
-    public void addEntity(List<Entity> list){
-        for(Entity entity : list){
+    public void addEntity(List<Entity> list) {
+        for (Entity entity : list) {
             TexturedModel model = entity.getModel();
             List<Entity> l = entitiesBuffer.get(model);
-            if(l == null)
+            if (l == null)
                 l = new ArrayList<>();
             l.add(entity);
-            entitiesBuffer.put(model,l);
+            entitiesBuffer.put(model, l);
         }
     }
 
-    public void updatePerspectiveCamera(GL2 gl,int width, int height) {
-        render.updatePerspectiveCamera(gl,width,height);
+    public void updatePerspectiveCamera(GL2 gl, int width, int height) {
+        render.updatePerspectiveCamera(gl, width, height);
     }
 
-    public StaticShader getShader(){
+    public StaticShader getShader() {
         return shader;
     }
 
 
-    public void dispose(GL2 gl){
+    public void dispose(GL2 gl) {
         shader.dispose(gl);
     }
 }

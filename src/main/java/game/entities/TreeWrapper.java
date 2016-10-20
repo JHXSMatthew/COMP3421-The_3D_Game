@@ -13,10 +13,9 @@ import game.utils.ArrayUtils;
 public class TreeWrapper {
 
     private static final boolean stupidTree = true;
-
-    private float[] myPos;
     Entity treeTrunk;
     Entity treeLeaves;
+    private float[] myPos;
 
     public TreeWrapper(float x, float y, float z) {
         myPos = new float[3];
@@ -25,14 +24,14 @@ public class TreeWrapper {
         myPos[2] = z;
     }
 
-    public void register(){
-        if(stupidTree){
+    public void register() {
+        if (stupidTree) {
             treeTrunk = new Entity(PresetModelType.TreeTrunk.getModel());
             treeLeaves = new Entity(PresetModelType.TreeLeaves.getModel());
-            treeLeaves.move(ArrayUtils.toArray(0,1.5f,0));
-            treeTrunk.move(ArrayUtils.toArray(0,1.5f,0));
-            treeTrunk.rotate(ArrayUtils.toArray(-90,0,0));
-            treeTrunk.setScale(ArrayUtils.toArray(0.15f,0.15f,0.5f));
+            treeLeaves.move(ArrayUtils.toArray(0, 1.5f, 0));
+            treeTrunk.move(ArrayUtils.toArray(0, 1.5f, 0));
+            treeTrunk.rotate(ArrayUtils.toArray(-90, 0, 0));
+            treeTrunk.setScale(ArrayUtils.toArray(0.15f, 0.15f, 0.5f));
 
             treeTrunk.move(myPos);
             treeLeaves.move(myPos);
@@ -43,8 +42,6 @@ public class TreeWrapper {
     }
 
 
-
-    
     public float[] getPosition() {
         return myPos;
     }

@@ -1,18 +1,17 @@
 package game;
 
-import game.entities.TreeWrapper;
 import game.entities.RoadPrototype;
+import game.entities.TreeWrapper;
 import game.utils.ArrayUtils;
 import game.utils.MathUtils;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
- * COMMENT: Comment HeightMap 
+ * COMMENT: Comment HeightMap
  *
  * @author malcolmr
  */
@@ -37,7 +36,7 @@ public class DataBase {
         myRoads = new ArrayList<RoadPrototype>();
         mySunlight = new float[3];
     }
-    
+
     public DataBase(Dimension size) {
         this(size.width, size.height);
     }
@@ -59,10 +58,10 @@ public class DataBase {
     }
 
     /**
-     * Set the sunlight direction. 
-     * 
+     * Set the sunlight direction.
+     * <p>
      * Note: the sun should be treated as a directional light, without a position
-     * 
+     *
      * @param dx
      * @param dy
      * @param dz
@@ -70,12 +69,12 @@ public class DataBase {
     public void setSunlightDir(float dx, float dy, float dz) {
         mySunlight[0] = dx;
         mySunlight[1] = dy;
-        mySunlight[2] = dz;        
+        mySunlight[2] = dz;
     }
-    
+
     /**
-     * Resize the terrain, copying any old altitudes. 
-     * 
+     * Resize the terrain, copying any old altitudes.
+     *
      * @param width
      * @param height
      */
@@ -83,7 +82,7 @@ public class DataBase {
         mySize = new Dimension(width, height);
         double[][] oldAlt = myAltitude;
         myAltitude = new double[width][height];
-        
+
         for (int i = 0; i < width && i < oldAlt.length; i++) {
             for (int j = 0; j < height && j < oldAlt[i].length; j++) {
                 myAltitude[i][j] = oldAlt[i][j];
@@ -93,7 +92,7 @@ public class DataBase {
 
     /**
      * Get the altitude at a grid point
-     * 
+     *
      * @param x
      * @param z
      * @return
@@ -104,7 +103,7 @@ public class DataBase {
 
     /**
      * Set the altitude at a grid point
-     * 
+     *
      * @param x
      * @param z
      * @return
@@ -114,61 +113,61 @@ public class DataBase {
     }
 
     /**
-     * Get the altitude at an arbitrary point. 
+     * Get the altitude at an arbitrary point.
      * Non-integer points should be interpolated from neighbouring grid points
-     * 
+     * <p>
      * TO BE COMPLETED
-     * 
+     *
      * @param x
      * @param z
      * @return
      */
     public double altitude(double x, double z) {
         double altitude = 0;
-        int gridX = (int)Math.floor(x);
-        int gridZ = (int)Math.floor(z);
+        int gridX = (int) Math.floor(x);
+        int gridZ = (int) Math.floor(z);
 
-        if(gridX >= size().width -1 || gridZ >= size().height -1 || gridX < 0 || gridZ < 0 ){
+        if (gridX >= size().width - 1 || gridZ >= size().height - 1 || gridX < 0 || gridZ < 0) {
             return altitude;
         }
-        double offSetX = x %1;
-        double offSetZ = z %1;
+        double offSetX = x % 1;
+        double offSetZ = z % 1;
 
-        if(offSetX <= (1-offSetZ)){
+        if (offSetX <= (1 - offSetZ)) {
             //lower triangle
             altitude = MathUtils
-                    .barryCentric(ArrayUtils.toArray(0f,(float)getGridAltitude(gridX,gridZ) ,0f),
-                            ArrayUtils.toArray(1f,(float)getGridAltitude(gridX + 1,gridZ),0),
-                            ArrayUtils.toArray(0,(float)getGridAltitude(gridX,gridZ+1),1f),
-                            ArrayUtils.toArray((float)offSetX,(float)offSetZ));
-        }else{
+                    .barryCentric(ArrayUtils.toArray(0f, (float) getGridAltitude(gridX, gridZ), 0f),
+                            ArrayUtils.toArray(1f, (float) getGridAltitude(gridX + 1, gridZ), 0),
+                            ArrayUtils.toArray(0, (float) getGridAltitude(gridX, gridZ + 1), 1f),
+                            ArrayUtils.toArray((float) offSetX, (float) offSetZ));
+        } else {
             //upper triangle
             altitude = MathUtils
-                    .barryCentric(ArrayUtils.toArray(1f,(float)getGridAltitude(gridX + 1,gridZ) ,0f),
-                            ArrayUtils.toArray(1f,(float)getGridAltitude(gridX + 1,gridZ + 1),1f),
-                            ArrayUtils.toArray(0,(float)getGridAltitude(gridX,gridZ+1),1f),
-                            ArrayUtils.toArray((float)offSetX,(float)offSetZ));
+                    .barryCentric(ArrayUtils.toArray(1f, (float) getGridAltitude(gridX + 1, gridZ), 0f),
+                            ArrayUtils.toArray(1f, (float) getGridAltitude(gridX + 1, gridZ + 1), 1f),
+                            ArrayUtils.toArray(0, (float) getGridAltitude(gridX, gridZ + 1), 1f),
+                            ArrayUtils.toArray((float) offSetX, (float) offSetZ));
         }
         return altitude;
     }
 
     /**
-     * Add a tree at the specified (x,z) point. 
+     * Add a tree at the specified (x,z) point.
      * The tree's y coordinate is calculated from the altitude of the terrain at that point.
-     * 
+     *
      * @param x
      * @param z
      */
     public void addTree(double x, double z) {
         double y = altitude(x, z);
-        TreeWrapper tree = new TreeWrapper((float)x, (float)y, (float)z);
+        TreeWrapper tree = new TreeWrapper((float) x, (float) y, (float) z);
         myTrees.add(tree);
     }
 
 
     /**
-     * Add a road. 
-     * 
+     * Add a road.
+     *
      * @param width
      * @param spine
      */
@@ -177,11 +176,11 @@ public class DataBase {
         myRoads.add(road);
     }
 
-    public float[][] getAttribute(){
+    public float[][] getAttribute() {
         float[][] r = new float[myAltitude.length][myAltitude.length];
-        for(int i = 0 ; i < myAltitude.length ; i ++){
-            for(int j = 0 ; j < myAltitude.length ; j++){
-                r[i][j] = (float)myAltitude[i][j];
+        for (int i = 0; i < myAltitude.length; i++) {
+            for (int j = 0; j < myAltitude.length; j++) {
+                r[i][j] = (float) myAltitude[i][j];
             }
         }
         return r;

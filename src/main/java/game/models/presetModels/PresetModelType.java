@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 public enum PresetModelType {
 
 
-
     Terrain(TerrainModel.class),
     TreeLeaves(TreeLeavesModel.class),
     TreeTrunk(TreeTrunkModel.class),
@@ -16,13 +15,13 @@ public enum PresetModelType {
 
     private Class<? extends PresetModel> clazz;
 
-    PresetModelType(Class<? extends PresetModel> modelClass){
+    PresetModelType(Class<? extends PresetModel> modelClass) {
         this.clazz = modelClass;
     }
 
-    public PresetModel getModel(){
+    public PresetModel getModel() {
         try {
-            Field f =  clazz.getDeclaredField("instance");
+            Field f = clazz.getDeclaredField("instance");
             f.setAccessible(true);
             return (PresetModel) f.get(null);
         } catch (IllegalAccessException e) {

@@ -7,7 +7,7 @@ import com.jogamp.opengl.GL2;
  */
 public class GLUtils {
 
-    public static GL2 getGL2(){
+    public static GL2 getGL2() {
         return null;
     }
 }

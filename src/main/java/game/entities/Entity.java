@@ -1,8 +1,8 @@
 package game.entities;
 
+import game.models.IRenderable;
 import game.models.ITexturable;
 import game.models.RawModel;
-import game.models.IRenderable;
 import game.models.TexturedModel;
 import game.utils.ArrayUtils;
 import game.utils.MathUtils;
@@ -21,15 +21,14 @@ public class Entity implements IRenderable {
     private boolean show = true;
 
 
-
-    public Entity(ITexturable model){
+    public Entity(ITexturable model) {
         this.model = model.getTextureModel();
-        this.position = ArrayUtils.toArray(0,0,0);
-        this.rotation = ArrayUtils.toArray(0,0,0);
-        this.scale =  ArrayUtils.toArray(1,1,1);
+        this.position = ArrayUtils.toArray(0, 0, 0);
+        this.rotation = ArrayUtils.toArray(0, 0, 0);
+        this.scale = ArrayUtils.toArray(1, 1, 1);
     }
 
-    public Entity(ITexturable model, float[] position , float[] rotation, float[] scale){
+    public Entity(ITexturable model, float[] position, float[] rotation, float[] scale) {
         this.model = model.getTextureModel();
 
         this.position = position;
@@ -37,14 +36,13 @@ public class Entity implements IRenderable {
         this.scale = scale;
     }
 
-    public void move(float[] move){
-        position = MathUtils.add(move,position);
+    public void move(float[] move) {
+        position = MathUtils.add(move, position);
     }
 
-    public void rotate(float[] move){
-        rotation = MathUtils.add(move,rotation);
+    public void rotate(float[] move) {
+        rotation = MathUtils.add(move, rotation);
     }
-
 
 
     public TexturedModel getModel() {
@@ -80,19 +78,17 @@ public class Entity implements IRenderable {
     }
 
 
-    public boolean shouldShow(){
+    public boolean shouldShow() {
         return show;
     }
 
-    public void hide(){
+    public void hide() {
         show = false;
     }
 
-    public void show(){
+    public void show() {
         show = true;
     }
-
-
 
 
     @Override

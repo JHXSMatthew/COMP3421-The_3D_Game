@@ -5,12 +5,12 @@ import game.textures.ModelTexture;
 /**
  * Created by Matthew on 18/10/2016.
  */
-public class TexturedModel implements IRenderable,ITexturable {
+public class TexturedModel implements IRenderable, ITexturable {
 
     private RawModel model;
     private ModelTexture texture;
 
-    public TexturedModel(RawModel model, ModelTexture texture){
+    public TexturedModel(RawModel model, ModelTexture texture) {
         this.model = model;
         this.texture = texture;
     }
@@ -23,11 +23,11 @@ public class TexturedModel implements IRenderable,ITexturable {
         model.setMeshMode(meshMode);
     }
 
-    public RawModel getModel(){
+    public RawModel getModel() {
         return model;
     }
 
-    public ModelTexture getTexture(){
+    public ModelTexture getTexture() {
         return texture;
     }
 

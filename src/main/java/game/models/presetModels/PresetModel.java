@@ -11,40 +11,43 @@ import game.textures.ModelTexture;
 /**
  * Created by Matthew on 19/10/2016.
  */
-public abstract class PresetModel implements IRenderable,ITexturable {
-
-    private TexturedModel model;
-    private String textureFileName;
+public abstract class PresetModel implements IRenderable, ITexturable {
 
     //buffers
     protected float[] vertices;
     protected float[] normals;
     protected int[] indices;
     protected float[] textureCoords;
+    private TexturedModel model;
+    private String textureFileName;
 
-    public PresetModel(String textureFileName){
+    public PresetModel(String textureFileName) {
         this.textureFileName = textureFileName;
     }
 
-    public void setUp(GL2 gl,Loader loader){
-        ModelTexture texture =  new ModelTexture(loader.loadTexture(gl,textureFileName));
-        RawModel rawModel = loader.loadToVAO(gl,getVertex(gl),getIndices(gl), getTexturedCords(gl),getNormals(gl));
-        this.model = new TexturedModel(rawModel,texture);
+    public void setUp(GL2 gl, Loader loader) {
+        ModelTexture texture = new ModelTexture(loader.loadTexture(gl, textureFileName));
+        RawModel rawModel = loader.loadToVAO(gl, getVertex(gl), getIndices(gl), getTexturedCords(gl), getNormals(gl));
+        this.model = new TexturedModel(rawModel, texture);
         setInstance();
         onSetup(gl);
 
     }
 
-    public void setSpecularLight(float reflectivity,int damper){
+    public void setSpecularLight(float reflectivity, int damper) {
         model.getTexture().setReflectivity(reflectivity);
         model.getTexture().setShineDamper(damper);
 
     }
 
     protected abstract float[] getVertex(GL2 gl);
+
     protected abstract float[] getNormals(GL2 gl);
+
     protected abstract float[] getTexturedCords(GL2 gl);
+
     protected abstract int[] getIndices(GL2 gl);
+
     protected abstract void onSetup(GL2 gl);
 
     protected abstract void setInstance();

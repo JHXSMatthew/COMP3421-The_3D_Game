@@ -11,16 +11,17 @@ import java.nio.ShortBuffer;
  */
 public class BufferUtils {
 
-    public static FloatBuffer copyBuffer(float[] data){
+    public static FloatBuffer copyBuffer(float[] data) {
         FloatBuffer buffer = Buffers.newDirectFloatBuffer(data);
         return buffer;
     }
-    public static IntBuffer copyBuffer(int[] data){
+
+    public static IntBuffer copyBuffer(int[] data) {
         IntBuffer buffer = Buffers.newDirectIntBuffer(data);
         return buffer;
     }
 
-    public static ShortBuffer copyBuffer(short[] data){
+    public static ShortBuffer copyBuffer(short[] data) {
         ShortBuffer buffer = Buffers.newDirectShortBuffer(data);
         return buffer;
     }

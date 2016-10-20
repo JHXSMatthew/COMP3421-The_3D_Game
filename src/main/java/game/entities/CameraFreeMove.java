@@ -11,15 +11,6 @@ import java.util.Arrays;
  * free move camera for testing
  */
 public class CameraFreeMove extends Camera implements KeyListener {
-    private float[] position;
-    private float pitch;
-    private float yaw;
-
-
-    public CameraFreeMove(){
-        position = new float[3];
-    }
-
     //0 up
     //1 down
     //2 left
@@ -27,33 +18,40 @@ public class CameraFreeMove extends Camera implements KeyListener {
     //4 space up
     //5 ctrl down
     private static boolean[] CONTROL = new boolean[6];
+    private float[] position;
+    private float pitch;
+    private float yaw;
 
-    public void move(){
-        position[1] = Game.getGame().getAltitude(position[0],position[2]);
+    public CameraFreeMove() {
+        position = new float[3];
+    }
+
+    public void move() {
+        position[1] = Game.getGame().getAltitude(position[0], position[2]);
         System.out.println(Arrays.toString(position));
 
-        if(CONTROL[0]){
+        if (CONTROL[0]) {
             position[2] -= 0.1f;
             CONTROL[0] = false;
-        }else if(CONTROL[1]){
+        } else if (CONTROL[1]) {
             position[2] += 0.1f;
             CONTROL[1] = false;
         }
 
-        if(CONTROL[2]){
+        if (CONTROL[2]) {
             position[0] -= 0.1f;
 
             CONTROL[2] = false;
-        }else if(CONTROL[3]){
+        } else if (CONTROL[3]) {
             position[0] += 0.1f;
 
             CONTROL[3] = false;
         }
 
-        if(CONTROL[4]){
+        if (CONTROL[4]) {
             position[1] += 0.1f;
             CONTROL[4] = false;
-        }else if(CONTROL[5]){
+        } else if (CONTROL[5]) {
             position[1] -= 0.1f;
             CONTROL[5] = false;
         }
@@ -91,7 +89,7 @@ public class CameraFreeMove extends Camera implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()){
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
                 CONTROL[2] = true;
                 break;
@@ -99,7 +97,7 @@ public class CameraFreeMove extends Camera implements KeyListener {
                 CONTROL[3] = true;
                 break;
             case KeyEvent.VK_UP:
-                CONTROL[0]  = true;
+                CONTROL[0] = true;
                 break;
             case KeyEvent.VK_DOWN:
                 CONTROL[1] = true;

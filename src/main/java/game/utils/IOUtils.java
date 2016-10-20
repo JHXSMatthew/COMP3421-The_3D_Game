@@ -1,19 +1,14 @@
 package game.utils;
 
-import java.awt.Dimension;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-
+import game.DataBase;
 import game.entities.RoadPrototype;
 import game.entities.TreeWrapper;
-import game.DataBase;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import java.awt.*;
+import java.io.*;
 
 /**
  * COMMENT: Comment IOUtils
@@ -24,10 +19,10 @@ public class IOUtils {
 
     /**
      * Load a terrain object from a JSON file
-     * 
+     *
      * @param mapFile
      * @return
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     public static DataBase load(File mapFile) throws FileNotFoundException {
 
@@ -40,11 +35,11 @@ public class IOUtils {
         DataBase terrain = new DataBase(width, depth);
 
         JSONArray jsonSun = jsonTerrain.getJSONArray("sunlight");
-        float dx = (float)jsonSun.getDouble(0);
-        float dy = (float)jsonSun.getDouble(1);
-        float dz = (float)jsonSun.getDouble(2);
+        float dx = (float) jsonSun.getDouble(0);
+        float dy = (float) jsonSun.getDouble(1);
+        float dz = (float) jsonSun.getDouble(2);
         terrain.setSunlightDir(dx, dy, dz);
-       
+
         JSONArray jsonAltitude = jsonTerrain.getJSONArray("altitude");
         for (int i = 0; i < jsonAltitude.length(); i++) {
             int x = i % width;
@@ -63,16 +58,16 @@ public class IOUtils {
                 terrain.addTree(x, z);
             }
         }
-        
+
         if (jsonTerrain.has("roads")) {
             JSONArray jsonRoads = jsonTerrain.getJSONArray("roads");
             for (int i = 0; i < jsonRoads.length(); i++) {
                 JSONObject jsonRoad = jsonRoads.getJSONObject(i);
                 double w = jsonRoad.getDouble("width");
-                
+
                 JSONArray jsonSpine = jsonRoad.getJSONArray("spine");
                 double[] spine = new double[jsonSpine.length()];
-                
+
                 for (int j = 0; j < jsonSpine.length(); j++) {
                     spine[j] = jsonSpine.getDouble(j);
                 }
@@ -84,13 +79,13 @@ public class IOUtils {
 
     /**
      * Write DataBase to a JSON file
-     * 
+     *
      * @param file
-     * @throws IOException 
+     * @throws IOException
      */
     public static void save(DataBase terrain, File file) throws IOException {
         JSONObject json = new JSONObject();
-                
+
         Dimension size = terrain.size();
         json.put("width", size.width);
         json.put("depth", size.height);
@@ -101,7 +96,7 @@ public class IOUtils {
         jsonSun.put(sunlight[1]);
         jsonSun.put(sunlight[2]);
         json.put("sunlight", jsonSun);
-        
+
         JSONArray altitude = new JSONArray();
         for (int i = 0; i < size.width; i++) {
             for (int j = 0; j < size.height; j++) {
@@ -109,7 +104,7 @@ public class IOUtils {
             }
         }
         json.put("altitude", altitude);
-        
+
         JSONArray trees = new JSONArray();
         for (TreeWrapper t : terrain.trees()) {
             JSONObject j = new JSONObject();
@@ -124,11 +119,11 @@ public class IOUtils {
         for (RoadPrototype r : terrain.roads()) {
             JSONObject j = new JSONObject();
             j.put("width", r.width());
-            
+
             JSONArray spine = new JSONArray();
             int n = r.size();
-            
-            for (int i = 0; i <= n*3; i++) {
+
+            for (int i = 0; i <= n * 3; i++) {
                 double[] p = r.controlPoint(i);
                 spine.put(p[0]);
                 spine.put(p[1]);
@@ -143,12 +138,12 @@ public class IOUtils {
         out.close();
 
     }
-    
+
     /**
      * For testing.
-     * 
+     *
      * @param args
-     * @throws IOException 
+     * @throws IOException
      */
     public static void main(String[] args) throws IOException {
         DataBase terrain = IOUtils.load(new File(args[0]));

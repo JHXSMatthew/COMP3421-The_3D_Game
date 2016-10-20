@@ -1,7 +1,5 @@
 package game.entities;
 
-import game.Game;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -9,32 +7,25 @@ import java.awt.event.KeyListener;
  * Created by Matthew on 19/10/2016.
  */
 public class Camera implements KeyListener {
-    private float[] position;
-    private float pitch = 15;
-    private float yaw;
-
-
-
-    private Avatar avatar;
-    private float zoom = 7;
-    private float angle = 0;
-    private boolean thirdPerson = true;
-
-    public Camera(){
-        position = new float[3];
-    }
-
     //0 up
     //1 down
     //2 left
     //3 right
     private static boolean[] CONTROL = new boolean[4];
+    private float[] position;
+    private float pitch = 15;
+    private float yaw;
+    private Avatar avatar;
+    private float zoom = 7;
+    private float angle = 0;
+    private boolean thirdPerson = true;
 
+    public Camera() {
+        position = new float[3];
+    }
 
-
-
-    public void move(){
-        if(thirdPerson){
+    public void move() {
+        if (thirdPerson) {
             avatar.show();
             float horizontal = (float) (zoom * Math.cos(Math.toRadians(pitch)));
             float vertical = (float) (zoom * Math.sin(Math.toRadians(pitch)));
@@ -42,13 +33,13 @@ public class Camera implements KeyListener {
             position[1] = avatar.getPosition()[1] + vertical;
             position[2] = avatar.getPosition()[2] - (float) (horizontal * Math.cos((Math.toRadians(avatar.getRotation()[1] + angle))));
             yaw = 180 - (avatar.getRotation()[1] + angle);
-        }else {
+        } else {
             avatar.hide();
-            for(int i = 0 ; i < 3 ; i ++){
+            for (int i = 0; i < 3; i++) {
                 position[i] = avatar.getPosition()[i];
             }
             position[1] += 0.1;
-            yaw =  180 - avatar.getRotation()[1];
+            yaw = 180 - avatar.getRotation()[1];
         }
 
 
@@ -120,7 +111,7 @@ public class Camera implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()){
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_SPACE:
                 pitch += 0.5;
                 break;

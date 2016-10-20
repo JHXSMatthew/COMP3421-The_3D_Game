@@ -12,13 +12,11 @@ import java.util.List;
  * tree is a sphere and a cylindrical trunk
  * I prefer to introduce OBJ format here but it's very interesting to mutually draw it using loops.
  * but for god sake, it takes years.
- *
  */
-public class TreeTrunkModel extends PresetModel{
-
-    private int slices = 32;
+public class TreeTrunkModel extends PresetModel {
 
     private static TreeTrunkModel instance;
+    private int slices = 32;
 
     public TreeTrunkModel() {
         super("trunk.jpg");
@@ -34,31 +32,31 @@ public class TreeTrunkModel extends PresetModel{
         double zBack = -3;
 
 
-        for(int i=0; i<= slices; i++){
-            double angle0 = i*angleIncrement;
+        for (int i = 0; i <= slices; i++) {
+            double angle0 = i * angleIncrement;
             double xPos0 = Math.sin(angle0);
             double yPos0 = Math.cos(angle0);
-            double sCoord = 2.0/slices * i; //Or * 2 to repeat label
+            double sCoord = 2.0 / slices * i; //Or * 2 to repeat label
 
 
-            normals.add((float)xPos0);
-            normals.add((float)yPos0);
+            normals.add((float) xPos0);
+            normals.add((float) yPos0);
             normals.add(0f);
 
-            textureCoords.add((float)sCoord);
+            textureCoords.add((float) sCoord);
             textureCoords.add(1f);
-            vertices.add((float)xPos0);
-            vertices.add((float)yPos0);
-            vertices.add((float)zFront);
-            indicies.add(vertices.size() -4);
+            vertices.add((float) xPos0);
+            vertices.add((float) yPos0);
+            vertices.add((float) zFront);
+            indicies.add(vertices.size() - 4);
 
-            textureCoords.add((float)sCoord);
+            textureCoords.add((float) sCoord);
             textureCoords.add(0f);
 
-            vertices.add((float)xPos0);
-            vertices.add((float)yPos0);
-            vertices.add((float)zBack);
-            indicies.add(vertices.size() -4);
+            vertices.add((float) xPos0);
+            vertices.add((float) yPos0);
+            vertices.add((float) zBack);
+            indicies.add(vertices.size() - 4);
 
         }
 
