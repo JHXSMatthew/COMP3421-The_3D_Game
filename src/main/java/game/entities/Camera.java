@@ -48,7 +48,7 @@ public class Camera implements KeyListener {
                 position[i] = avatar.getPosition()[i];
             }
             position[1] += 0.1;
-            yaw =  avatar.getRotation()[1] ;
+            yaw =  180 - avatar.getRotation()[1];
         }
 
 
