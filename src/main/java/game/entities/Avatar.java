@@ -13,8 +13,8 @@ import java.util.Arrays;
  */
 public class Avatar extends Entity implements KeyListener{
 
-    private static float MAX_SPEED = 20;
-    private static int MAX_TURN_DEGREE = 120;
+    private static float MAX_SPEED = 5;
+    private static int MAX_TURN_DEGREE = 60;
 
     private float speed = 0;
     private float turning = 0;
@@ -34,7 +34,9 @@ public class Avatar extends Entity implements KeyListener{
         float x = (float) (distance * Math.sin(Math.toRadians(getRotation()[1])));
         float z = (float) (distance * Math.cos(Math.toRadians(getRotation()[1])));
         move(ArrayUtils.toArray(x,0,z));
-        getPosition()[1] =  Game.getGame().getAltitude(x,z);
+        float[] position = getPosition();
+        position[1] = Game.getGame().getAltitude(position[0],position[2]);
+        setPosition(position);
     }
 
 

@@ -63,7 +63,7 @@ public class Game extends JFrame implements GLEventListener{
     	  GLProfile glp = GLProfile.getDefault();
           GLCapabilities caps = new GLCapabilities(glp);
           panel = new GLJPanel();
-          camera = new CameraFreeMove();
+          camera = new Camera();
           panel.addKeyListener(camera);
           panel.addGLEventListener(this);
  
@@ -131,16 +131,15 @@ public class Game extends JFrame implements GLEventListener{
         for(TreeWrapper prototype : data.trees()){
             prototype.register();
         }
-        //camera.setPosition(ArrayUtils.toArray(0f,0.5f,9f));
         addNewEntity(PresetModelType.Terrain.getModel());
         for(RoadPrototype prototype : data.roads()){
-            addNewEntity(prototype.getRoadEntity(gl,loader));
+            Entity road = addNewEntity(prototype.getRoadEntity(gl,loader));
+            road.move(ArrayUtils.toArray(0f,0.02f,0f));
         }
-        avatar = new Avatar(new TexturedModel(OBJUtils.loadRawModel(gl,"stall.obj",loader),new ModelTexture(loader.loadTexture(gl,"stallTexture.png"))));
+        avatar = new Avatar(new TexturedModel(OBJUtils.loadRawModel(gl,"tree.obj",loader),new ModelTexture(loader.loadTexture(gl,"tree.png"))));
 
         panel.addKeyListener(avatar);
         addNewEntity(avatar);
-
         camera.setAvatar(avatar);
     }
 
@@ -167,6 +166,7 @@ public class Game extends JFrame implements GLEventListener{
 
     private void loadModels(GL2 gl){
         new TerrainModel(data.getAttribute()).setUp(gl,loader);
+
         new TreeLeavesModel().setUp(gl,loader);
         new TreeTrunkModel().setUp(gl,loader);
 

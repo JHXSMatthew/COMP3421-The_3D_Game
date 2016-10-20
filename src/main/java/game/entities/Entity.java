@@ -21,6 +21,7 @@ public class Entity implements IRenderable {
     private boolean show = true;
 
 
+
     public Entity(ITexturable model){
         this.model = model.getTextureModel();
         this.position = ArrayUtils.toArray(0,0,0);

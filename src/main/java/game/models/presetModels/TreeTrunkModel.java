@@ -99,7 +99,7 @@ public class TreeTrunkModel extends PresetModel{
 
     @Override
     protected void onSetup(GL2 gl) {
-
+        getRawModel().setMeshMode(GL2.GL_TRIANGLE_STRIP);
     }
 
     @Override

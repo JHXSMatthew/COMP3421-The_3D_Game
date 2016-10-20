@@ -4,8 +4,6 @@ import com.jogamp.opengl.GL2;
 import game.Game;
 import game.entities.RoadPrototype;
 
-import java.nio.FloatBuffer;
-
 
 /**
  * Created by Matthew on 20/10/2016.
@@ -13,7 +11,7 @@ import java.nio.FloatBuffer;
 public class RoadModel extends PresetModel {
 
     private RoadPrototype prototype;
-    private int count = 100;
+    private int count = 500;
     double move ;
     double[] max ;
     double[] min;
@@ -65,7 +63,6 @@ public class RoadModel extends PresetModel {
             addVertex(base,pointer,-move);
         }
 
-        System.arraycopy(vertices,0,normals,0,vertices.length);
         prototype.setModel(this);
 
     }
@@ -74,6 +71,9 @@ public class RoadModel extends PresetModel {
         vertices[3*pointer] = (float)(base[0] + diff);
         vertices[3*pointer+1] = Game.getGame().getAltitude((float) min[0],(float) min[1]);
         vertices[3*pointer+2] = (float)(base[1] + diff);
+        normals[3*pointer] = 0;
+        normals[3*pointer + 1] = 1;
+        normals[3*pointer + 2] = 0;
 
         indices[pointer] = pointer;
         textureCoords[2*pointer] = (float)(vertices[pointer]/max[0]);
@@ -102,7 +102,7 @@ public class RoadModel extends PresetModel {
 
     @Override
     protected void onSetup(GL2 gl) {
-
+        getRawModel().setMeshMode(GL2.GL_TRIANGLE_STRIP);
     }
 
     @Override

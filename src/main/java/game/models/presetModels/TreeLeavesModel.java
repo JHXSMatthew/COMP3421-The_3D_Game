@@ -145,6 +145,7 @@ public class TreeLeavesModel extends PresetModel {
     @Override
     protected void onSetup(GL2 gl) {
         setSpecularLight(1,10);
+        getRawModel().setMeshMode(GL2.GL_TRIANGLE_STRIP);
     }
 
     @Override

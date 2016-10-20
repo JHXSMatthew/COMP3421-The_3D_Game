@@ -10,14 +10,15 @@ import java.awt.event.KeyListener;
  */
 public class Camera implements KeyListener {
     private float[] position;
-    private float pitch = -45;
+    private float pitch = 15;
     private float yaw;
 
 
 
     private Avatar avatar;
-    private float zoom = 3;
-    private float angle = 45;
+    private float zoom = 7;
+    private float angle = 0;
+    private boolean thirdPerson = true;
 
     public Camera(){
         position = new float[3];
@@ -33,14 +34,22 @@ public class Camera implements KeyListener {
 
 
     public void move(){
-
-
-        float horizontal = (float) (zoom * Math.cos(pitch));
-        float vertical = (float) (zoom * Math.sin(pitch));
-        position[0] = avatar.getPosition()[0] - (float)(horizontal * Math.sin((Math.toRadians(avatar.getRotation()[1] + angle))));
-        position[1] = avatar.getPosition()[1] + vertical;
-        position[2] = avatar.getPosition()[2] - (float)(horizontal * Math.cos((Math.toRadians(avatar.getRotation()[1] + angle))));
-        //yaw = 180 - (avatar.getRotation()[1] + angle);
+        if(thirdPerson){
+            avatar.show();
+            float horizontal = (float) (zoom * Math.cos(Math.toRadians(pitch)));
+            float vertical = (float) (zoom * Math.sin(Math.toRadians(pitch)));
+            position[0] = avatar.getPosition()[0] - (float) (horizontal * Math.sin((Math.toRadians(avatar.getRotation()[1] + angle))));
+            position[1] = avatar.getPosition()[1] + vertical;
+            position[2] = avatar.getPosition()[2] - (float) (horizontal * Math.cos((Math.toRadians(avatar.getRotation()[1] + angle))));
+            yaw = 180 - (avatar.getRotation()[1] + angle);
+        }else {
+            avatar.hide();
+            for(int i = 0 ; i < 3 ; i ++){
+                position[i] = avatar.getPosition()[i];
+            }
+            position[1] += 0.1;
+            yaw =  avatar.getRotation()[1] ;
+        }
 
 
 
@@ -96,7 +105,7 @@ public class Camera implements KeyListener {
     }
 
     public float getYaw() {
-        return yaw - 180;
+        return yaw;
     }
 
     public void setYaw(float yaw) {
@@ -112,17 +121,20 @@ public class Camera implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
-            case KeyEvent.VK_LEFT:
-                CONTROL[2] = true;
+            case KeyEvent.VK_SPACE:
+                pitch += 0.5;
                 break;
-            case KeyEvent.VK_RIGHT:
-                CONTROL[3] = true;
+            case KeyEvent.VK_CONTROL:
+                pitch -= 0.5;
                 break;
-            case KeyEvent.VK_UP:
-                CONTROL[0]  = true;
+            case KeyEvent.VK_Z:
+                zoom++;
                 break;
-            case KeyEvent.VK_DOWN:
-                CONTROL[1] = true;
+            case KeyEvent.VK_X:
+                zoom--;
+                break;
+            case KeyEvent.VK_P:
+                this.thirdPerson = !this.thirdPerson;
                 break;
         }
     }

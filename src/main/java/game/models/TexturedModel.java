@@ -15,6 +15,14 @@ public class TexturedModel implements IRenderable,ITexturable {
         this.texture = texture;
     }
 
+    public int getMeshMode() {
+        return model.getMeshMode();
+    }
+
+    public void setMeshMode(int meshMode) {
+        model.setMeshMode(meshMode);
+    }
+
     public RawModel getModel(){
         return model;
     }

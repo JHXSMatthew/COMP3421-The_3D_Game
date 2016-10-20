@@ -48,7 +48,7 @@ public class Render {
                 }
                 loadEntity(gl,entity);
                 //render
-                gl.glDrawElements(GL2.GL_TRIANGLES , entity.getRawModel().getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
+                gl.glDrawElements(entity.getModel().getMeshMode() , entity.getRawModel().getVertexCount() , GL2.GL_UNSIGNED_INT , 0);
             }
             unloadModel(gl);
         }
