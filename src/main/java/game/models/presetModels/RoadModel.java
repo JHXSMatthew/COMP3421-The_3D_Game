@@ -5,6 +5,8 @@ import game.Config;
 import game.Game;
 import game.entities.RoadPrototype;
 
+import java.util.Arrays;
+
 
 /**
  * Created by Matthew on 20/10/2016.
@@ -39,13 +41,16 @@ public class RoadModel extends PresetModel {
             double[] base = prototype.point(t);
             base[0] = base[0] - min[0];
             base[1] = base[1] - min[1];
-            addVertex(base, pointer, move);
+            System.out.println(Arrays.toString(base));
+         //   addVertex(base, pointer, move);
 
-            pointer++;
+
+           // pointer++;
             addVertex(base, pointer, 0);
 
+
             pointer++;
-            addVertex(base, pointer, -move);
+          //  addVertex(base, pointer, -move);
 
         }
 
@@ -72,6 +77,8 @@ public class RoadModel extends PresetModel {
         normals[3 * pointer + 2] = 0;
 
         indices[pointer] = pointer;
+        /*textureCoords[2 * pointer] = (float) (vertices[pointer] / max[0]);
+        textureCoords[2 * pointer + 1] = (float) (vertices[pointer + 2] / max[1]);*/
         textureCoords[2 * pointer] = (float) (vertices[pointer] / max[0]);
         textureCoords[2 * pointer + 1] = (float) (vertices[pointer + 2] / max[1]);
     }
@@ -98,7 +105,7 @@ public class RoadModel extends PresetModel {
 
     @Override
     protected void onSetup(GL2 gl) {
-        getRawModel().setMeshMode(GL2.GL_TRIANGLE_STRIP);
+        getRawModel().setMeshMode(GL2.GL_LINE);
     }
 
     @Override
