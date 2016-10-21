@@ -83,6 +83,15 @@ public class IOUtils {
                 terrain.addStall(x, z);
             }
         }
+        if (jsonTerrain.has("rabbit")) {
+            JSONArray jsonStall = jsonTerrain.getJSONArray("rabbit");
+            for (int i = 0; i < jsonStall.length(); i++) {
+                JSONObject jsonTree = jsonStall.getJSONObject(i);
+                double x = jsonTree.getDouble("x");
+                double z = jsonTree.getDouble("z");
+                terrain.addRabbit(x, z);
+            }
+        }
         return terrain;
     }
 

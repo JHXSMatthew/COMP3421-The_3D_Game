@@ -3,8 +3,6 @@ package game.entities;
 import game.Config;
 import game.Ticker;
 import game.utils.ArrayUtils;
-import game.utils.MathUtils;
-import org.omg.CORBA.TIMEOUT;
 
 import java.util.Arrays;
 
@@ -60,7 +58,22 @@ public class Light {
     }
 
     public void setColor(int time){
-
+        float[] color = ArrayUtils.toArray(1,1,1);
+        if(Config.timePass) {
+            if (time > Ticker.MORNING && time < Ticker.NIGHT) {
+                if (time > Ticker.NOON) {
+                    color[0] = 1;
+                    color[1] = color[2] * (float) Math.cos((float)(Ticker.A_DAY - time)/2 / Ticker.A_DAY * Math.PI / 2f);
+                    color[2] = color[2] * (float) Math.cos((float)(Ticker.A_DAY - time) / Ticker.A_DAY * Math.PI / 2f);
+                } else {
+                    color[0] = color[2] * (float) Math.cos((float)time / Ticker.A_DAY * Math.PI / 2f);
+                    color[1] = color[2] * (float) Math.cos((float)time / Ticker.A_DAY * Math.PI / 2f);
+                    color[2] = 1;
+                }
+            }
+            //System.err.println(Arrays.toString(color));
+            this.color = color;
+        }
     }
     //move light by time light with constant position Z
     public void setPosition(int time){

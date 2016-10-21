@@ -34,7 +34,7 @@ public class Render {
         /*gl2.glEnable(GL.GL_CULL_FACE);
         gl2.glCullFace(GL.GL_BACK);*/
         gl2.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-        gl2.glClearColor(0, 0, 0, 0);
+        gl2.glClearColor(1, 1, 1, 0);
 
     }
 

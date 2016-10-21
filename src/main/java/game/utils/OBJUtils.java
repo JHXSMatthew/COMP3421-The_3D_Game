@@ -39,6 +39,9 @@ public class OBJUtils {
         boolean isFirst = true;
         try {
             while ((line = reader.readLine()) != null) {
+                if(line.equals( "") || line.startsWith("#")){
+                    continue;
+                }
                 String[] current = line.split(" ");
                 if (line.startsWith("v ")) {
                     vertices.add(Float.parseFloat(current[1]));

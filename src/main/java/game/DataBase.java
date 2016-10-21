@@ -24,6 +24,8 @@ public class DataBase {
     private List<RoadPrototype> myRoads;
     private float[] mySunlight;
     private List<Float[]> stall;
+    private List<Float[]> rabbit;
+
 
     /**
      * Create a new terrain
@@ -38,6 +40,8 @@ public class DataBase {
         myRoads = new ArrayList<RoadPrototype>();
         mySunlight = new float[3];
         stall = new ArrayList<>();
+        rabbit = new ArrayList<>();
+
     }
 
     public DataBase(Dimension size) {
@@ -171,10 +175,18 @@ public class DataBase {
         this.stall.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray((float)x,(float)z)));
     }
 
+    public void addRabbit(double x , double z){
+        this.rabbit.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray((float)x,(float)z)));
+    }
+
+
     public List<Float[]> getStall(){
         return stall;
     }
 
+    public List<Float[]> getRabbit(){
+        return rabbit;
+    }
 
     /**
      * Add a road.

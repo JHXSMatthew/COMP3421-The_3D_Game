@@ -6,17 +6,14 @@ import com.jogamp.opengl.util.FPSAnimator;
 import game.entities.*;
 import game.models.ITexturable;
 import game.models.OBJTypes;
-import game.models.TexturedModel;
 import game.models.presetModels.PresetModelType;
 import game.models.presetModels.TerrainModel;
 import game.models.presetModels.TreeLeavesModel;
 import game.models.presetModels.TreeTrunkModel;
 import game.render.Loader;
 import game.render.RenderManager;
-import game.textures.ModelTexture;
 import game.utils.ArrayUtils;
 import game.utils.IOUtils;
-import game.utils.OBJUtils;
 
 import javax.swing.*;
 import java.io.File;
@@ -158,8 +155,16 @@ public class Game extends JFrame implements GLEventListener {
             s.move(ArrayUtils.toArray(stall[0],getAltitude(stall[0],stall[1]),stall[1]));
             addNewEntity(s);
         }
-        avatar = new Avatar(OBJTypes.ObjTree,torch);
 
+        for(Float[] rabbit : data.getRabbit()){
+            Entity s = addNewEntity(OBJTypes.OBJRabbit);
+            s.setScale(ArrayUtils.toArray(0.1f,0.1f,0.1f));
+            s.rotate(ArrayUtils.toArray(0,15,0));
+            s.move(ArrayUtils.toArray(rabbit[0],getAltitude(rabbit[0],rabbit[1]),rabbit[1]));
+            addNewEntity(s);
+        }
+        avatar = new Avatar(OBJTypes.OBJBoat,torch);
+        avatar.setScale(ArrayUtils.toArray(0.1f,0.1f,0.1f));
         panel.addKeyListener(avatar);
         addNewEntity(avatar);
         camera.setAvatar(avatar);

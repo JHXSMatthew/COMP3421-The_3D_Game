@@ -136,7 +136,7 @@ public class Camera implements KeyListener {
                 System.err.println("set to night!");
                 break;
             case KeyEvent.VK_M:
-                Game.getGame().setTime(Ticker.NOON+ Ticker.interval);
+                Game.getGame().setTime(Ticker.NOON + 1);
                 System.err.println("set to Noon!");
                 break;
             case KeyEvent.VK_COMMA:

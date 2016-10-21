@@ -39,7 +39,7 @@ public class Avatar extends Entity implements KeyListener {
         float z = (float) (distance * Math.cos(Math.toRadians(getRotation()[1])));
         move(ArrayUtils.toArray(x, 0, z));
         float[] position = getPosition();
-        position[1] = Game.getGame().getAltitude(position[0], position[2]);
+        position[1] = Game.getGame().getAltitude(position[0], position[2]) + 0.1f;
         setPosition(position);
         if(torchOn){
             float[] lightByYaw = ArrayUtils.toArray(((float)Math.cos(Math.toRadians(getRotation()[1]))),
