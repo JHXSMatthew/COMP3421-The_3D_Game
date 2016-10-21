@@ -74,6 +74,15 @@ public class IOUtils {
                 terrain.addRoad(w, spine);
             }
         }
+        if (jsonTerrain.has("stalls")) {
+            JSONArray jsonStall = jsonTerrain.getJSONArray("stalls");
+            for (int i = 0; i < jsonStall.length(); i++) {
+                JSONObject jsonTree = jsonStall.getJSONObject(i);
+                double x = jsonTree.getDouble("x");
+                double z = jsonTree.getDouble("z");
+                terrain.addStall(x, z);
+            }
+        }
         return terrain;
     }
 

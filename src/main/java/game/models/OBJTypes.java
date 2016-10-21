@@ -10,7 +10,8 @@ import game.utils.OBJUtils;
  */
 public enum OBJTypes implements ITexturable {
 
-    ObjTree("tree.obj","tree.png");
+    ObjTree("tree.obj","tree.png"),
+    ObjStall("stall.obj","stallTexture.png");
 
     private TexturedModel model;
     private String name;

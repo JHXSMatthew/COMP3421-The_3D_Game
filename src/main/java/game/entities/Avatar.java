@@ -47,8 +47,6 @@ public class Avatar extends Entity implements KeyListener {
                     -(float)Math.cos(Math.toRadians(getRotation()[1])));
             lightByYaw = MathUtils.normalise(lightByYaw);
             torch.setDirection(lightByYaw);
-            System.out.println(getRotation()[1]);
-            System.out.println(Arrays.toString(lightByYaw));
         }else{
             torch.setDirection(ArrayUtils.toArray(0,0,0));
         }

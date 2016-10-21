@@ -39,6 +39,7 @@ public class Game extends JFrame implements GLEventListener {
     private List<Entity> entities = new ArrayList<Entity>();
     private Camera camera;
     private List<Light> light;
+    private Light globalLight;
     private Avatar avatar;
     private long lastFrame;
     private GLJPanel panel;
@@ -94,6 +95,8 @@ public class Game extends JFrame implements GLEventListener {
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
         ticker.update();
+        globalLight.setPosition(ticker.getTime());
+        globalLight.setColor(ticker.getTime());
         Light.setAmbient(ticker.getTime());
         updateAvatarMovement();
         render.addEntity(entities);
@@ -133,8 +136,9 @@ public class Game extends JFrame implements GLEventListener {
         loadModels(gl);
 
         light = new ArrayList<>();
-        //light.add(new Light(data.getSunlight(), ArrayUtils.toArray(1, 1, 1)));
+        globalLight = new Light(data.getSunlight(), ArrayUtils.toArray(1, 1, 1));
         Light torch = new Light(ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
+        light.add(globalLight);
         light.add(torch);
 
         addNewEntity(PresetModelType.Terrain.getModel());
@@ -145,6 +149,14 @@ public class Game extends JFrame implements GLEventListener {
         for (RoadPrototype prototype : data.roads()) {
             Entity road = addNewEntity(prototype.getRoadEntity(gl, loader));
             road.move(ArrayUtils.toArray(0f, 0.02f, 0f));
+        }
+
+        for(Float[] stall : data.getStall()){
+            Entity s = addNewEntity(OBJTypes.ObjStall);
+            s.setScale(ArrayUtils.toArray(0.1f,0.1f,0.1f));
+            s.rotate(ArrayUtils.toArray(0,15,0));
+            s.move(ArrayUtils.toArray(stall[0],getAltitude(stall[0],stall[1]),stall[1]));
+            addNewEntity(s);
         }
         avatar = new Avatar(OBJTypes.ObjTree,torch);
 

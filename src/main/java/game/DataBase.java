@@ -6,6 +6,7 @@ import game.utils.ArrayUtils;
 import game.utils.MathUtils;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class DataBase {
     private List<TreeWrapper> myTrees;
     private List<RoadPrototype> myRoads;
     private float[] mySunlight;
+    private List<Float[]> stall;
 
     /**
      * Create a new terrain
@@ -35,6 +37,7 @@ public class DataBase {
         myTrees = new ArrayList<TreeWrapper>();
         myRoads = new ArrayList<RoadPrototype>();
         mySunlight = new float[3];
+        stall = new ArrayList<>();
     }
 
     public DataBase(Dimension size) {
@@ -162,6 +165,14 @@ public class DataBase {
         double y = altitude(x, z);
         TreeWrapper tree = new TreeWrapper((float) x, (float) y, (float) z);
         myTrees.add(tree);
+    }
+
+    public void addStall(double x , double z){
+        this.stall.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray((float)x,(float)z)));
+    }
+
+    public List<Float[]> getStall(){
+        return stall;
     }
 
 

@@ -8,7 +8,7 @@ package game;
 public class Ticker {
 
 
-    private int seconds = 0;
+    private int seconds = MORNING;
     private long last = System.currentTimeMillis();
 
     public final static int MORNING = 21600;
