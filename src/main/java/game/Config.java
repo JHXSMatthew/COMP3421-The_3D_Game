@@ -5,14 +5,12 @@ package game;
  */
 public class Config {
 
+    public final static boolean MIPMAP = true;
+    public final static int seconds_per_day = 240;
     public static boolean advancedTree = true;
     public static int roadComplexity = 100;
-    public final static boolean MIPMAP = true;
-
     //enable time passing extension.
     public static boolean timePass = false;
-    public final static int seconds_per_day = 240;
-
     //enbale road up hill extension buggy
     public static boolean roadUpHill = false;
 

@@ -4,7 +4,6 @@ package game.entities;
 import com.jogamp.opengl.GL2;
 import game.models.presetModels.RoadModel;
 import game.render.Loader;
-import game.utils.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,38 +114,38 @@ public class RoadPrototype {
     }
 
 
-    public double[] getMax(){
+    public double[] getMax() {
         double[] currentMax = new double[2];
         currentMax[0] = myPoints.get(0);
         currentMax[1] = myPoints.get(1);
-        for(int i = 0 ; i < myPoints.size(); i ++){
-            if(i % 2 == 0){
-                if(currentMax[0] < myPoints.get(i)){
+        for (int i = 0; i < myPoints.size(); i++) {
+            if (i % 2 == 0) {
+                if (currentMax[0] < myPoints.get(i)) {
                     currentMax[0] = myPoints.get(i);
                 }
 
-            }else{
-                if(currentMax[1] < myPoints.get(i)){
-                    currentMax[1]  = myPoints.get(i);
+            } else {
+                if (currentMax[1] < myPoints.get(i)) {
+                    currentMax[1] = myPoints.get(i);
                 }
             }
         }
         return currentMax;
     }
 
-    public double[] getMin(){
+    public double[] getMin() {
         double[] currentMin = new double[2];
         currentMin[0] = myPoints.get(0);
         currentMin[1] = myPoints.get(1);
-        for(int i = 0 ; i < myPoints.size(); i ++){
-            if(i % 2 == 0){
-                if(currentMin[0] > myPoints.get(i)){
+        for (int i = 0; i < myPoints.size(); i++) {
+            if (i % 2 == 0) {
+                if (currentMin[0] > myPoints.get(i)) {
                     currentMin[0] = myPoints.get(i);
                 }
 
-            }else{
-                if(currentMin[1] > myPoints.get(i)){
-                    currentMin[1]  = myPoints.get(i);
+            } else {
+                if (currentMin[1] > myPoints.get(i)) {
+                    currentMin[1] = myPoints.get(i);
                 }
             }
         }
@@ -160,8 +159,8 @@ public class RoadPrototype {
      * @param t
      * @return
      */
-    public double[] point(double t,boolean model) {
-        if(model){
+    public double[] point(double t, boolean model) {
+        if (model) {
             return point(t);
         }
 
@@ -212,8 +211,8 @@ public class RoadPrototype {
 
         double[] p = new double[2];
 
-        p[0] = b(0, t) * x0 + b(1, t) * x1 + b(2, t) * x2 + b(3, t) * x3 ;
-        p[1] = b(0, t) * y0 + b(1, t) * y1 + b(2, t) * y2 + b(3, t) * y3 ;
+        p[0] = b(0, t) * x0 + b(1, t) * x1 + b(2, t) * x2 + b(3, t) * x3;
+        p[1] = b(0, t) * y0 + b(1, t) * y1 + b(2, t) * y2 + b(3, t) * y3;
 
         return p;
     }

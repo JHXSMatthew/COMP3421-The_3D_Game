@@ -38,8 +38,8 @@ public class TreeWrapper {
             treeLeaves.move(myPos);
             Game.getGame().addNewEntity(treeLeaves);
             Game.getGame().addNewEntity(treeTrunk);
-        }else{
-            Entity entity  = Game.getGame().addNewEntity(OBJTypes.ObjTree);
+        } else {
+            Entity entity = Game.getGame().addNewEntity(OBJTypes.ObjTree);
             entity.move(myPos);
         }
 

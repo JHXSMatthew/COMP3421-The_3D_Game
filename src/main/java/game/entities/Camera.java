@@ -132,7 +132,7 @@ public class Camera implements KeyListener {
                 this.thirdPerson = !this.thirdPerson;
                 break;
             case KeyEvent.VK_N:
-                Game.getGame().setTime(Ticker.NIGHT+ Ticker.interval);
+                Game.getGame().setTime(Ticker.NIGHT + Ticker.interval);
                 System.err.println("set to night!");
                 break;
             case KeyEvent.VK_M:
@@ -140,8 +140,8 @@ public class Camera implements KeyListener {
                 System.err.println("set to Noon!");
                 break;
             case KeyEvent.VK_COMMA:
-                Config.timePass  = !Config.timePass;
-                System.err.println("time passing:" +   Config.timePass);
+                Config.timePass = !Config.timePass;
+                System.err.println("time passing:" + Config.timePass);
                 break;
         }
     }

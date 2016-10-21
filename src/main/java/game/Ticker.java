@@ -8,32 +8,29 @@ package game;
 public class Ticker {
 
 
-    private int seconds = MORNING;
-    private long last = System.currentTimeMillis();
-
     public final static int MORNING = 21600;
     public final static int NOON = 43200;
     public final static int NIGHT = 64800;
-
     public final static int A_DAY = 86400;
-
     public final static int interval = 3600;
+    private int seconds = MORNING;
+    private long last = System.currentTimeMillis();
 
-    public Ticker(){
+    public Ticker() {
 
-    }
-
-    public void setTime(int seconds){
-        this.seconds = seconds;
     }
 
     // time in seconds of a day.
-    public int getTime(){
+    public int getTime() {
         return seconds;
     }
 
-    public void update(){
-        if(Config.timePass) {
+    public void setTime(int seconds) {
+        this.seconds = seconds;
+    }
+
+    public void update() {
+        if (Config.timePass) {
             long curr = System.currentTimeMillis();
             float secondsPassed = (curr - last) / 1000f;
             last = curr;

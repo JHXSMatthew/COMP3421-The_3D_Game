@@ -39,7 +39,7 @@ public class OBJUtils {
         boolean isFirst = true;
         try {
             while ((line = reader.readLine()) != null) {
-                if(line.equals( "") || line.startsWith("#")){
+                if (line.equals("") || line.startsWith("#")) {
                     continue;
                 }
                 String[] current = line.split(" ");

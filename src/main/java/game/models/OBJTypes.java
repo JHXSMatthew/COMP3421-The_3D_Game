@@ -10,30 +10,30 @@ import game.utils.OBJUtils;
  */
 public enum OBJTypes implements ITexturable {
 
-    ObjTree("tree.obj","tree.png"),
-    ObjStall("stall.obj","stallTexture.png"),
-    OBJRabbit("rabbit.obj","rabbit.jpg"),
-    OBJBoat("boat.obj","boat.jpg");
+    ObjTree("tree.obj", "tree.png"),
+    ObjStall("stall.obj", "stallTexture.png"),
+    OBJRabbit("rabbit.obj", "rabbit.jpg"),
+    OBJBoat("boat.obj", "boat.jpg");
 
     private TexturedModel model;
     private String name;
     private String texture;
 
-    OBJTypes(String name, String textrue){
+    OBJTypes(String name, String textrue) {
         this.name = name;
         this.texture = textrue;
     }
 
-    public void load(GL2 gl, Loader loader){
-        model = new TexturedModel(OBJUtils.loadRawModel(gl,name,loader),new ModelTexture(loader.loadTexture(gl,texture)));
+    public void load(GL2 gl, Loader loader) {
+        model = new TexturedModel(OBJUtils.loadRawModel(gl, name, loader), new ModelTexture(loader.loadTexture(gl, texture)));
     }
 
-    public TexturedModel getModel(){
+    public TexturedModel getModel() {
         return model;
     }
 
     @Override
-    public  TexturedModel getTextureModel(){
+    public TexturedModel getTextureModel() {
         return model;
     }
 }

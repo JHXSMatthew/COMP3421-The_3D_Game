@@ -25,8 +25,8 @@ public class StaticShader extends BasicShader {
     private int location_vMatrix;
     private int location_cameraPosition; //reduce calculation
     //light
-    private int[] location_dLight ;
-    private int[] location_cLight ;
+    private int[] location_dLight;
+    private int[] location_cLight;
     private int location_shineDamper;
     private int location_reflectivity;
     private int location_ambient;
@@ -57,10 +57,10 @@ public class StaticShader extends BasicShader {
 
         location_dLight = new int[MAX_LIGHT_SIZE];
         location_cLight = new int[MAX_LIGHT_SIZE];
-        location_ambient = super.getUniformLocation(gl,"ambient");
-        for(int i = 0 ; i < MAX_LIGHT_SIZE ; i ++){
-            location_cLight[i] = super.getUniformLocation(gl, "cLight" + "["+ i + "]");
-            location_dLight[i] = super.getUniformLocation(gl, "dLight" + "["+ i + "]");
+        location_ambient = super.getUniformLocation(gl, "ambient");
+        for (int i = 0; i < MAX_LIGHT_SIZE; i++) {
+            location_cLight[i] = super.getUniformLocation(gl, "cLight" + "[" + i + "]");
+            location_dLight[i] = super.getUniformLocation(gl, "dLight" + "[" + i + "]");
         }
 
         location_reflectivity = super.getUniformLocation(gl, "reflectivity");
@@ -80,15 +80,15 @@ public class StaticShader extends BasicShader {
     }
 
     public void loadLight(GL2 gl, List<Light> lights) {
-        for(int i = 0 ; i < MAX_LIGHT_SIZE ; i ++){
-            if(i < lights.size() ){
+        for (int i = 0; i < MAX_LIGHT_SIZE; i++) {
+            if (i < lights.size()) {
 
                 super.loadVector(gl, location_cLight[i], lights.get(i).getColor());
                 super.loadVector(gl, location_dLight[i], lights.get(i).getDirection());
-            }else{
+            } else {
 
-                super.loadVector(gl, location_cLight[i], ArrayUtils.toArray(0,0,0));
-                super.loadVector(gl, location_dLight[i], ArrayUtils.toArray(0,0,0));
+                super.loadVector(gl, location_cLight[i], ArrayUtils.toArray(0, 0, 0));
+                super.loadVector(gl, location_dLight[i], ArrayUtils.toArray(0, 0, 0));
             }
         }
 
@@ -104,8 +104,8 @@ public class StaticShader extends BasicShader {
         super.loadVector(gl, location_cameraPosition, c.getPosition());
     }
 
-    public void loadAmbient(GL2 gl, float ambient){
-        super.loadFloat(gl,location_ambient,ambient);
+    public void loadAmbient(GL2 gl, float ambient) {
+        super.loadFloat(gl, location_ambient, ambient);
     }
 
 }

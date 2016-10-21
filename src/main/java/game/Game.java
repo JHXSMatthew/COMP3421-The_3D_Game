@@ -97,7 +97,7 @@ public class Game extends JFrame implements GLEventListener {
         Light.setAmbient(ticker.getTime());
         updateAvatarMovement();
         render.addEntity(entities);
-        render.render(gl, light, Light.getAmbient(),camera);
+        render.render(gl, light, Light.getAmbient(), camera);
 
     }
 
@@ -112,7 +112,7 @@ public class Game extends JFrame implements GLEventListener {
         avatar.updateLocation(passed);
     }
 
-    public void setTime(int time){
+    public void setTime(int time) {
         ticker.setTime(time);
     }
 
@@ -134,7 +134,7 @@ public class Game extends JFrame implements GLEventListener {
 
         light = new ArrayList<>();
         globalLight = new Light(data.getSunlight(), ArrayUtils.toArray(1, 1, 1));
-        Light torch = new Light(ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
+        Light torch = new Light(ArrayUtils.toArray(0, 0, 0), ArrayUtils.toArray(1, 1, 1));
         light.add(globalLight);
         light.add(torch);
 
@@ -148,23 +148,23 @@ public class Game extends JFrame implements GLEventListener {
             road.move(ArrayUtils.toArray(0f, 0.02f, 0f));
         }
 
-        for(Float[] stall : data.getStall()){
+        for (Float[] stall : data.getStall()) {
             Entity s = addNewEntity(OBJTypes.ObjStall);
-            s.setScale(ArrayUtils.toArray(0.1f,0.1f,0.1f));
-            s.rotate(ArrayUtils.toArray(0,15,0));
-            s.move(ArrayUtils.toArray(stall[0],getAltitude(stall[0],stall[1]),stall[1]));
+            s.setScale(ArrayUtils.toArray(0.1f, 0.1f, 0.1f));
+            s.rotate(ArrayUtils.toArray(0, 15, 0));
+            s.move(ArrayUtils.toArray(stall[0], getAltitude(stall[0], stall[1]), stall[1]));
             addNewEntity(s);
         }
 
-        for(Float[] rabbit : data.getRabbit()){
+        for (Float[] rabbit : data.getRabbit()) {
             Entity s = addNewEntity(OBJTypes.OBJRabbit);
-            s.setScale(ArrayUtils.toArray(0.1f,0.1f,0.1f));
-            s.rotate(ArrayUtils.toArray(0,15,0));
-            s.move(ArrayUtils.toArray(rabbit[0],getAltitude(rabbit[0],rabbit[1]),rabbit[1]));
+            s.setScale(ArrayUtils.toArray(0.1f, 0.1f, 0.1f));
+            s.rotate(ArrayUtils.toArray(0, 15, 0));
+            s.move(ArrayUtils.toArray(rabbit[0], getAltitude(rabbit[0], rabbit[1]), rabbit[1]));
             addNewEntity(s);
         }
-        avatar = new Avatar(OBJTypes.OBJBoat,torch);
-        avatar.setScale(ArrayUtils.toArray(0.1f,0.1f,0.1f));
+        avatar = new Avatar(OBJTypes.OBJBoat, torch);
+        avatar.setScale(ArrayUtils.toArray(0.1f, 0.1f, 0.1f));
         panel.addKeyListener(avatar);
         addNewEntity(avatar);
         camera.setAvatar(avatar);
@@ -195,8 +195,8 @@ public class Game extends JFrame implements GLEventListener {
         new TreeTrunkModel().setUp(gl, loader);
 
         //obj models
-        for(OBJTypes types : OBJTypes.values()){
-            types.load(gl,loader);
+        for (OBJTypes types : OBJTypes.values()) {
+            types.load(gl, loader);
         }
 
     }

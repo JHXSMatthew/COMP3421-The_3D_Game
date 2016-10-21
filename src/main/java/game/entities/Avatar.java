@@ -7,7 +7,6 @@ import game.utils.MathUtils;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
 
 /**
  * Created by Matthew on 20/10/2016.
@@ -23,7 +22,7 @@ public class Avatar extends Entity implements KeyListener {
     private Light torch;
     private boolean torchOn = false;
 
-    public Avatar(ITexturable model,Light torch) {
+    public Avatar(ITexturable model, Light torch) {
         super(model);
         this.torch = torch;
     }
@@ -41,14 +40,14 @@ public class Avatar extends Entity implements KeyListener {
         float[] position = getPosition();
         position[1] = Game.getGame().getAltitude(position[0], position[2]) + 0.1f;
         setPosition(position);
-        if(torchOn){
-            float[] lightByYaw = ArrayUtils.toArray(((float)Math.cos(Math.toRadians(getRotation()[1]))),
-                    (float)Math.abs(Math.sin(Math.toRadians(getRotation()[1]))),
-                    -(float)Math.cos(Math.toRadians(getRotation()[1])));
+        if (torchOn) {
+            float[] lightByYaw = ArrayUtils.toArray(((float) Math.cos(Math.toRadians(getRotation()[1]))),
+                    (float) Math.abs(Math.sin(Math.toRadians(getRotation()[1]))),
+                    -(float) Math.cos(Math.toRadians(getRotation()[1])));
             lightByYaw = MathUtils.normalise(lightByYaw);
             torch.setDirection(lightByYaw);
-        }else{
-            torch.setDirection(ArrayUtils.toArray(0,0,0));
+        } else {
+            torch.setDirection(ArrayUtils.toArray(0, 0, 0));
         }
     }
 
@@ -70,7 +69,7 @@ public class Avatar extends Entity implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             this.turning = -MAX_TURN_DEGREE;
         }
-        if(e.getKeyCode() == KeyEvent.VK_T){
+        if (e.getKeyCode() == KeyEvent.VK_T) {
             torchOn = !torchOn;
             System.err.println("torch:" + torchOn);
         }

@@ -6,7 +6,6 @@ import game.utils.ArrayUtils;
 import game.utils.MathUtils;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,20 +170,20 @@ public class DataBase {
         myTrees.add(tree);
     }
 
-    public void addStall(double x , double z){
-        this.stall.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray((float)x,(float)z)));
+    public void addStall(double x, double z) {
+        this.stall.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray((float) x, (float) z)));
     }
 
-    public void addRabbit(double x , double z){
-        this.rabbit.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray((float)x,(float)z)));
+    public void addRabbit(double x, double z) {
+        this.rabbit.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray((float) x, (float) z)));
     }
 
 
-    public List<Float[]> getStall(){
+    public List<Float[]> getStall() {
         return stall;
     }
 
-    public List<Float[]> getRabbit(){
+    public List<Float[]> getRabbit() {
         return rabbit;
     }
 

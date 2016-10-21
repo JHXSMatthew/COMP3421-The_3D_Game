@@ -32,8 +32,6 @@ public class Loader {
     public final static int MODEL_ATTRIBUTE_NORMAL = 2;
 
 
-
-
     private List<Integer> vaos = new ArrayList<Integer>();
     private List<Integer> vbos = new ArrayList<Integer>();
     private List<Integer> textures = new ArrayList<>();

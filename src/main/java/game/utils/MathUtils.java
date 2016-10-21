@@ -43,7 +43,6 @@ public class MathUtils {
 
 
     /**
-     *
      * @param m 4x4
      * @param v vector
      * @return
@@ -159,9 +158,9 @@ public class MathUtils {
     }
 
 
-    public static double[] floor(double[] d){
+    public static double[] floor(double[] d) {
 
-        for(int i = 0 ; i < d.length ; i ++){
+        for (int i = 0; i < d.length; i++) {
             d[i] = Math.floor(d[i]);
         }
         return d;

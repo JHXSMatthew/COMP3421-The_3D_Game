@@ -35,7 +35,7 @@ public class RenderManager {
         camera.move();
         shader.loadViewMatrix(gl, camera);
         shader.loadLight(gl, light);
-        shader.loadAmbient(gl,ambient);
+        shader.loadAmbient(gl, ambient);
 
         render.render(gl, entitiesBuffer);
 

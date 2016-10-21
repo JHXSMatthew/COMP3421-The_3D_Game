@@ -23,23 +23,21 @@ public class ArrayUtils {
         return array;
     }
 
-    public static float[] toArray(Float[]  array){
+    public static float[] toArray(Float[] array) {
         float[] r = new float[array.length];
-        for(int i = 0 ; i < array.length ; i ++ ){
+        for (int i = 0; i < array.length; i++) {
             r[i] = array[i];
         }
         return r;
     }
 
-    public static Float[] toArrayC_L(float[] array){
+    public static Float[] toArrayC_L(float[] array) {
         Float[] r = new Float[array.length];
-        for(int i = 0 ; i < array.length ; i ++ ){
+        for (int i = 0; i < array.length; i++) {
             r[i] = array[i];
         }
         return r;
     }
-
-
 
 
     public static float[] toArray(float... f) {
