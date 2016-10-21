@@ -6,7 +6,7 @@ in vec3 normal;
 
 out vec2 pass_textureCoords;
 out vec3 outNormal;
-out vec3 direction;
+out vec3 direction[2];
 out vec3 toCameraVector;
 
 //position/p_camera/view
@@ -14,7 +14,7 @@ uniform mat4 tMatrix;
 uniform mat4 pMatrix;
 uniform mat4 vMatrix;
 //light calculations
-uniform vec3 dLight;
+uniform vec3 dLight[2];
 uniform vec3 pCamera;
 
 void main(void){
@@ -27,5 +27,7 @@ void main(void){
     //light
     outNormal = (globalPosition * vec4(normal,0.0)).xyz;
     direction = dLight;
+
+
 
 }

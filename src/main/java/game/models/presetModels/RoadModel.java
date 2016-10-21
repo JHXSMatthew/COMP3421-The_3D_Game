@@ -49,17 +49,17 @@ public class RoadModel extends PresetModel {
         max = prototype.getMax();
         min = prototype.getMin();
 
-        System.out.println(Arrays.toString(max));
-        System.out.println(Arrays.toString(min));
+        generalHeight = Game.getGame().getAltitude((float) max[0], (float) max[1]);
 
-
-        generalHeight = Game.getGame().getAltitude((float) min[0], (float) min[1]);
+        if(Game.getGame().getAltitude((float) min[0], (float) min[1]) > generalHeight){
+            generalHeight = Game.getGame().getAltitude((float) min[0], (float) min[1]);
+        }
+        System.out.println(generalHeight);
 
         List<Float[]> inter = new ArrayList<>();
         inter.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray(0,(float)move,0,1f)));
         inter.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray(0,(float)-move,0,1f)));
 
-        //addPoints(inter, vertices, get3DPoint(prototype.point(0)), get3DPoint(prototype.point(0)), get3DPoint(prototype.point(0)));
         for (float t = step; t < prototype.size() - step; t += step) {
 
             try {
@@ -186,7 +186,16 @@ public class RoadModel extends PresetModel {
             }
             */
             vertices.add(position[0]);
-            vertices.add(generalHeight);
+            if(Config.roadUpHill){
+                float height = Game.getGame().getAltitude( position[0],  position[2]);
+                if(height < generalHeight){
+                    height = generalHeight;
+                }
+                vertices.add( height);
+            }else{
+                vertices.add(generalHeight);
+
+            }
             vertices.add(position[2]);
         }
 

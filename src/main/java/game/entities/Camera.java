@@ -1,5 +1,9 @@
 package game.entities;
 
+import game.Config;
+import game.Game;
+import game.Ticker;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -126,6 +130,18 @@ public class Camera implements KeyListener {
                 break;
             case KeyEvent.VK_P:
                 this.thirdPerson = !this.thirdPerson;
+                break;
+            case KeyEvent.VK_N:
+                Game.getGame().setTime(Ticker.NIGHT+ Ticker.interval);
+                System.err.println("set to night!");
+                break;
+            case KeyEvent.VK_M:
+                Game.getGame().setTime(Ticker.NOON+ Ticker.interval);
+                System.err.println("set to Noon!");
+                break;
+            case KeyEvent.VK_COMMA:
+                Config.timePass  = !Config.timePass;
+                System.err.println("time passing:" +   Config.timePass);
                 break;
         }
     }

@@ -29,12 +29,13 @@ public class RenderManager {
         entitiesBuffer = new HashMap<>();
     }
 
-    public void render(GL2 gl, Light light, Camera camera) {
+    public void render(GL2 gl, List<Light> light, float ambient, Camera camera) {
         render.prepare(gl);
         shader.start(gl);
         camera.move();
         shader.loadViewMatrix(gl, camera);
         shader.loadLight(gl, light);
+        shader.loadAmbient(gl,ambient);
 
         render.render(gl, entitiesBuffer);
 

@@ -11,6 +11,10 @@ public class Config {
 
     //enable time passing extension.
     public static boolean timePass = false;
+    public final static int seconds_per_day = 10;
+
+    //enbale road up hill extension buggy
+    public static boolean roadUpHill = false;
 
 
 }

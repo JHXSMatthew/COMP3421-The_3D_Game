@@ -38,10 +38,11 @@ public class Game extends JFrame implements GLEventListener {
     private Loader loader;
     private List<Entity> entities = new ArrayList<Entity>();
     private Camera camera;
-    private Light light;
+    private List<Light> light;
     private Avatar avatar;
     private long lastFrame;
     private GLJPanel panel;
+    private Ticker ticker;
 
 
     public Game(DataBase terrain) {
@@ -92,9 +93,11 @@ public class Game extends JFrame implements GLEventListener {
     @Override
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
+        ticker.update();
+        Light.setAmbient(ticker.getTime());
         updateAvatarMovement();
         render.addEntity(entities);
-        render.render(gl, light, camera);
+        render.render(gl, light, Light.getAmbient(),camera);
 
     }
 
@@ -107,6 +110,10 @@ public class Game extends JFrame implements GLEventListener {
 
         lastFrame = current;
         avatar.updateLocation(passed);
+    }
+
+    public void setTime(int time){
+        ticker.setTime(time);
     }
 
     @Override
@@ -125,7 +132,11 @@ public class Game extends JFrame implements GLEventListener {
         render = new RenderManager(gl);
         loadModels(gl);
 
-        light = new Light(data.getSunlight(), ArrayUtils.toArray(1, 1, 1));
+        light = new ArrayList<>();
+        //light.add(new Light(data.getSunlight(), ArrayUtils.toArray(1, 1, 1)));
+        Light torch = new Light(ArrayUtils.toArray(0,0,0),ArrayUtils.toArray(1,1,1));
+        light.add(torch);
+
         addNewEntity(PresetModelType.Terrain.getModel());
 
         for (TreeWrapper prototype : data.trees()) {
@@ -135,11 +146,12 @@ public class Game extends JFrame implements GLEventListener {
             Entity road = addNewEntity(prototype.getRoadEntity(gl, loader));
             road.move(ArrayUtils.toArray(0f, 0.02f, 0f));
         }
-        avatar = new Avatar(OBJTypes.ObjTree);
+        avatar = new Avatar(OBJTypes.ObjTree,torch);
 
         panel.addKeyListener(avatar);
         addNewEntity(avatar);
         camera.setAvatar(avatar);
+        ticker = new Ticker();
     }
 
     public Entity addNewEntity(ITexturable model) {
