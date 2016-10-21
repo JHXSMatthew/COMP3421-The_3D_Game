@@ -7,6 +7,7 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.awt.ImageUtil;
 import com.jogamp.opengl.util.texture.TextureData;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
+import game.Config;
 import game.models.RawModel;
 import game.utils.ArrayUtils;
 import game.utils.BufferUtils;
@@ -31,7 +32,6 @@ public class Loader {
     public final static int MODEL_ATTRIBUTE_NORMAL = 2;
 
 
-    private final static boolean MIPMAP = true;
 
 
     private List<Integer> vaos = new ArrayList<Integer>();
@@ -97,7 +97,7 @@ public class Loader {
 
     private void setFilters(GL2 gl) {
         // Build the texture from data.
-        if (MIPMAP) {
+        if (Config.MIPMAP) {
             // Set texture parameters to enable automatic mipmap generation and bilinear/trilinear filtering
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);

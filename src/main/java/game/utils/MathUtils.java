@@ -43,6 +43,27 @@ public class MathUtils {
 
 
     /**
+     *
+     * @param m 4x4
+     * @param v vector
+     * @return
+     */
+    public static float[] multiply(float[][] m, float[] v) {
+
+        float[] u = new float[4];
+
+        for (int i = 0; i < 4; i++) {
+            u[i] = 0;
+            for (int j = 0; j < 4; j++) {
+                u[i] += m[i][j] * v[j];
+            }
+        }
+
+        return u;
+    }
+
+
+    /**
      * the method to calculate normal of terrain
      * calculate light from four points near the current point
      *
@@ -137,5 +158,13 @@ public class MathUtils {
         return f;
     }
 
+
+    public static double[] floor(double[] d){
+
+        for(int i = 0 ; i < d.length ; i ++){
+            d[i] = Math.floor(d[i]);
+        }
+        return d;
+    }
 
 }

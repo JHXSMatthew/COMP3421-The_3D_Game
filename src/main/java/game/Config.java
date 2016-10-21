@@ -6,7 +6,8 @@ package game;
 public class Config {
 
     public static boolean advancedTree = true;
-    public static int roadComplexity = 1000;
+    public static int roadComplexity = 100;
+    public final static boolean MIPMAP = true;
 
     //enable time passing extension.
     public static boolean timePass = false;

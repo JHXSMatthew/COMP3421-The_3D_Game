@@ -57,7 +57,7 @@ public class OBJUtils {
                         normalsArray = new float[vertices.size()];
                         textureArray = new float[2 * vertices.size() / 3];
                         isFirst = false;
-                        System.out.println("v:" + vertices.size() + " n:" + normals.size() + " t:" + textures.size());
+                        //System.out.println("v:" + vertices.size() + " n:" + normals.size() + " t:" + textures.size());
                     }
                     String[] vertex1 = current[1].split("/");
                     String[] vertex2 = current[2].split("/");

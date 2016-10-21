@@ -1,11 +1,17 @@
 package game.models.presetModels;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.math.Matrix4;
 import game.Config;
 import game.Game;
 import game.entities.RoadPrototype;
+import game.utils.ArrayUtils;
+import game.utils.MathUtils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -17,8 +23,10 @@ public class RoadModel extends PresetModel {
     double move;
     double[] max;
     double[] min;
+
     private RoadPrototype prototype;
     private int count = 10;
+    private float generalHeight = 0;
 
     public RoadModel(RoadPrototype prototype) {
         super("road.jpg");
@@ -31,56 +39,160 @@ public class RoadModel extends PresetModel {
         normals = new float[count * 3 * 3];
         textureCoords = new float[count * 3 * 2];
 
-        int pointer = 0;
-        move = Math.sqrt(prototype.width() * prototype.width() / 2) / 2;
-        max = prototype.point(prototype.size() - 1);
-        min = prototype.point(0);
-
+        List<Float> vertices = new ArrayList<>();
+        List<Float> normals = new ArrayList<>();
+        List<Float> textureCoords = new ArrayList<>();
+        List<Integer> indices = new ArrayList<>();
         float step = prototype.size() / ((float) count);
-        for (float t = 0; t < prototype.size(); t += step) {
-            double[] base = prototype.point(t);
-            base[0] = base[0] - min[0];
-            base[1] = base[1] - min[1];
-            System.out.println(Arrays.toString(base));
-         //   addVertex(base, pointer, move);
+
+        move = Math.sqrt(prototype.width() * prototype.width() / 2)/2 ;
+        max = prototype.getMax();
+        min = prototype.getMin();
+
+        System.out.println(Arrays.toString(max));
+        System.out.println(Arrays.toString(min));
 
 
-           // pointer++;
-            addVertex(base, pointer, 0);
+        generalHeight = Game.getGame().getAltitude((float) min[0], (float) min[1]);
 
+        List<Float[]> inter = new ArrayList<>();
+        inter.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray(0,(float)move,0,1f)));
+        inter.add(ArrayUtils.toArrayC_L(ArrayUtils.toArray(0,(float)-move,0,1f)));
 
-            pointer++;
-          //  addVertex(base, pointer, -move);
+        //addPoints(inter, vertices, get3DPoint(prototype.point(0)), get3DPoint(prototype.point(0)), get3DPoint(prototype.point(0)));
+        for (float t = step; t < prototype.size() - step; t += step) {
 
-        }
+            try {
+                addPoints(inter, vertices, get3DPoint(prototype.point(t)), get3DPoint(prototype.point(t - step)), get3DPoint(prototype.point(t + step)));
+            }catch (Exception e){
 
-        float min = 0;
-        for(int i = 0 ; i < textureCoords.length ; i ++){
-            if(textureCoords[i] < min){
-                textureCoords[i] = min;
             }
         }
-        min = -min;
-        for(int i = 0 ; i < textureCoords.length ; i ++){
-            textureCoords[i] += min;
+        addPoints(inter, vertices, get3DPoint(prototype.point(prototype.size() - 2*step)), get3DPoint(prototype.point(prototype.size() - step)), get3DPoint(prototype.point(prototype.size() - step)));
+
+
+        this.vertices = ArrayUtils.getFloatArrayFromList(vertices);
+
+        indices.add(0);
+        indices.add(1);
+        indices.add(2);
+        for(int i = 1 ; i < this.vertices.length/3 -1 ; i ++){
+            indices.add(i);
+            indices.add(i-1);
+            indices.add(i+1);
         }
+
+        this.indices = ArrayUtils.getIntArrayFromList(indices);
+
+
+        for(Integer i : indices){
+            normals.add(0f);
+            normals.add(1f);
+            normals.add(0f);
+            textureCoords.add((float) Math.abs((this.vertices[3*i] - min[0] ) / (max[0] - min[0])) );
+            textureCoords.add((float)  Math.abs(((this.vertices[3*i+2] - min[1] ) / (max[1] - min[1]))));
+        }
+
+
+
+
+
+
+
+        this.normals = ArrayUtils.getFloatArrayFromList(normals);
+        this.textureCoords = ArrayUtils.getFloatArrayFromList(textureCoords);
+
+        //System.out.println("i:" + indices.size() + " v:" + vertices.size() + " n:" + normals.size() + " t:" + textureCoords.size());
+
+
         prototype.setModel(this);
 
     }
 
-    private void addVertex(double base[], int pointer, double diff) {
-        vertices[3 * pointer] = (float) (base[0] + diff);
-        vertices[3 * pointer + 1] = Game.getGame().getAltitude((float) min[0], (float) min[1]);
-        vertices[3 * pointer + 2] = (float) (base[1] + diff);
-        normals[3 * pointer] = 0;
-        normals[3 * pointer + 1] = 1;
-        normals[3 * pointer + 2] = 0;
 
-        indices[pointer] = pointer;
-        /*textureCoords[2 * pointer] = (float) (vertices[pointer] / max[0]);
-        textureCoords[2 * pointer + 1] = (float) (vertices[pointer + 2] / max[1]);*/
-        textureCoords[2 * pointer] = (float) (vertices[pointer] / max[0]);
-        textureCoords[2 * pointer + 1] = (float) (vertices[pointer + 2] / max[1]);
+    private float[] get3DPoint(double[] d){
+        float[] r = new float[3];
+        r[0] = (float)d[0];
+        r[2] = (float)d[1];
+        return r;
+    }
+
+
+    private void addPoints(List<Float[]> crossSection, List<Float> vertices,
+                           float[] pPrev, float[] pCurr, float[] pNext) {
+
+        // compute the Frenet frame as an affine matrix
+        float[][] m = new float[4][4];
+
+        // phi = pCurr
+        m[0][3] = pCurr[0];
+        m[1][3] = pCurr[1];
+        m[2][3] = pCurr[2];
+        m[3][3] = 1;
+
+        // k = pNext - pPrev (approximates the tangent)
+
+        m[0][2] = pNext[0] - pPrev[0];
+        m[1][2] = pNext[1]- pPrev[1];
+        m[2][2] = pNext[2] - pPrev[2];
+        m[3][2] = 0;
+
+
+        // normalise k
+        double d = Math.sqrt(m[0][2] * m[0][2] + m[1][2] * m[1][2] + m[2][2] * m[2][2]);
+        m[0][2] /= d;
+        m[1][2] /= d;
+        m[2][2] /= d;
+
+        // i = simple perpendicular to k
+        m[0][0] = -m[1][2];
+        m[1][0] =  m[0][2];
+        m[2][0] =  0;
+        m[3][0] =  0;
+
+
+        // normalized i
+        d = Math.sqrt(m[0][0] * m[0][0] + m[1][0] * m[1][0] + m[2][0] * m[2][0]);
+        m[0][0] /= d;
+        m[1][0] /= d;
+        m[2][0] /= d;
+
+        // j = k x i
+        m[0][1] = m[1][2] * m[2][0] - m[2][2] * m[1][0];
+        m[1][1] = m[2][2] * m[0][0] - m[0][2] * m[2][0];
+        m[2][1] = m[0][2] * m[1][0] - m[1][2] * m[0][0];
+        m[3][1] =  0;
+
+        // normalized j
+        d = Math.sqrt(m[0][1] * m[0][1] + m[1][1] * m[1][1] + m[2][1] * m[2][1]);
+        m[0][1] /= d;
+        m[1][1] /= d;
+        m[2][1] /= d;
+        /*
+        System.out.println();
+        for(int i = 0 ; i < m.length ; i  ++){
+            System.out.println(Arrays.toString(m[i]));
+        }*/
+
+        // transform the points
+        float[][] dis = new float[2][];
+        for (Float[] cp : crossSection) {
+            float[] position = MathUtils.multiply(m, ArrayUtils.toArray(cp));
+            /*
+            if(dis[0] == null){
+                dis[0] = position;
+            }else{
+                dis[1] = position;
+            }
+            */
+            vertices.add(position[0]);
+            vertices.add(generalHeight);
+            vertices.add(position[2]);
+        }
+
+        //System.out.println("distance " + ((dis[0][2] - dis[1][2])*(dis[0][2] - dis[1][2]) + (dis[0][0] - dis[1][0])*(dis[0][0] - dis[1][0])));
+
+
     }
 
     @Override
@@ -105,7 +217,7 @@ public class RoadModel extends PresetModel {
 
     @Override
     protected void onSetup(GL2 gl) {
-        getRawModel().setMeshMode(GL2.GL_LINE);
+        getRawModel().setMeshMode(GL2.GL_TRIANGLES);
     }
 
     @Override

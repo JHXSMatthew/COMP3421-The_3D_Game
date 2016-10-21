@@ -35,6 +35,7 @@ public class Render {
         gl2.glCullFace(GL.GL_BACK);*/
         gl2.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl2.glClearColor(0, 0, 0, 0);
+
     }
 
     public void render(GL2 gl, Map<TexturedModel, List<Entity>> entities) {

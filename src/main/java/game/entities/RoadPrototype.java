@@ -51,7 +51,7 @@ public class RoadPrototype {
             model.setUp(gl, loader);
         }
         Entity entity = new Entity(model);
-        entity.move(ArrayUtils.toArray((float) point(0)[0], 0, (float) point(0)[1]));
+        //entity.move(ArrayUtils.toArray((float) point(0)[0], 0, (float) point(0)[1]));
         return entity;
     }
 
@@ -114,6 +114,80 @@ public class RoadPrototype {
         this.model = model;
     }
 
+
+    public double[] getMax(){
+        double[] currentMax = new double[2];
+        currentMax[0] = myPoints.get(0);
+        currentMax[1] = myPoints.get(1);
+        for(int i = 0 ; i < myPoints.size(); i ++){
+            if(i % 2 == 0){
+                if(currentMax[0] < myPoints.get(i)){
+                    currentMax[0] = myPoints.get(i);
+                }
+
+            }else{
+                if(currentMax[1] < myPoints.get(i)){
+                    currentMax[1]  = myPoints.get(i);
+                }
+            }
+        }
+        return currentMax;
+    }
+
+    public double[] getMin(){
+        double[] currentMin = new double[2];
+        currentMin[0] = myPoints.get(0);
+        currentMin[1] = myPoints.get(1);
+        for(int i = 0 ; i < myPoints.size(); i ++){
+            if(i % 2 == 0){
+                if(currentMin[0] > myPoints.get(i)){
+                    currentMin[0] = myPoints.get(i);
+                }
+
+            }else{
+                if(currentMin[1] > myPoints.get(i)){
+                    currentMin[1]  = myPoints.get(i);
+                }
+            }
+        }
+        return currentMin;
+    }
+
+    /**
+     * Get a point on the spine. The parameter t may vary from 0 to size().
+     * Points on the kth segment take have parameters in the range (k, k+1).
+     *
+     * @param t
+     * @return
+     */
+    public double[] point(double t,boolean model) {
+        if(model){
+            return point(t);
+        }
+
+        int i = (int) Math.floor(t);
+        t = t - i;
+
+        i *= 6;
+
+        double x0 = myPoints.get(i++);
+        double y0 = myPoints.get(i++);
+        double x1 = myPoints.get(i++);
+        double y1 = myPoints.get(i++);
+        double x2 = myPoints.get(i++);
+        double y2 = myPoints.get(i++);
+        double x3 = myPoints.get(i++);
+        double y3 = myPoints.get(i++);
+
+        double[] p = new double[2];
+
+        p[0] = b(0, t) * x0 + b(1, t) * x1 + b(2, t) * x2 + b(3, t) * x3;
+        p[1] = b(0, t) * y0 + b(1, t) * y1 + b(2, t) * y2 + b(3, t) * y3;
+
+        return p;
+    }
+
+
     /**
      * Get a point on the spine. The parameter t may vary from 0 to size().
      * Points on the kth segment take have parameters in the range (k, k+1).
@@ -138,11 +212,12 @@ public class RoadPrototype {
 
         double[] p = new double[2];
 
-        p[0] = b(0, t) * x0 + b(1, t) * x1 + b(2, t) * x2 + b(3, t) * x3;
-        p[1] = b(0, t) * y0 + b(1, t) * y1 + b(2, t) * y2 + b(3, t) * y3;
+        p[0] = b(0, t) * x0 + b(1, t) * x1 + b(2, t) * x2 + b(3, t) * x3 ;
+        p[1] = b(0, t) * y0 + b(1, t) * y1 + b(2, t) * y2 + b(3, t) * y3 ;
 
         return p;
     }
+
 
     /**
      * Calculate the Bezier coefficients
