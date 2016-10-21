@@ -13,6 +13,7 @@ public class Config {
     public static boolean timePass = false;
     //enbale road up hill extension buggy
     public static boolean roadUpHill = false;
+    public static boolean advancedAvatar = true;
 
 
 }

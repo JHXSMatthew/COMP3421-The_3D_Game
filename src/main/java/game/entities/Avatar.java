@@ -1,5 +1,6 @@
 package game.entities;
 
+import game.Config;
 import game.Game;
 import game.models.ITexturable;
 import game.utils.ArrayUtils;
@@ -18,6 +19,9 @@ public class Avatar extends Entity implements KeyListener {
 
     private float speed = 0;
     private float turning = 0;
+
+    private float[] lastLocation;
+    private boolean inc = true;
 
     private Light torch;
     private boolean torchOn = false;
@@ -48,6 +52,28 @@ public class Avatar extends Entity implements KeyListener {
             torch.setDirection(lightByYaw);
         } else {
             torch.setDirection(ArrayUtils.toArray(0, 0, 0));
+        }
+        if(!Config.advancedAvatar) {
+            if (lastLocation != null) {
+                if (lastLocation[0] == position[0] && lastLocation[1] == position[1] && lastLocation[2] == position[2]) {
+                    //do nothing.
+                } else {
+                    if (getRotation()[0] >= 15) {
+                        inc = false;
+                    } else {
+                        if (!inc && getRotation()[0] <= 0) {
+                            inc = true;
+                        }
+                    }
+
+                    if (!inc) {
+                        rotate(ArrayUtils.toArray(1, 0, 0));
+                    } else {
+                        rotate(ArrayUtils.toArray(-1, 0, 0));
+                    }
+                }
+            }
+            lastLocation = position;
         }
     }
 
