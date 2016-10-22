@@ -37,6 +37,7 @@ public class Avatar extends Entity implements KeyListener {
 
     public void updateLocation(float time) {
         rotate(ArrayUtils.toArray(0, turning * time, 0));
+        // facing direction
         float distance = time * speed;
         float x = (float) (distance * Math.sin(Math.toRadians(getRotation()[1])));
         float z = (float) (distance * Math.cos(Math.toRadians(getRotation()[1])));
@@ -45,10 +46,13 @@ public class Avatar extends Entity implements KeyListener {
         position[1] = Game.getGame().getAltitude(position[0], position[2]) + 0.1f;
         setPosition(position);
         if (torchOn) {
+            //get the direction facing
             float[] lightByYaw = ArrayUtils.toArray(((float) Math.cos(Math.toRadians(getRotation()[1]))),
                     (float) Math.abs(Math.sin(Math.toRadians(getRotation()[1]))),
                     -(float) Math.cos(Math.toRadians(getRotation()[1])));
+            //normalize the vector
             lightByYaw = MathUtils.normalise(lightByYaw);
+
             torch.setDirection(lightByYaw);
         } else {
             torch.setDirection(ArrayUtils.toArray(0, 0, 0));

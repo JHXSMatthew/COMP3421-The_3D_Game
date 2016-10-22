@@ -31,6 +31,7 @@ public class Camera implements KeyListener {
     public void move() {
         if (thirdPerson) {
             avatar.show();
+            //3rd person camera
             float horizontal = (float) (zoom * Math.cos(Math.toRadians(pitch)));
             float vertical = (float) (zoom * Math.sin(Math.toRadians(pitch)));
             position[0] = avatar.getPosition()[0] - (float) (horizontal * Math.sin((Math.toRadians(avatar.getRotation()[1] + angle))));
@@ -38,6 +39,7 @@ public class Camera implements KeyListener {
             position[2] = avatar.getPosition()[2] - (float) (horizontal * Math.cos((Math.toRadians(avatar.getRotation()[1] + angle))));
             yaw = 180 - (avatar.getRotation()[1] + angle);
         } else {
+            //1st person camera
             avatar.hide();
             for (int i = 0; i < 3; i++) {
                 position[i] = avatar.getPosition()[i];

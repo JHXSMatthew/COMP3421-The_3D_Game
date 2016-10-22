@@ -4,6 +4,7 @@ package game;
 /**
  * Created by Matthew on 21/10/2016.
  * to simulate day time
+ * a ticker zzzz
  */
 public class Ticker {
 
@@ -25,10 +26,17 @@ public class Ticker {
         return seconds;
     }
 
+    /**
+     *  set the time
+     * @param seconds seconds
+     */
     public void setTime(int seconds) {
         this.seconds = seconds;
     }
 
+    /**
+     *  call to update ticker
+     */
     public void update() {
         if (Config.timePass) {
             long curr = System.currentTimeMillis();

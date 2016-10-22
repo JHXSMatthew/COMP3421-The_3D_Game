@@ -93,6 +93,10 @@ public class Loader {
         return textureID[0];
     }
 
+    /**
+     *  filter
+     * @param gl gl
+     */
     private void setFilters(GL2 gl) {
         // Build the texture from data.
         if (Config.MIPMAP) {

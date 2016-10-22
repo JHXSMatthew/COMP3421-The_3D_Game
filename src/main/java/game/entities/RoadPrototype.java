@@ -133,6 +133,10 @@ public class RoadPrototype {
         return currentMax;
     }
 
+    /**
+     *
+     * @return the min array of this road
+     */
     public double[] getMin() {
         double[] currentMin = new double[2];
         currentMin[0] = myPoints.get(0);

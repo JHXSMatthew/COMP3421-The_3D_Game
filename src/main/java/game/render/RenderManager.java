@@ -44,6 +44,10 @@ public class RenderManager {
 
     }
 
+    /**
+     *
+     * @param list entities
+     */
     public void addEntity(List<Entity> list) {
         for (Entity entity : list) {
             TexturedModel model = entity.getModel();
@@ -55,6 +59,12 @@ public class RenderManager {
         }
     }
 
+    /**
+     *
+     * @param gl gl
+     * @param width width
+     * @param height height
+     */
     public void updatePerspectiveCamera(GL2 gl, int width, int height) {
         render.updatePerspectiveCamera(gl, width, height);
     }

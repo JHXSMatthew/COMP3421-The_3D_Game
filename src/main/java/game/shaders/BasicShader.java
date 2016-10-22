@@ -40,6 +40,13 @@ public abstract class BasicShader {
 
     }
 
+    /**
+     *
+     * @param gl gl
+     * @param file shader file
+     * @param type shader type, fragment or vertex
+     * @return
+     */
     public static int loadShader(GL2 gl, String file, int type) {
         StringBuilder source = new StringBuilder();
         try {
@@ -87,14 +94,26 @@ public abstract class BasicShader {
         return shaderID;
     }
 
+    /**
+     *
+     * @param gl gl
+     */
     public void start(GL2 gl) {
         gl.glUseProgram(this.programID);
     }
 
+    /**
+     *
+     * @param gl gl
+     */
     public void stop(GL2 gl) {
         gl.glUseProgram(0);
     }
 
+    /**
+     *
+     * @param gl gl
+     */
     public void dispose(GL2 gl) {
         stop(gl);
         gl.glDetachShader(programID, vertexShaderID);
@@ -104,32 +123,59 @@ public abstract class BasicShader {
         gl.glDeleteProgram(programID);
     }
 
+    /**
+     *
+     * @param gl2 gl
+     * @param var the attribute name
+     * @param attribute the attribute index
+     */
     protected void bindAttribute(GL2 gl2, String var, int attribute) {
         gl2.glBindAttribLocation(programID, attribute, var);
     }
 
+    /**
+     *  load attribute to shader
+     * @param gl gl
+     * @param location location
+     * @param value value
+     */
     protected void loadFloat(GL2 gl, int location, float value) {
         gl.glUniform1f(location, value);
     }
 
+    /**
+     *  load attribute to shader
+     * @param gl gl
+     * @param location location
+     * @param value value
+     */
     protected void loadVector(GL2 gl, int location, float[] value) {
         gl.glUniform3f(location, value[0], value[1], value[2]);
     }
 
-    protected void loadBoolean(GL2 gl, int location, boolean b) {
-        gl.glUniform1f(location, b ? 1 : 0);
-    }
-
+    /**
+     *  load attribute to shader
+     * @param gl gl
+     * @param location location
+     * @param value value
+     */
     protected void loadMatrix(GL2 gl, int location, Matrix4 value) {
         matrixBuffer.put(value.getMatrix());
         matrixBuffer.flip();
         gl.glUniformMatrix4fv(location, 1, false, matrixBuffer);
     }
 
+
     protected abstract void bindAttributes(GL2 gl);
 
     protected abstract void getAllUniformLocations(GL2 gl);
 
+    /**
+     *
+     * @param gl gl
+     * @param uniformName the uniform name
+     * @return the uniform location (number) in shader
+     */
     protected int getUniformLocation(GL2 gl, String uniformName) {
         return gl.glGetUniformLocation(programID, uniformName);
     }

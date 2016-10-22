@@ -26,6 +26,7 @@ import java.util.List;
  * COMMENT: Comment Game
  *
  * @author malcolmr
+ * finished by Matthew
  */
 public class Game extends JFrame implements GLEventListener {
 
@@ -101,6 +102,9 @@ public class Game extends JFrame implements GLEventListener {
 
     }
 
+    /**
+     *  as it called.
+     */
     private void updateAvatarMovement() {
         if (lastFrame == 0) {
             lastFrame = System.currentTimeMillis();
@@ -112,6 +116,10 @@ public class Game extends JFrame implements GLEventListener {
         avatar.updateLocation(passed);
     }
 
+    /**
+     * set game time
+     * @param time time
+     */
     public void setTime(int time) {
         ticker.setTime(time);
     }
@@ -139,7 +147,7 @@ public class Game extends JFrame implements GLEventListener {
         light.add(torch);
 
         addNewEntity(PresetModelType.Terrain.getModel());
-
+        //load all scene model entityes
         for (TreeWrapper prototype : data.trees()) {
             prototype.register();
         }
@@ -163,6 +171,7 @@ public class Game extends JFrame implements GLEventListener {
             s.move(ArrayUtils.toArray(rabbit[0], getAltitude(rabbit[0], rabbit[1]), rabbit[1]));
             addNewEntity(s);
         }
+        //create avatar
         avatar = new Avatar(OBJTypes.OBJBoat, torch);
         avatar.setScale(ArrayUtils.toArray(0.1f, 0.1f, 0.1f));
         panel.addKeyListener(avatar);
@@ -171,12 +180,23 @@ public class Game extends JFrame implements GLEventListener {
         ticker = new Ticker();
     }
 
+    /**
+     * add entity to the game
+     * @param model model
+     * @return
+     */
+
     public Entity addNewEntity(ITexturable model) {
         Entity e = new Entity(model);
         entities.add(e);
         return e;
     }
 
+    /**
+     *  add entity to the game
+     * @param entity entity
+     * @return
+     */
     public Entity addNewEntity(Entity entity) {
         entities.add(entity);
         return entity;
@@ -189,6 +209,10 @@ public class Game extends JFrame implements GLEventListener {
         render.updatePerspectiveCamera(gl, width, height);
     }
 
+    /**
+     *  load all pre-set models
+     * @param gl gl
+     */
     private void loadModels(GL2 gl) {
         new TerrainModel(data.getAttribute()).setUp(gl, loader);
         new TreeLeavesModel().setUp(gl, loader);
@@ -201,6 +225,12 @@ public class Game extends JFrame implements GLEventListener {
 
     }
 
+    /**
+     *  the altitude
+     * @param x x
+     * @param z y
+     * @return
+     */
     public float getAltitude(float x, float z) {
         return (float) data.altitude(x, z);
     }

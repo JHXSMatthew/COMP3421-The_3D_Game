@@ -70,7 +70,11 @@ public class StaticShader extends BasicShader {
 
     }
 
-
+    /**
+     *
+     * @param gl gl
+     * @param matrix4 transformation matrix
+     */
     public void loadTransformationMatrix(GL2 gl, Matrix4 matrix4) {
         super.loadMatrix(gl, location_tMatrix, matrix4);
     }
@@ -79,6 +83,11 @@ public class StaticShader extends BasicShader {
         super.loadMatrix(gl, location_pMatrix, matrix4);
     }
 
+    /**
+     *
+     * @param gl gl
+     * @param lights lights
+     */
     public void loadLight(GL2 gl, List<Light> lights) {
         for (int i = 0; i < MAX_LIGHT_SIZE; i++) {
             if (i < lights.size()) {
@@ -94,16 +103,32 @@ public class StaticShader extends BasicShader {
 
     }
 
+    /**
+     *
+     * @param gl gl,
+     * @param damper brightness
+     * @param reflectivity  reflectivity
+     */
     public void loadSpecularLightVars(GL2 gl, float damper, float reflectivity) {
         super.loadFloat(gl, location_shineDamper, damper);
         super.loadFloat(gl, location_reflectivity, reflectivity);
     }
 
+    /**
+     * load view matrix to shader
+     * @param gl gl
+     * @param c the camera
+     */
     public void loadViewMatrix(GL2 gl, Camera c) {
         super.loadMatrix(gl, location_vMatrix, MathUtils.createViewMatrix(c));
         super.loadVector(gl, location_cameraPosition, c.getPosition());
     }
 
+    /**
+     * ambient lights
+     * @param gl gl
+     * @param ambient light
+     */
     public void loadAmbient(GL2 gl, float ambient) {
         super.loadFloat(gl, location_ambient, ambient);
     }

@@ -38,6 +38,11 @@ public class Render {
 
     }
 
+    /**
+     *  render the entity
+     * @param gl gl
+     * @param entities entity list sorted by model type, faster to avoid multiple loading texture.
+     */
     public void render(GL2 gl, Map<TexturedModel, List<Entity>> entities) {
         for (TexturedModel model : entities.keySet()) {
             //prepare
@@ -58,6 +63,10 @@ public class Render {
 
     }
 
+    /**
+     *
+     * @param gl gl
+     */
     private void unloadModel(GL2 gl) {
         gl.glDisableVertexAttribArray(Loader.MODEL_ATTRIBUTE_POSITION);
         gl.glDisableVertexAttribArray(Loader.MODEL_ATTRIBUTE_TEXTURE);
@@ -65,6 +74,11 @@ public class Render {
         gl.glBindVertexArray(0);
     }
 
+    /**
+     *
+     * @param gl gl
+     * @param m texturedModel
+     */
     private void loaModel(GL2 gl, TexturedModel m) {
         RawModel model = m.getRawModel();
 
@@ -87,6 +101,12 @@ public class Render {
         shader.loadTransformationMatrix(gl, tMatrix);
     }
 
+    /**
+     *
+     * @param gl gl
+     * @param width width
+     * @param height height
+     */
     public void updatePerspectiveCamera(GL2 gl, int width, int height) {
         float aspectRation = (float) width / (float) height;
         float y_scale = (float) (1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRation;
