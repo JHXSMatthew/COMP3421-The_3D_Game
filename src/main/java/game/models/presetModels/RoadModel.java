@@ -179,7 +179,6 @@ public class RoadModel extends PresetModel {
 
         // transform the points
         //float[][] dis = new float[2][];
-        float bufferTx = -1;
         for (Float[] cp : crossSection) {
             float[] position = MathUtils.multiply(m, ArrayUtils.toArray(cp));
             float tX = position[0];
