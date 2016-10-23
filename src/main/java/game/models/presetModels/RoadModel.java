@@ -184,13 +184,7 @@ public class RoadModel extends PresetModel {
             float[] position = MathUtils.multiply(m, ArrayUtils.toArray(cp));
             float tX = position[0];
             float tY = position[2];
-            if(bufferTx == -1){
-                bufferTx = tY;
-            }else{
-                textures.set(textures.size() - 1 , tY);
-                tY = bufferTx;
-                bufferTx = -1;
-            }
+
 
            /* if(dis[0] == null){
                 dis[0] = position;

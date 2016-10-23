@@ -90,6 +90,8 @@ public class Render {
 
     private void loadTexture(GL2 gl, TexturedModel model) {
         gl.glActiveTexture(GL2.GL_TEXTURE0);
+        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,
+                GL2.GL_NICEST);
         gl.glBindTexture(GL2.GL_TEXTURE_2D, model.getTexture().getID());
         shader.loadSpecularLightVars(gl, model.getTexture().getShineDamper(), model.getTexture().getReflectivity());
     }
